@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Wiki · XAMPP portable, Server Root y Virtual Hosts</title>
+  <style>
+    :root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#637089;--line:#dfe5ef;--brand:#6d42d8;--brand2:#0a86b8;--code:#111827;--ok:#087f5b;--warn:#a15c00;--danger:#b42318;--side:285px;--shadow:0 12px 34px rgba(30,41,59,.08)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}.sidebar{position:fixed;inset:0 auto 0 0;width:var(--side);padding:24px 18px;background:#141827;color:#fff;overflow:auto;z-index:10}.brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}.logo{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#8a5cf6,#11a8cf);font-size:23px}.brand strong{display:block;font-size:17px}.brand small{color:#aab4c8}.search{width:100%;padding:11px 13px;margin-bottom:17px;border:1px solid #353b4e;border-radius:10px;background:#202638;color:#fff;outline:0}.search:focus{border-color:#9473ef}.nav-title{margin:17px 10px 5px;color:#77849e;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.sidebar nav a{display:block;padding:7px 10px;border-radius:8px;color:#c9d2e4;font-size:14px}.sidebar nav a:hover,.sidebar nav a.active{background:#272e43;color:#fff;text-decoration:none}.main{margin-left:var(--side);padding:38px clamp(24px,5vw,74px) 80px;max-width:1240px}.hero{position:relative;overflow:hidden;padding:44px;border-radius:24px;background:linear-gradient(135deg,#5b35c4,#087ea4);color:#fff;box-shadow:var(--shadow)}.hero:after{content:"</>";position:absolute;right:35px;bottom:-38px;font-size:160px;font-weight:900;opacity:.1}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero h1{max-width:760px;margin:10px 0 12px;font-size:clamp(32px,5vw,54px);line-height:1.08}.hero p{max-width:720px;margin:0;color:#e8e8ff;font-size:18px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip{padding:6px 11px;border:1px solid #ffffff4d;border-radius:99px;background:#ffffff1a;font-size:13px}.section{margin-top:34px;padding:32px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:0 5px 20px rgba(30,41,59,.04)}.section h2{margin:0 0 10px;font-size:27px;line-height:1.2}.section h3{margin:28px 0 8px;font-size:19px}.lead{color:var(--muted)}.step{display:flex;gap:17px;margin:20px 0}.num{display:grid;flex:0 0 36px;place-items:center;width:36px;height:36px;border-radius:10px;background:#eee9ff;color:var(--brand);font-weight:800}.step div:last-child{flex:1}.step h3{margin:2px 0 3px}.callout{margin:19px 0;padding:15px 18px;border-left:4px solid var(--brand2);border-radius:8px;background:#edf8fc}.callout.warning{border-color:#e39525;background:#fff7e8}.callout.danger{border-color:#e5534b;background:#fff0ef}.callout.ok{border-color:#25a77a;background:#eaf9f3}.callout strong{display:block}.code{position:relative;margin:14px 0;border-radius:12px;background:var(--code);color:#d9e2f2;overflow:hidden}.code .label{padding:7px 14px;border-bottom:1px solid #2b3547;color:#8ea0ba;font-size:12px}.code pre{margin:0;padding:18px;overflow:auto;font:14px/1.65 Consolas,"Courier New",monospace;white-space:pre}.copy{position:absolute;right:9px;top:7px;padding:5px 9px;border:0;border-radius:6px;background:#303b50;color:#dbe5f6;cursor:pointer}.copy:hover{background:#43516d}code.inline{padding:2px 6px;border-radius:5px;background:#eef0f5;color:#4d2db0}table{width:100%;border-collapse:collapse;margin:16px 0}th,td{padding:11px 13px;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f0edfb;color:#42268f}ol,ul{padding-left:23px}.checklist{list-style:none;padding:0}.checklist li{padding:9px 0 9px 30px;border-bottom:1px solid #edf0f5}.checklist li:before{content:"✓";position:absolute;margin-left:-29px;color:var(--ok);font-weight:900}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.flow div{padding:14px;border-radius:10px;background:#f0edfb;text-align:center;font-weight:700;color:#4c2bac}.kbd{padding:2px 7px;border:1px solid #b9c0cd;border-bottom-width:3px;border-radius:5px;background:#fff;font-size:13px}.footer{padding:40px 0 0;color:var(--muted);text-align:center;font-size:14px}.hidden{display:none!important}.menu{display:none;position:fixed;right:15px;bottom:15px;z-index:20;width:48px;height:48px;border:0;border-radius:50%;background:var(--brand);color:#fff;font-size:23px;box-shadow:var(--shadow)}
+    @media(max-width:850px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:none}.main{margin:0;padding:20px 16px 70px}.hero{padding:30px 24px}.section{padding:24px 20px}.flow{grid-template-columns:1fr 1fr}.menu{display:block}}@media print{.sidebar,.menu,.copy{display:none}.main{margin:0;max-width:none;padding:0}.hero{box-shadow:none}.section{break-inside:avoid;box-shadow:none}.hero,.num{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+  </style>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">⚙</div><div><strong>Desarrollo Web</strong><small>Entorno local con Apache</small></div></div>
+    <input class="search" id="search" placeholder="Buscar en la wiki…" aria-label="Buscar">
+    <nav>
+      <div class="nav-title">Preparación</div>
+      <a href="#inicio">Inicio</a><a href="#instalar">1. XAMPP portable</a><a href="#probar">2. Primera prueba</a>
+      <div class="nav-title">Apache</div>
+      <a href="#root">3. Server Root</a><a href="#vhosts">4. Virtual Hosts</a><a href="#hosts">5. Archivo hosts</a><a href="#laravel">6. Proyectos con public</a>
+      <div class="nav-title">Comprobación</div>
+      <a href="#validar">7. Validar Apache</a><a href="#errores">Errores frecuentes</a><a href="#practica">Práctica de clase</a><a href="#resumen">Resumen</a>
+    </nav>
+  </aside>
+  <button class="menu" id="menu" aria-label="Abrir menú">☰</button>
+  <main class="main">
+    <header class="hero" id="inicio"><span class="eyebrow">Desarrollo IV · Guía de laboratorio</span><h1>XAMPP portable, Server Root y Virtual Hosts</h1><p>Configure un entorno de desarrollo en Windows a partir del archivo ZIP de XAMPP y asigne dominios locales independientes a sus proyectos.</p><div class="chips"><span class="chip">Windows</span><span class="chip">Apache</span><span class="chip">PHP</span><span class="chip">Virtual Hosts</span><span class="chip">Laravel</span></div></header>
+
+    <section class="section" id="instalar"><h2>1. Preparar XAMPP portable</h2><p class="lead">La versión comprimida no requiere un instalador tradicional: se extrae y luego se ajustan sus rutas internas.</p>
+      <div class="step"><span class="num">1</span><div><h3>Descargar</h3><p>Obtenga XAMPP para Windows desde <a href="https://www.apachefriends.org/" target="_blank">Apache Friends</a>. Verifique que la versión de PHP sea compatible con los proyectos del curso.</p></div></div>
+      <div class="step"><span class="num">2</span><div><h3>Descomprimir</h3><p>Extraiga el contenido en una ruta corta y sin espacios.</p><div class="code"><div class="label">Ruta recomendada</div><button class="copy">Copiar</button><pre>C:\xampp</pre></div><div class="callout warning"><strong>Evite rutas protegidas</strong>No utilice <code class="inline">C:\Program Files\xampp</code>. Los espacios y permisos de Windows pueden provocar errores.</div></div></div>
+      <div class="step"><span class="num">3</span><div><h3>Ajustar rutas internas</h3><p>Desde la carpeta principal, ejecute:</p><div class="code"><div class="label">Windows</div><button class="copy">Copiar</button><pre>C:\xampp\setup_xampp.bat</pre></div><p>Repita este procedimiento si posteriormente mueve la carpeta completa.</p></div></div>
+      <div class="step"><span class="num">4</span><div><h3>Abrir el panel</h3><p>Ejecute <code class="inline">xampp-control.exe</code> como administrador e inicie <strong>Apache</strong> y <strong>MySQL</strong>.</p></div></div>
+    </section>
+
+    <section class="section" id="probar"><h2>2. Realizar la primera prueba</h2><p>Abra <a href="http://localhost" target="_blank">http://localhost</a>. La carpeta pública predeterminada es <code class="inline">C:\xampp\htdocs</code>.</p><p>Cree <code class="inline">C:\xampp\htdocs\prueba.php</code>:</p><div class="code"><div class="label">prueba.php</div><button class="copy">Copiar</button><pre>&lt;?php
+echo "XAMPP funciona correctamente";</pre></div><p>Después visite <code class="inline">http://localhost/prueba.php</code>.</p><div class="callout ok"><strong>Resultado esperado</strong>El navegador muestra el mensaje sin descargar el archivo PHP ni presentar el código fuente.</div></section>
+
+    <section class="section" id="root"><h2>3. Cambiar el Server Root</h2><p class="lead"><strong>DocumentRoot</strong> es la carpeta que Apache publica cuando se visita <code class="inline">localhost</code>.</p><p>Cree una carpeta separada para los proyectos:</p><div class="code"><div class="label">Estructura sugerida</div><button class="copy">Copiar</button><pre>C:\ProyectosWeb
+├── proyecto1
+├── proyecto2
+└── proyecto3</pre></div><p>Abra <code class="inline">C:\xampp\apache\conf\httpd.conf</code> y localice las dos referencias a <code class="inline">htdocs</code>:</p><div class="code"><div class="label">httpd.conf</div><button class="copy">Copiar</button><pre>DocumentRoot "C:/ProyectosWeb"
+
+&lt;Directory "C:/ProyectosWeb"&gt;
+    Options Indexes FollowSymLinks Includes ExecCGI
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;</pre></div><div class="callout"><strong>Importante sobre las rutas</strong>En la configuración de Apache utilice barras inclinadas <code class="inline">C:/ProyectosWeb</code>, aunque Windows normalmente muestre barras invertidas.</div><p>Guarde el archivo, detenga Apache y vuelva a iniciarlo.</p></section>
+
+    <section class="section" id="vhosts"><h2>4. Configurar Virtual Hosts</h2><p class="lead">Un Virtual Host asigna un nombre local a cada proyecto. Así, <code class="inline">localhost/proyecto1</code> puede convertirse en <code class="inline">proyecto1.local</code>.</p>
+      <h3>4.1 Habilitar el archivo de Virtual Hosts</h3><p>En <code class="inline">httpd.conf</code>, asegúrese de que esta línea no tenga <code class="inline">#</code> al inicio:</p><div class="code"><div class="label">httpd.conf</div><button class="copy">Copiar</button><pre>Include conf/extra/httpd-vhosts.conf</pre></div>
+      <h3>4.2 Conservar localhost</h3><p>Abra <code class="inline">C:\xampp\apache\conf\extra\httpd-vhosts.conf</code> y agregue:</p><div class="code"><div class="label">httpd-vhosts.conf</div><button class="copy">Copiar</button><pre>&lt;VirtualHost *:80&gt;
+    ServerName localhost
+    DocumentRoot "C:/ProyectosWeb"
+
+    &lt;Directory "C:/ProyectosWeb"&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre></div>
+      <h3>4.3 Registrar el proyecto</h3><div class="code"><div class="label">httpd-vhosts.conf</div><button class="copy">Copiar</button><pre>&lt;VirtualHost *:80&gt;
+    ServerName proyecto1.local
+    DocumentRoot "C:/ProyectosWeb/proyecto1"
+
+    &lt;Directory "C:/ProyectosWeb/proyecto1"&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog "logs/proyecto1-error.log"
+    CustomLog "logs/proyecto1-access.log" common
+&lt;/VirtualHost&gt;</pre></div>
+      <table><thead><tr><th>Directiva</th><th>Función</th></tr></thead><tbody><tr><td><code>ServerName</code></td><td>Nombre de dominio local.</td></tr><tr><td><code>DocumentRoot</code></td><td>Carpeta pública del proyecto.</td></tr><tr><td><code>AllowOverride All</code></td><td>Permite reglas mediante <code>.htaccess</code>.</td></tr><tr><td><code>Require all granted</code></td><td>Autoriza el acceso a la carpeta.</td></tr><tr><td><code>ErrorLog</code></td><td>Registra errores propios del sitio.</td></tr></tbody></table>
+    </section>
+
+    <section class="section" id="hosts"><h2>5. Registrar el dominio en Windows</h2><p>Apache conoce el sitio, pero Windows aún debe saber que el dominio apunta a la computadora local.</p><ol><li>Abra el <strong>Bloc de notas como administrador</strong>.</li><li>Seleccione <strong>Archivo → Abrir</strong>.</li><li>Abra <code class="inline">C:\Windows\System32\drivers\etc\hosts</code>.</li><li>Si no aparece, cambie el filtro a <strong>Todos los archivos</strong>.</li><li>Agregue las siguientes líneas y guarde:</li></ol><div class="code"><div class="label">hosts</div><button class="copy">Copiar</button><pre>127.0.0.1 localhost
+127.0.0.1 proyecto1.local</pre></div><p>Reinicie Apache y visite <code class="inline">http://proyecto1.local</code>.</p><div class="callout warning"><strong>Si Windows conserva una dirección anterior</strong>Abra una consola y ejecute <code class="inline">ipconfig /flushdns</code>.</div></section>
+
+    <section class="section" id="laravel"><h2>6. Proyectos con carpeta public</h2><p>Laravel y otros frameworks poseen una carpeta pública. El dominio debe apuntar a ella, no a la raíz completa del proyecto.</p><div class="code"><div class="label">Virtual Host para Laravel</div><button class="copy">Copiar</button><pre>&lt;VirtualHost *:80&gt;
+    ServerName mi-laravel.local
+    DocumentRoot "C:/ProyectosWeb/mi-laravel/public"
+
+    &lt;Directory "C:/ProyectosWeb/mi-laravel/public"&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog "logs/mi-laravel-error.log"
+    CustomLog "logs/mi-laravel-access.log" common
+&lt;/VirtualHost&gt;</pre></div><div class="callout danger"><strong>Razón de seguridad</strong>Apuntar a la raíz de Laravel puede exponer archivos de configuración y otras partes internas de la aplicación.</div></section>
+
+    <section class="section" id="validar"><h2>7. Validar antes de reiniciar</h2><p>Abra CMD y cambie al directorio de Apache:</p><div class="code"><div class="label">CMD</div><button class="copy">Copiar</button><pre>cd C:\xampp\apache\bin
+httpd.exe -t</pre></div><p>La respuesta correcta es:</p><div class="code"><div class="label">Resultado esperado</div><button class="copy">Copiar</button><pre>Syntax OK</pre></div><p>Para consultar todos los dominios que Apache reconoce:</p><div class="code"><div class="label">CMD</div><button class="copy">Copiar</button><pre>httpd.exe -S</pre></div></section>
+
+    <section class="section" id="errores"><h2>Errores frecuentes</h2><h3>Apache no inicia</h3><ul><li>Existe un error de sintaxis: ejecute <code class="inline">httpd.exe -t</code>.</li><li>El puerto 80 está ocupado por otra aplicación.</li><li>La ruta indicada no existe.</li><li>Falta cerrar <code class="inline">&lt;/VirtualHost&gt;</code> o <code class="inline">&lt;/Directory&gt;</code>.</li><li>XAMPP fue movido y no se volvió a ejecutar <code class="inline">setup_xampp.bat</code>.</li></ul><p>Consulte también <code class="inline">C:\xampp\apache\logs\error.log</code>.</p><h3>403 Forbidden</h3><p>Compruebe que el bloque <code class="inline">Directory</code> corresponda exactamente con la ruta y contenga <code class="inline">Require all granted</code>.</p><h3>El dominio abre otro proyecto</h3><p>Apache suele mostrar el primer Virtual Host cuando el dominio solicitado no coincide con ninguno. Compare <code class="inline">ServerName</code>, el archivo <code class="inline">hosts</code> y el resultado de <code class="inline">httpd.exe -S</code>.</p><h3>Apache utiliza el puerto 8080</h3><p>Cambie a <code class="inline">&lt;VirtualHost *:8080&gt;</code> e ingrese mediante <code class="inline">http://proyecto1.local:8080</code>.</p></section>
+
+    <section class="section" id="practica"><h2>Práctica de clase</h2><p class="lead">Configure dos proyectos independientes y compruebe que ambos dominios funcionan.</p><div class="flow"><div>1. Crear carpetas</div><div>2. Crear VHosts</div><div>3. Editar hosts</div><div>4. Validar y probar</div></div><div class="code"><div class="label">Carpetas y dominios</div><button class="copy">Copiar</button><pre>C:\ProyectosWeb\facturacion  →  http://facturacion.local
+C:\ProyectosWeb\inventario   →  http://inventario.local</pre></div><p>Cada carpeta debe contener un <code class="inline">index.php</code> que identifique el proyecto. Cada Virtual Host debe incluir <code class="inline">ServerName</code>, <code class="inline">DocumentRoot</code>, bloque <code class="inline">Directory</code>, acceso a <code class="inline">.htaccess</code> y archivo de errores independiente.</p><div class="callout ok"><strong>Criterio de finalización</strong>El comando <code class="inline">httpd.exe -t</code> devuelve <code class="inline">Syntax OK</code> y ambos dominios cargan el proyecto correcto.</div></section>
+
+    <section class="section" id="resumen"><h2>Lista de comprobación</h2><ul class="checklist"><li>Descomprimir XAMPP en una ruta corta.</li><li>Ejecutar <code class="inline">setup_xampp.bat</code>.</li><li>Iniciar Apache y MySQL.</li><li>Crear la carpeta general de proyectos.</li><li>Configurar el <code class="inline">DocumentRoot</code>.</li><li>Habilitar <code class="inline">httpd-vhosts.conf</code>.</li><li>Crear un bloque <code class="inline">VirtualHost</code> por proyecto.</li><li>Registrar cada dominio en el archivo <code class="inline">hosts</code>.</li><li>Validar mediante <code class="inline">httpd.exe -t</code>.</li><li>Reiniciar Apache y probar desde el navegador.</li></ul></section>
+    <footer class="footer">Material de apoyo · Desarrollo IV · Entorno local con XAMPP y Apache</footer>
+  </main>
+  <script>
+    document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{const text=btn.nextElementSibling.innerText;await navigator.clipboard.writeText(text);const old=btn.textContent;btn.textContent='¡Copiado!';setTimeout(()=>btn.textContent=old,1200)}));
+    const sections=[...document.querySelectorAll('.section')],links=[...document.querySelectorAll('nav a')];
+    const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.hash==='#'+e.target.id))}),{rootMargin:'-20% 0px -70%'});sections.forEach(s=>observer.observe(s));
+    document.getElementById('search').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();sections.forEach(s=>s.classList.toggle('hidden',q&&!s.innerText.toLowerCase().includes(q)))});
+    document.getElementById('menu').onclick=()=>document.getElementById('sidebar').classList.toggle('open');links.forEach(a=>a.onclick=()=>document.getElementById('sidebar').classList.remove('open'));
+  </script>
+</body>
+</html>
