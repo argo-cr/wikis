@@ -1,0 +1,2746 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guía práctica e interactiva para aprender matrices en Java con Eclipse.">
+  <title>Matrices en Java | Guía práctica EIF201</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef3f8;
+      --surface-3: #e5edf5;
+      --text: #152133;
+      --muted: #617084;
+      --line: #dbe3ec;
+      --primary: #bf1725;
+      --primary-dark: #8d0f19;
+      --primary-soft: #fff0f1;
+      --navy: #12344d;
+      --navy-2: #1b4a69;
+      --teal: #087f78;
+      --teal-soft: #e7f8f6;
+      --amber: #a85b00;
+      --amber-soft: #fff7e7;
+      --blue: #1d5ca8;
+      --blue-soft: #edf5ff;
+      --danger: #a51d2d;
+      --danger-soft: #fff0f2;
+      --success: #176b45;
+      --success-soft: #eaf8f0;
+      --code-bg: #0e1b2a;
+      --code-text: #dce9f6;
+      --shadow: 0 18px 55px rgba(18, 52, 77, 0.10);
+      --shadow-sm: 0 8px 24px rgba(18, 52, 77, 0.08);
+      --radius: 18px;
+      --sidebar: 296px;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0e1722;
+      --surface: #152231;
+      --surface-2: #1a2a3a;
+      --surface-3: #223548;
+      --text: #edf4fb;
+      --muted: #aab9c9;
+      --line: #2a4054;
+      --primary: #ff6672;
+      --primary-dark: #ff8e98;
+      --primary-soft: #3b2028;
+      --navy: #88c2e6;
+      --navy-2: #abd5ee;
+      --teal: #57cfc5;
+      --teal-soft: #173b3a;
+      --amber: #ffc066;
+      --amber-soft: #3a2b18;
+      --blue: #88baff;
+      --blue-soft: #1b314c;
+      --danger: #ff8f9c;
+      --danger-soft: #3c2028;
+      --success: #70d7a6;
+      --success-soft: #18392c;
+      --code-bg: #08111d;
+      --code-text: #e4eef7;
+      --shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+      --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.20);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 28px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 95% 3%, rgba(191, 23, 37, 0.08), transparent 24rem),
+        radial-gradient(circle at 40% 100%, rgba(8, 127, 120, 0.07), transparent 32rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    a {
+      color: var(--blue);
+    }
+
+    code,
+    pre {
+      font-family: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(29, 92, 168, 0.35);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 1000;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-160%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .reading-progress {
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), #ef6772, var(--teal));
+      box-shadow: 0 0 12px rgba(191, 23, 37, 0.35);
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 90;
+      width: var(--sidebar);
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(16px);
+      scrollbar-width: thin;
+    }
+
+    .sidebar-inner {
+      min-height: 100%;
+      padding: 24px 20px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 10px 25px rgba(191, 23, 37, 0.24);
+    }
+
+    .brand-copy {
+      line-height: 1.2;
+    }
+
+    .brand-copy strong,
+    .brand-copy span {
+      display: block;
+    }
+
+    .brand-copy strong {
+      font-size: 0.98rem;
+    }
+
+    .brand-copy span {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box svg {
+      position: absolute;
+      top: 50%;
+      left: 13px;
+      width: 18px;
+      height: 18px;
+      color: var(--muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .search-box input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 38px 10px 40px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface-2);
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(29, 92, 168, 0.10);
+    }
+
+    .search-shortcut {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      padding: 1px 6px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.72rem;
+      transform: translateY(-50%);
+    }
+
+    .search-status {
+      min-height: 18px;
+      margin: 7px 3px 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .nav-title {
+      margin: 0 8px 7px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .toc {
+      display: grid;
+      gap: 3px;
+    }
+
+    .toc a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 39px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+    }
+
+    .toc a::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--line);
+    }
+
+    .toc a:hover {
+      background: var(--surface-2);
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
+    .toc a.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .toc a.active::before {
+      background: var(--primary);
+      box-shadow: 0 0 0 4px rgba(191, 23, 37, 0.11);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .layout {
+      min-height: 100vh;
+      margin-left: var(--sidebar);
+    }
+
+    .top-actions {
+      position: fixed;
+      z-index: 80;
+      top: 18px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+      transition: transform 140ms ease, background 140ms ease;
+    }
+
+    .icon-btn:hover {
+      background: var(--surface-2);
+      transform: translateY(-2px);
+    }
+
+    .icon-btn svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .menu-btn {
+      display: none;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 64px));
+      margin: 0 auto;
+      padding: 72px 0 100px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 390px;
+      padding: clamp(34px, 6vw, 72px);
+      border-radius: 30px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.18), transparent 10rem),
+        linear-gradient(135deg, #102f47 0%, #163f5c 55%, #0d7772 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      transform: rotate(12deg);
+    }
+
+    .hero::before {
+      top: 44px;
+      right: 52px;
+      width: 150px;
+      height: 150px;
+    }
+
+    .hero::after {
+      right: 155px;
+      bottom: -75px;
+      width: 190px;
+      height: 190px;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.11);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #72e3d5;
+      box-shadow: 0 0 0 5px rgba(114, 227, 213, 0.12);
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 26px 0 18px;
+      font-size: clamp(2.5rem, 6vw, 5.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .hero h1 span {
+      color: #ff8b94;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 690px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+    }
+
+    .hero-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .hero-chip {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.11);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .hero-matrix {
+      position: absolute;
+      right: clamp(26px, 5vw, 70px);
+      bottom: 32px;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 28px);
+      gap: 6px;
+      padding: 15px 20px;
+      border-left: 3px solid rgba(255, 255, 255, 0.55);
+      border-right: 3px solid rgba(255, 255, 255, 0.55);
+      border-radius: 10px;
+      transform: rotate(-5deg);
+    }
+
+    .hero-matrix span {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.82);
+      font: 700 0.75rem "Cascadia Code", Consolas, monospace;
+    }
+
+    .doc-section {
+      margin-top: 84px;
+      scroll-margin-top: 32px;
+    }
+
+    .doc-section.search-hidden {
+      display: none;
+    }
+
+    .section-kicker {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 28px;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--primary);
+    }
+
+    .doc-section>h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.13;
+      letter-spacing: -0.035em;
+    }
+
+    .section-lead {
+      max-width: 800px;
+      margin: 14px 0 28px;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    h3 {
+      margin: 34px 0 12px;
+      color: var(--navy);
+      font-size: 1.3rem;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+    }
+
+    h4 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card p:last-child,
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .concept-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 160px;
+    }
+
+    .concept-card::after {
+      content: attr(data-number);
+      position: absolute;
+      right: 14px;
+      bottom: -22px;
+      color: var(--surface-2);
+      font-size: 5.7rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .concept-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .concept-card p {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 0.91rem;
+      line-height: 1.55;
+    }
+
+    .callout {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      padding: 18px 20px;
+      border: 1px solid;
+      border-radius: 16px;
+      margin: 22px 0;
+    }
+
+    .callout-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .callout p {
+      color: inherit;
+      opacity: 0.88;
+    }
+
+    .callout.info {
+      border-color: color-mix(in srgb, var(--blue) 32%, var(--line));
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .callout.warning {
+      border-color: color-mix(in srgb, var(--amber) 35%, var(--line));
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .callout.danger {
+      border-color: color-mix(in srgb, var(--danger) 32%, var(--line));
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .callout.success {
+      border-color: color-mix(in srgb, var(--success) 32%, var(--line));
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .inline-code {
+      padding: 0.15em 0.42em;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface-2);
+      color: var(--primary);
+      font-size: 0.9em;
+      white-space: nowrap;
+    }
+
+    .code-block {
+      position: relative;
+      overflow: hidden;
+      margin: 18px 0 24px;
+      border: 1px solid #26384d;
+      border-radius: 17px;
+      background: var(--code-bg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .code-header {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 11px 8px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      color: #93a9be;
+      font-size: 0.74rem;
+      font-weight: 750;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .code-dots {
+      display: inline-flex;
+      gap: 5px;
+      margin-right: 8px;
+    }
+
+    .code-dots i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #41566b;
+    }
+
+    .code-dots i:first-child {
+      background: #ff6672;
+    }
+
+    .code-dots i:nth-child(2) {
+      background: #f2bd5b;
+    }
+
+    .code-dots i:nth-child(3) {
+      background: #55c49b;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #c8d6e4;
+      font-size: 0.72rem;
+      font-weight: 750;
+      text-transform: none;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: var(--code-text);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      tab-size: 4;
+    }
+
+    .tok-key {
+      color: #ff8b94;
+    }
+
+    .tok-type {
+      color: #7ed7ca;
+    }
+
+    .tok-num {
+      color: #ffc66d;
+    }
+
+    .tok-str {
+      color: #b4dc83;
+    }
+
+    .tok-com {
+      color: #7890a7;
+      font-style: italic;
+    }
+
+    .tok-method {
+      color: #82b9ff;
+    }
+
+    .matrix-lab {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.88fr) minmax(280px, 1.12fr);
+      gap: 24px;
+      align-items: center;
+      padding: clamp(22px, 4vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(145deg, var(--surface), var(--surface-2));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .matrix-grid {
+      width: min(100%, 360px);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 0 auto;
+    }
+
+    .matrix-cell {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      color: var(--navy);
+      font-weight: 850;
+      box-shadow: 0 4px 11px rgba(18, 52, 77, 0.06);
+      cursor: pointer;
+      transition: border-color 140ms ease, transform 140ms ease, background 140ms ease;
+    }
+
+    .matrix-cell:hover,
+    .matrix-cell.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .coordinate-output {
+      min-height: 126px;
+      padding: 20px;
+      border-radius: 17px;
+      background: var(--navy);
+      color: #fff;
+    }
+
+    html[data-theme="dark"] .coordinate-output {
+      background: #0b1825;
+    }
+
+    .coordinate-output small {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.63);
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .coordinate-output strong {
+      display: block;
+      color: #ff929b;
+      font: 800 clamp(1.2rem, 3vw, 1.8rem) "Cascadia Code", Consolas, monospace;
+    }
+
+    .coordinate-output p {
+      margin: 9px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.88rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 18px 0 26px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-2);
+      color: var(--navy);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    td {
+      font-size: 0.91rem;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover td {
+      background: color-mix(in srgb, var(--surface-2) 66%, transparent);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 0.72rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .steps {
+      display: grid;
+      gap: 16px;
+      margin: 24px 0;
+      counter-reset: steps;
+    }
+
+    .step {
+      position: relative;
+      min-height: 80px;
+      padding: 19px 20px 18px 72px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      counter-increment: steps;
+    }
+
+    .step::before {
+      content: counter(steps);
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .step strong {
+      display: block;
+      color: var(--navy);
+    }
+
+    .step p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    details {
+      margin: 12px 0;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    summary {
+      position: relative;
+      padding: 17px 52px 17px 19px;
+      color: var(--navy);
+      font-weight: 800;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      position: absolute;
+      top: 50%;
+      right: 18px;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: var(--primary);
+      transform: translateY(-50%);
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    .details-body {
+      padding: 0 19px 19px;
+      color: var(--muted);
+    }
+
+    .details-body .code-block {
+      margin-bottom: 0;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 15px;
+      align-items: stretch;
+      margin: 24px 0;
+    }
+
+    .comparison-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .comparison-vs {
+      align-self: center;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 900;
+    }
+
+    .mini-list {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li {
+      position: relative;
+      padding: 7px 0 7px 25px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .mini-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .pattern-demo {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .pixel-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 32px);
+      gap: 5px;
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--code-bg);
+    }
+
+    .pixel-grid span {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: #24384b;
+    }
+
+    .pixel-grid span.on {
+      background: #ff6672;
+      box-shadow: 0 0 12px rgba(255, 102, 114, 0.26);
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color 140ms ease, background 140ms ease;
+    }
+
+    .check-item:hover {
+      border-color: color-mix(in srgb, var(--teal) 55%, var(--line));
+      background: var(--teal-soft);
+    }
+
+    .check-item input {
+      width: 19px;
+      height: 19px;
+      margin: 3px 0 0;
+      accent-color: var(--teal);
+      flex: 0 0 auto;
+    }
+
+    .check-item span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .check-item input:checked+span {
+      color: var(--success);
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+
+    .quiz-question {
+      margin: 14px 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .quiz-question p {
+      margin-bottom: 12px;
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quiz-option {
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface-2);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--blue);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .quiz-option.incorrect {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .quiz-feedback {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .no-results {
+      display: none;
+      margin: 70px 0;
+      padding: 32px;
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .no-results.show {
+      display: block;
+    }
+
+    .page-footer {
+      margin-top: 90px;
+      padding: 26px 0 10px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 70;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 14px;
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(191, 23, 37, 0.28);
+      opacity: 0;
+      transform: translateY(14px);
+      pointer-events: none;
+      cursor: pointer;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .mobile-overlay {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-matrix {
+        opacity: 0.5;
+      }
+    }
+
+    @media (max-width: 900px) {
+      :root {
+        --sidebar: 288px;
+      }
+
+      .sidebar {
+        transform: translateX(-103%);
+        box-shadow: var(--shadow);
+        transition: transform 200ms ease;
+      }
+
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      body.menu-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .mobile-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 85;
+        display: block;
+        background: rgba(6, 17, 29, 0.52);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms ease;
+      }
+
+      body.menu-open .mobile-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .layout {
+        margin-left: 0;
+      }
+
+      .menu-btn {
+        display: grid;
+      }
+
+      main {
+        width: min(100% - 34px, 860px);
+        padding-top: 72px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .matrix-lab {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      body {
+        font-size: 15.5px;
+      }
+
+      .top-actions {
+        top: 12px;
+        right: 12px;
+      }
+
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      main {
+        width: min(100% - 24px, 620px);
+      }
+
+      .hero {
+        padding: 32px 25px 38px;
+        border-radius: 22px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.35rem, 13vw, 3.7rem);
+      }
+
+      .hero-matrix {
+        display: none;
+      }
+
+      .doc-section {
+        margin-top: 64px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-vs {
+        margin: -2px auto;
+      }
+
+      .pattern-demo {
+        grid-template-columns: 1fr;
+      }
+
+      .pixel-grid {
+        justify-self: center;
+      }
+
+      .callout {
+        grid-template-columns: 1fr;
+      }
+
+      .callout-icon {
+        margin-bottom: -4px;
+      }
+
+      pre {
+        padding: 17px;
+        font-size: 0.8rem;
+      }
+
+      .back-to-top {
+        right: 14px;
+        bottom: 14px;
+      }
+    }
+
+    @media print {
+      :root {
+        --bg: #fff;
+        --surface: #fff;
+        --surface-2: #f4f4f4;
+        --text: #111;
+        --muted: #444;
+        --line: #ccc;
+        --navy: #111;
+      }
+
+      .sidebar,
+      .top-actions,
+      .reading-progress,
+      .back-to-top,
+      .mobile-overlay,
+      .copy-btn,
+      .quiz-options {
+        display: none !important;
+      }
+
+      .layout {
+        margin-left: 0;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero {
+        min-height: 0;
+        color: #111;
+        background: #eee;
+        box-shadow: none;
+        break-after: page;
+      }
+
+      .hero p,
+      .hero-chip,
+      .eyebrow {
+        color: #222;
+        border-color: #bbb;
+      }
+
+      .doc-section {
+        margin-top: 42px;
+        break-inside: avoid;
+      }
+
+      .card,
+      .table-wrap,
+      details,
+      .step {
+        box-shadow: none;
+      }
+
+      details {
+        break-inside: avoid;
+      }
+
+      details>* {
+        display: block !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+  <aside class="sidebar" id="sidebar" aria-label="Navegación de la guía">
+    <div class="sidebar-inner">
+      <a class="brand" href="#inicio">
+        <span class="brand-mark" aria-hidden="true">[ ]</span>
+        <span class="brand-copy">
+          <strong>Matrices en Java</strong>
+          <span>Guía práctica</span>
+        </span>
+      </a>
+
+      <div>
+        <label class="search-box" aria-label="Buscar en la guía">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <input id="searchInput" type="search" placeholder="Buscar: promedio, moda..." autocomplete="off">
+          <span class="search-shortcut" aria-hidden="true">/</span>
+        </label>
+        <div class="search-status" id="searchStatus" aria-live="polite"></div>
+      </div>
+
+      <nav>
+        <p class="nav-title">Contenido</p>
+        <div class="toc" id="toc">
+          <a href="#inicio">Inicio</a>
+          <a href="#concepto">1. Concepto esencial</a>
+          <a href="#crear">2. Crear matrices</a>
+          <a href="#recorrer">3. Recorrer y mostrar</a>
+          <a href="#llenar">4. Usuario y aleatorios</a>
+          <a href="#calculos">5. Cálculos frecuentes</a>
+          <a href="#tipos">6. String y boolean</a>
+          <a href="#patrones">7. Dibujar patrones</a>
+          <a href="#casos">8. Casos aplicados</a>
+          <a href="#errores">9. Errores comunes</a>
+          <a href="#eclipse">10. Trabajo en Eclipse</a>
+          <a href="#autoevaluacion">11. Autoevaluación</a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <strong>Atajo útil:</strong> presiona <span class="inline-code">/</span> para buscar y <span
+          class="inline-code">Esc</span> para limpiar la búsqueda.
+      </div>
+    </div>
+  </aside>
+
+  <div class="layout">
+    <div class="top-actions" aria-label="Acciones de página">
+      <button class="icon-btn menu-btn" id="menuButton" type="button" aria-label="Abrir menú" aria-controls="sidebar"
+        aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" id="printButton" type="button" aria-label="Imprimir o guardar como PDF"
+        title="Imprimir o guardar como PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 9V3h12v6"></path>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <path d="M6 14h12v7H6z"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" id="themeButton" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 3a9 9 0 1 0 9 9c0-.6-.06-1.18-.17-1.74A7 7 0 0 1 12 3Z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <main id="contenido">
+      <header class="hero doc-section" id="inicio" data-title="Inicio matrices Java Eclipse">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> EIF201 · Programación I</span>
+        <h1>Matrices en <span>Java</span></h1>
+        <p>La guía esencial para comprender filas, columnas, recorridos y cálculos antes de resolver los ejercicios de
+          forma independiente en Eclipse.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Java + Eclipse</span>
+          <span class="hero-chip">Aprendizaje autónomo</span>
+          <span class="hero-chip">Ejemplos copiables</span>
+          <span class="hero-chip">Sin soluciones completas</span>
+        </div>
+        <div class="hero-matrix" aria-hidden="true">
+          <span>1</span><span>2</span><span>3</span>
+          <span>4</span><span>5</span><span>6</span>
+          <span>7</span><span>8</span><span>9</span>
+        </div>
+      </header>
+
+
+
+      <section class="doc-section" id="concepto" data-title="Concepto esencial filas columnas índices posiciones">
+        <div class="section-kicker">01 · Fundamento</div>
+        <h2>Una matriz es una tabla de datos</h2>
+        <p class="section-lead">En Java, una matriz es un arreglo de arreglos. Cada dato se localiza usando dos índices:
+          primero la fila y después la columna.</p>
+
+        <div class="grid grid-4">
+          <article class="card concept-card" data-number="1">
+            <h3>Fila</h3>
+            <p>Recorrido horizontal. El primer índice indica en cuál fila está el dato.</p>
+          </article>
+          <article class="card concept-card" data-number="2">
+            <h3>Columna</h3>
+            <p>Recorrido vertical. El segundo índice indica en cuál columna está el dato.</p>
+          </article>
+          <article class="card concept-card" data-number="0">
+            <h3>Índices desde cero</h3>
+            <p>Una matriz 3×3 utiliza índices del 0 al 2, no del 1 al 3.</p>
+          </article>
+          <article class="card concept-card" data-number="9">
+            <h3>Cantidad total</h3>
+            <p>Una matriz rectangular de 3×3 contiene 9 posiciones: filas × columnas.</p>
+          </article>
+        </div>
+
+        <h3>Explora las coordenadas</h3>
+        <p>Selecciona una celda. Observa cómo Java identifica primero la fila y luego la columna.</p>
+
+        <div class="matrix-lab">
+          <div class="matrix-grid" id="matrixExplorer" aria-label="Matriz interactiva de 3 por 3">
+            <button class="matrix-cell selected" type="button" data-row="0" data-col="0" data-value="1">1</button>
+            <button class="matrix-cell" type="button" data-row="0" data-col="1" data-value="2">2</button>
+            <button class="matrix-cell" type="button" data-row="0" data-col="2" data-value="3">3</button>
+            <button class="matrix-cell" type="button" data-row="1" data-col="0" data-value="4">4</button>
+            <button class="matrix-cell" type="button" data-row="1" data-col="1" data-value="5">5</button>
+            <button class="matrix-cell" type="button" data-row="1" data-col="2" data-value="6">6</button>
+            <button class="matrix-cell" type="button" data-row="2" data-col="0" data-value="7">7</button>
+            <button class="matrix-cell" type="button" data-row="2" data-col="1" data-value="8">8</button>
+            <button class="matrix-cell" type="button" data-row="2" data-col="2" data-value="9">9</button>
+          </div>
+          <div class="coordinate-output" id="coordinateOutput">
+            <small>Celda seleccionada</small>
+            <strong>matriz[0][0] = 1</strong>
+            <p>Fila 1 y columna 1 para una persona; índices 0 y 0 para Java.</p>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <span class="callout-icon" aria-hidden="true">!</span>
+          <div>
+            <strong>Orden que no debes invertir</strong>
+            <p>Lee <span class="inline-code">matriz[i][j]</span> como <strong>matriz[fila][columna]</strong>. En los
+              ejemplos de esta guía, <span class="inline-code">i</span> representa la fila y <span
+                class="inline-code">j</span> la columna.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="crear" data-title="Crear declarar inicializar matriz estática dinámica length">
+        <div class="section-kicker">02 · Estructura</div>
+        <h2>Crear una matriz</h2>
+        <p class="section-lead">Puedes escribir los valores directamente o decidir las dimensiones durante la ejecución.
+          Una vez creada, la cantidad de posiciones no cambia.</p>
+
+        <div class="comparison">
+          <div class="comparison-card">
+            <h4>Inicialización estática</h4>
+            <p>Los valores ya se conocen cuando se escribe el programa.</p>
+            <ul class="mini-list">
+              <li>Ideal para probar la lógica</li>
+              <li>Permite resultados predecibles</li>
+              <li>Útil en los ejercicios 1 y 7</li>
+            </ul>
+          </div>
+          <div class="comparison-vs" aria-hidden="true">VS</div>
+          <div class="comparison-card">
+            <h4>Dimensiones en ejecución</h4>
+            <p>El usuario indica el tamaño antes de crear la matriz.</p>
+            <ul class="mini-list">
+              <li>Las dimensiones pueden variar</li>
+              <li>El tamaño queda fijo después de crearla</li>
+              <li>Útil en los ejercicios 8, 9 y 14</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Valores escritos directamente</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · matriz 3×3</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">int</span>[][] matriz = {
+    {<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>},
+    {<span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>},
+    {<span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>}
+};
+
+System.out.println(matriz[<span class="tok-num">1</span>][<span class="tok-num">2</span>]); <span class="tok-com">// Imprime 6</span></code></pre>
+        </div>
+
+        <h3>Dimensiones definidas durante la ejecución</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · tamaño solicitado</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">Scanner</span> teclado = <span class="tok-key">new</span> <span class="tok-type">Scanner</span>(System.in);
+
+System.out.print(<span class="tok-str">"Cantidad de filas: "</span>);
+<span class="tok-type">int</span> filas = teclado.nextInt();
+
+System.out.print(<span class="tok-str">"Cantidad de columnas: "</span>);
+<span class="tok-type">int</span> columnas = teclado.nextInt();
+
+<span class="tok-type">int</span>[][] matriz = <span class="tok-key">new</span> <span class="tok-type">int</span>[filas][columnas];</code></pre>
+        </div>
+
+        <div class="callout info">
+          <span class="callout-icon" aria-hidden="true">i</span>
+          <div>
+            <strong>¿Qué significa “dinámica” aquí?</strong>
+            <p>Significa que el tamaño o los valores se determinan mientras el programa se ejecuta. No significa que la
+              matriz pueda agrandarse después: los arreglos de Java tienen tamaño fijo.</p>
+          </div>
+        </div>
+
+        <h3>Las propiedades que siempre necesitarás</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Expresión</th>
+                <th>Significado</th>
+                <th>Ejemplo en una matriz 3×4</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">matriz.length</span></td>
+                <td>Cantidad de filas.</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">matriz[i].length</span></td>
+                <td>Cantidad de columnas de la fila actual.</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">matriz.length - 1</span></td>
+                <td>Índice de la última fila.</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">matriz[0].length - 1</span></td>
+                <td>Índice de la última columna.</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="recorrer"
+        data-title="Recorrer ciclos anidados for mostrar imprimir filas columnas">
+        <div class="section-kicker">03 · Recorrido</div>
+        <h2>Dos dimensiones, dos ciclos</h2>
+        <p class="section-lead">El ciclo exterior controla las filas. Por cada fila, el ciclo interior visita todas sus
+          columnas.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · recorrido universal</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+        <span class="tok-com">// Trabajar con la posición actual</span>
+        System.out.print(matriz[i][j] + <span class="tok-str">" "</span>);
+    }
+    System.out.println(); <span class="tok-com">// Cambiar de línea al terminar la fila</span>
+}</code></pre>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <h4>1. Entrar a una fila</h4>
+            <p>El valor de <span class="inline-code">i</span> permanece fijo mientras se recorren sus columnas.</p>
+          </article>
+          <article class="card">
+            <h4>2. Visitar columnas</h4>
+            <p><span class="inline-code">j</span> cambia desde 0 hasta la última columna de esa fila.</p>
+          </article>
+          <article class="card">
+            <h4>3. Repetir</h4>
+            <p>Al terminar una fila, <span class="inline-code">i</span> avanza y <span class="inline-code">j</span>
+              vuelve a 0.</p>
+          </article>
+        </div>
+
+        <h3>Mostrar una matriz ordenada</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · método reutilizable</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-key">static</span> <span class="tok-key">void</span> <span class="tok-method">mostrarMatriz</span>(<span class="tok-type">int</span>[][] matriz) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+        <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+            System.out.printf(<span class="tok-str">"%5d"</span>, matriz[i][j]);
+        }
+        System.out.println();
+    }
+}</code></pre>
+        </div>
+
+        <div class="callout success">
+          <span class="callout-icon" aria-hidden="true">✓</span>
+          <div>
+            <strong>Regla práctica</strong>
+            <p>Usa siempre <span class="inline-code">matriz.length</span> y <span
+                class="inline-code">matriz[i].length</span> como límites. Evita escribir números fijos como <span
+                class="inline-code">i &lt; 3</span> si tu código debe funcionar con otros tamaños.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="llenar" data-title="Llenar Scanner usuario Random aleatorio rango nextInt">
+        <div class="section-kicker">04 · Entrada</div>
+        <h2>Llenar valores</h2>
+        <p class="section-lead">La estructura de recorrido no cambia. Solo cambia de dónde proviene el valor que se
+          asigna a cada celda.</p>
+
+        <h3>Valores ingresados por el usuario</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · Scanner</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+        System.out.printf(<span class="tok-str">"Valor de la fila %d, columna %d: "</span>, i + <span class="tok-num">1</span>, j + <span class="tok-num">1</span>);
+        matriz[i][j] = teclado.nextInt();
+    }
+}</code></pre>
+        </div>
+
+        <p>El mensaje muestra <span class="inline-code">i + 1</span> y <span class="inline-code">j + 1</span> para
+          hablarle al usuario desde 1, aunque internamente Java siga usando índices desde 0.</p>
+
+        <h3>Valores aleatorios</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · Random</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-key">import</span> java.util.Random;
+
+<span class="tok-type">Random</span> random = <span class="tok-key">new</span> <span class="tok-type">Random</span>();
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+        matriz[i][j] = random.nextInt(<span class="tok-num">13</span>); <span class="tok-com">// Valores entre 0 y 12</span>
+    }
+}</code></pre>
+        </div>
+
+        <div class="card">
+          <h4>Fórmula para cualquier rango inclusivo</h4>
+          <p>Para generar valores desde <span class="inline-code">mínimo</span> hasta <span
+              class="inline-code">máximo</span>, incluyendo ambos extremos:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span><span class="code-dots"><i></i><i></i><i></i></span>Java · rango</span>
+              <button class="copy-btn" type="button">Copiar</button>
+            </div>
+            <pre><code><span class="tok-type">int</span> valor = random.nextInt(maximo - minimo + <span class="tok-num">1</span>) + minimo;</code></pre>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <span class="callout-icon" aria-hidden="true">!</span>
+          <div>
+            <strong>Lee con cuidado el límite</strong>
+            <p><span class="inline-code">random.nextInt(13)</span> produce 0, 1, 2, …, 12. El número 13 funciona como
+              límite superior y no puede aparecer.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="calculos"
+        data-title="Cálculos suma promedio pares impares múltiplos máximo mínimo posición esquinas filas moda">
+        <div class="section-kicker">05 · Procesamiento</div>
+        <h2>Cálculos frecuentes</h2>
+        <p class="section-lead">La mayoría de los ejercicios se resuelve recorriendo todas las celdas y actualizando
+          acumuladores, contadores o valores de referencia.</p>
+
+        <h3>Suma, promedio y conteos</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · patrón de acumulación</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">int</span> suma = <span class="tok-num">0</span>;
+<span class="tok-type">int</span> cantidad = <span class="tok-num">0</span>;
+<span class="tok-type">int</span> pares = <span class="tok-num">0</span>;
+<span class="tok-type">int</span> multiplosDeTres = <span class="tok-num">0</span>;
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+        <span class="tok-type">int</span> valor = matriz[i][j];
+
+        suma += valor;
+        cantidad++;
+
+        <span class="tok-key">if</span> (valor % <span class="tok-num">2</span> == <span class="tok-num">0</span>) {
+            pares++;
+        }
+
+        <span class="tok-key">if</span> (valor % <span class="tok-num">3</span> == <span class="tok-num">0</span>) {
+            multiplosDeTres++;
+        }
+    }
+}
+
+<span class="tok-type">double</span> promedio = (<span class="tok-type">double</span>) suma / cantidad;</code></pre>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <h4>Acumulador</h4>
+            <p>Guarda un total progresivo. Ejemplo: <span class="inline-code">suma += valor</span>.</p>
+          </article>
+          <article class="card">
+            <h4>Contador</h4>
+            <p>Aumenta cuando se cumple una condición. Ejemplo: <span class="inline-code">pares++</span>.</p>
+          </article>
+          <article class="card">
+            <h4>Conversión a double</h4>
+            <p>Evita que Java elimine los decimales al dividir dos valores enteros.</p>
+          </article>
+        </div>
+
+        <h3>Mayor y menor con su posición</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · máximos y mínimos</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">int</span> mayor = matriz[<span class="tok-num">0</span>][<span class="tok-num">0</span>];
+<span class="tok-type">int</span> menor = matriz[<span class="tok-num">0</span>][<span class="tok-num">0</span>];
+<span class="tok-type">int</span> filaMayor = <span class="tok-num">0</span>;
+<span class="tok-type">int</span> columnaMayor = <span class="tok-num">0</span>;
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+        <span class="tok-key">if</span> (matriz[i][j] &gt; mayor) {
+            mayor = matriz[i][j];
+            filaMayor = i;
+            columnaMayor = j;
+        }
+
+        <span class="tok-key">if</span> (matriz[i][j] &lt; menor) {
+            menor = matriz[i][j];
+        }
+    }
+}</code></pre>
+        </div>
+
+        <div class="callout danger">
+          <span class="callout-icon" aria-hidden="true">×</span>
+          <div>
+            <strong>No inicies siempre el mayor o el menor en cero</strong>
+            <p>Si todos los datos fueran negativos, cero no sería un valor real de la matriz. Es más seguro comenzar con
+              <span class="inline-code">matriz[0][0]</span>.</p>
+          </div>
+        </div>
+
+        <h3>Filas pares: primero define qué significa “par”</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Interpretación</th>
+                <th>Condición</th>
+                <th>Filas incluidas en una matriz 5×5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Índice par de Java</td>
+                <td><span class="inline-code">i % 2 == 0</span></td>
+                <td>Índices 0, 2 y 4</td>
+              </tr>
+              <tr>
+                <td>Número de fila par para una persona</td>
+                <td><span class="inline-code">(i + 1) % 2 == 0</span></td>
+                <td>Filas 2 y 4; índices 1 y 3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Las cuatro esquinas</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · funciona con cualquier matriz
+              rectangular</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">int</span> ultimaFila = matriz.length - <span class="tok-num">1</span>;
+<span class="tok-type">int</span> ultimaColumna = matriz[<span class="tok-num">0</span>].length - <span class="tok-num">1</span>;
+
+<span class="tok-type">double</span> promedioEsquinas = (
+        matriz[<span class="tok-num">0</span>][<span class="tok-num">0</span>] +
+        matriz[<span class="tok-num">0</span>][ultimaColumna] +
+        matriz[ultimaFila][<span class="tok-num">0</span>] +
+        matriz[ultimaFila][ultimaColumna]
+    ) / <span class="tok-num">4.0</span>;</code></pre>
+        </div>
+
+        <details>
+          <summary>Patrón de apoyo para calcular la moda</summary>
+          <div class="details-body">
+            <p>Sin utilizar colecciones, puedes tomar cada valor como candidato y volver a recorrer la matriz para
+              contar cuántas veces aparece. Si hay empate, este patrón conserva el primero encontrado.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span><span class="code-dots"><i></i><i></i><i></i></span>Java · frecuencia por comparación</span>
+                <button class="copy-btn" type="button">Copiar</button>
+              </div>
+              <pre><code><span class="tok-type">int</span> moda = matriz[<span class="tok-num">0</span>][<span class="tok-num">0</span>];
+<span class="tok-type">int</span> frecuenciaModa = <span class="tok-num">0</span>;
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matriz.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matriz[i].length; j++) {
+        <span class="tok-type">int</span> candidato = matriz[i][j];
+        <span class="tok-type">int</span> frecuencia = <span class="tok-num">0</span>;
+
+        <span class="tok-key">for</span> (<span class="tok-type">int</span> f = <span class="tok-num">0</span>; f &lt; matriz.length; f++) {
+            <span class="tok-key">for</span> (<span class="tok-type">int</span> c = <span class="tok-num">0</span>; c &lt; matriz[f].length; c++) {
+                <span class="tok-key">if</span> (matriz[f][c] == candidato) {
+                    frecuencia++;
+                }
+            }
+        }
+
+        <span class="tok-key">if</span> (frecuencia &gt; frecuenciaModa) {
+            frecuenciaModa = frecuencia;
+            moda = candidato;
+        }
+    }
+}</code></pre>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="doc-section" id="tipos"
+        data-title="Matrices String boolean palabras length nextLine tipos de datos">
+        <div class="section-kicker">06 · Tipos de datos</div>
+        <h2>No todas las matrices son de enteros</h2>
+        <p class="section-lead">La estructura es la misma para <span class="inline-code">double</span>, <span
+            class="inline-code">float</span>, <span class="inline-code">boolean</span>, <span
+            class="inline-code">char</span> y <span class="inline-code">String</span>. Solo cambia el tipo y las
+          operaciones válidas.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Declaración</th>
+                <th>Valor inicial automático</th>
+                <th>Uso frecuente</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag">int</span></td>
+                <td><span class="inline-code">int[][] datos</span></td>
+                <td>0</td>
+                <td>Cantidades, identificadores, temperaturas enteras.</td>
+              </tr>
+              <tr>
+                <td><span class="tag">float</span></td>
+                <td><span class="inline-code">float[][] datos</span></td>
+                <td>0.0</td>
+                <td>Valores con decimales.</td>
+              </tr>
+              <tr>
+                <td><span class="tag">boolean</span></td>
+                <td><span class="inline-code">boolean[][] datos</span></td>
+                <td>false</td>
+                <td>Estados o resultados de una condición.</td>
+              </tr>
+              <tr>
+                <td><span class="tag">String</span></td>
+                <td><span class="inline-code">String[][] datos</span></td>
+                <td>null</td>
+                <td>Palabras, nombres o descripciones.</td>
+              </tr>
+              <tr>
+                <td><span class="tag">char</span></td>
+                <td><span class="inline-code">char[][] datos</span></td>
+                <td>Carácter vacío</td>
+                <td>Letras, tableros y dibujos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Guardar el resultado de una condición</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · String hacia boolean</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">boolean</span>[][] palabrasLargas = <span class="tok-key">new</span> <span class="tok-type">boolean</span>[<span class="tok-num">2</span>][<span class="tok-num">2</span>];
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; palabrasLargas.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; palabrasLargas[i].length; j++) {
+        System.out.print(<span class="tok-str">"Digite una palabra: "</span>);
+        <span class="tok-type">String</span> palabra = teclado.nextLine();
+
+        palabrasLargas[i][j] = palabra.length() &gt; <span class="tok-num">9</span>;
+    }
+}</code></pre>
+        </div>
+
+        <div class="callout warning">
+          <span class="callout-icon" aria-hidden="true">!</span>
+          <div>
+            <strong><span class="inline-code">length</span> no siempre se escribe igual</strong>
+            <p>En un arreglo se usa <span class="inline-code">matriz.length</span>, sin paréntesis. En un texto se usa
+              <span class="inline-code">palabra.length()</span>, con paréntesis.</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>¿Por qué nextLine() a veces parece saltarse una lectura?</summary>
+          <div class="details-body">
+            <p>Después de <span class="inline-code">nextInt()</span>, queda pendiente el salto de línea que produjo
+              Enter. Consúmelo una vez antes de comenzar a leer textos:</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span><span class="code-dots"><i></i><i></i><i></i></span>Java · limpiar el salto de línea</span>
+                <button class="copy-btn" type="button">Copiar</button>
+              </div>
+              <pre><code><span class="tok-type">int</span> cantidad = teclado.nextInt();
+teclado.nextLine(); <span class="tok-com">// Consumir el Enter pendiente</span>
+
+System.out.print(<span class="tok-str">"Digite una palabra: "</span>);
+<span class="tok-type">String</span> palabra = teclado.nextLine();</code></pre>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="doc-section" id="patrones"
+        data-title="Dibujar letras patrones condiciones coordenadas char lienzo 5x5">
+        <div class="section-kicker">07 · Coordenadas</div>
+        <h2>Dibujar con una matriz 5×5</h2>
+        <p class="section-lead">Para formar una figura, decide qué condición cumplen las celdas que deben mostrar un
+          símbolo. Las demás guardan un espacio.</p>
+
+        <div class="card pattern-demo">
+          <div class="pixel-grid" aria-label="Ejemplo de una figura de suma en una matriz 5 por 5">
+            <span></span><span></span><span class="on"></span><span></span><span></span>
+            <span></span><span></span><span class="on"></span><span></span><span></span>
+            <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span
+              class="on"></span>
+            <span></span><span></span><span class="on"></span><span></span><span></span>
+            <span></span><span></span><span class="on"></span><span></span><span></span>
+          </div>
+          <div>
+            <h4>Ejemplo distinto a las letras asignadas</h4>
+            <p>La figura “+” se construye encendiendo la fila central o la columna central. El mismo razonamiento sirve
+              para diseñar cada letra sin memorizar dibujos.</p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · ejemplo de razonamiento</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">char</span>[][] lienzo = <span class="tok-key">new</span> <span class="tok-type">char</span>[<span class="tok-num">5</span>][<span class="tok-num">5</span>];
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; lienzo.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; lienzo[i].length; j++) {
+        <span class="tok-key">if</span> (i == <span class="tok-num">2</span> || j == <span class="tok-num">2</span>) {
+            lienzo[i][j] = <span class="tok-str">'*'</span>;
+        } <span class="tok-key">else</span> {
+            lienzo[i][j] = <span class="tok-str">' '</span>;
+        }
+    }
+}</code></pre>
+        </div>
+
+        <h3>Condiciones visuales útiles</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Zona</th>
+                <th>Condición general</th>
+                <th>Qué representa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Primera fila</td>
+                <td><span class="inline-code">i == 0</span></td>
+                <td>Línea horizontal superior.</td>
+              </tr>
+              <tr>
+                <td>Última fila</td>
+                <td><span class="inline-code">i == matriz.length - 1</span></td>
+                <td>Línea horizontal inferior.</td>
+              </tr>
+              <tr>
+                <td>Primera columna</td>
+                <td><span class="inline-code">j == 0</span></td>
+                <td>Línea vertical izquierda.</td>
+              </tr>
+              <tr>
+                <td>Última columna</td>
+                <td><span class="inline-code">j == matriz[i].length - 1</span></td>
+                <td>Línea vertical derecha.</td>
+              </tr>
+              <tr>
+                <td>Diagonal principal</td>
+                <td><span class="inline-code">i == j</span></td>
+                <td>De arriba izquierda hacia abajo derecha.</td>
+              </tr>
+              <tr>
+                <td>Diagonal secundaria</td>
+                <td><span class="inline-code">i + j == tamaño - 1</span></td>
+                <td>De arriba derecha hacia abajo izquierda.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout success">
+          <span class="callout-icon" aria-hidden="true">✓</span>
+          <div>
+            <strong>Primero dibuja en papel</strong>
+            <p>Numera filas y columnas del 0 al 4, marca las celdas de la letra y busca qué tienen en común. Esa
+              observación se convierte en condiciones con <span class="inline-code">i</span> y <span
+                class="inline-code">j</span>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="casos"
+        data-title="Casos aplicados productos suma matrices calendario temperaturas semanas días">
+        <div class="section-kicker">08 · Aplicación</div>
+        <h2>Tres modelos que requieren más análisis</h2>
+        <p class="section-lead">Los últimos ejercicios no introducen una matriz nueva: combinan los mismos recorridos
+          con una forma particular de interpretar filas y columnas.</p>
+
+        <h3>Productos: filas como registros</h3>
+        <p>Cada fila representa un producto y cada columna representa un dato del producto.</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · estructura tabular</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-key">final</span> <span class="tok-type">int</span> COLUMNA_ID = <span class="tok-num">0</span>;
+<span class="tok-key">final</span> <span class="tok-type">int</span> COLUMNA_PRECIO = <span class="tok-num">1</span>;
+<span class="tok-key">final</span> <span class="tok-type">int</span> COLUMNA_CANTIDAD = <span class="tok-num">2</span>;
+<span class="tok-key">final</span> <span class="tok-type">int</span> COLUMNA_TOTAL = <span class="tok-num">3</span>;
+
+<span class="tok-type">int</span>[][] productos = <span class="tok-key">new</span> <span class="tok-type">int</span>[cantidadRegistros][<span class="tok-num">4</span>];
+
+<span class="tok-com">// Después de leer precio y cantidad de la fila i:</span>
+productos[i][COLUMNA_TOTAL] =
+        productos[i][COLUMNA_PRECIO] * productos[i][COLUMNA_CANTIDAD];</code></pre>
+        </div>
+
+        <h3>Sumar dos matrices</h3>
+        <p>La suma ocurre posición por posición. Ambas matrices deben tener exactamente las mismas dimensiones.</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · misma coordenada</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">int</span>[][] resultado = <span class="tok-key">new</span> <span class="tok-type">int</span>[matrizA.length][matrizA[<span class="tok-num">0</span>].length];
+
+<span class="tok-key">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; matrizA.length; i++) {
+    <span class="tok-key">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; matrizA[i].length; j++) {
+        resultado[i][j] = matrizA[i][j] + matrizB[i][j];
+    }
+}</code></pre>
+        </div>
+
+        <h3>Calendario: semanas y días</h3>
+        <p>La fila representa la semana; la columna representa el día de la semana. Las posiciones que no pertenecen al
+          mes deben usar un valor especial, por ejemplo <span class="inline-code">-1</span>, y excluirse de los
+          cálculos.</p>
+
+        <div class="callout danger">
+          <span class="callout-icon" aria-hidden="true">!</span>
+          <div>
+            <strong>Validación necesaria en el ejercicio 16</strong>
+            <p>Una matriz 4×7 solo tiene 28 posiciones, por lo que no puede almacenar 30 días. Además, si el día 1 es
+              miércoles, el día 30 cae jueves de una <strong>quinta semana</strong>. Antes de programar, utiliza la
+              aclaración indicada por el docente; para representar el calendario completo se requiere una matriz 5×7.
+            </p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span><span class="code-dots"><i></i><i></i><i></i></span>Java · convertir posición lineal en fila y
+              columna</span>
+            <button class="copy-btn" type="button">Copiar</button>
+          </div>
+          <pre><code><span class="tok-type">String</span>[] dias = {<span class="tok-str">"Lunes"</span>, <span class="tok-str">"Martes"</span>, <span class="tok-str">"Miércoles"</span>,
+                 <span class="tok-str">"Jueves"</span>, <span class="tok-str">"Viernes"</span>, <span class="tok-str">"Sábado"</span>, <span class="tok-str">"Domingo"</span>};
+
+<span class="tok-type">int</span> inicio = <span class="tok-num">2</span>; <span class="tok-com">// Miércoles cuando lunes corresponde a 0</span>
+<span class="tok-type">int</span> posicion = inicio + diaDelMes - <span class="tok-num">1</span>;
+<span class="tok-type">int</span> semana = posicion / <span class="tok-num">7</span>;
+<span class="tok-type">int</span> diaSemana = posicion % <span class="tok-num">7</span>;</code></pre>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <h4>Promedio semanal</h4>
+            <p>Recorre solo la fila solicitada y divide entre la cantidad de días válidos, no siempre entre 7.</p>
+          </article>
+          <article class="card">
+            <h4>Día del máximo</h4>
+            <p>Guarda la columna del valor mayor y úsala como índice en el arreglo <span
+                class="inline-code">dias</span>.</p>
+          </article>
+          <article class="card">
+            <h4>Posiciones vacías</h4>
+            <p>Comprueba <span class="inline-code">valor != -1</span> antes de sumar, promediar o comparar.</p>
+          </article>
+        </div>
+      </section>
+
+
+      <section class="doc-section" id="errores"
+        data-title="Errores comunes ArrayIndexOutOfBoundsException índices promedio entero Scanner llaves">
+        <div class="section-kicker">09 · Depuración</div>
+        <h2>Errores comunes y cómo reconocerlos</h2>
+        <p class="section-lead">Leer el mensaje de error y revisar los límites suele ser suficiente para encontrar el
+          problema.</p>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h4>ArrayIndexOutOfBoundsException</h4>
+            <p>Se intentó acceder a una posición inexistente. Revisa si usaste <span class="inline-code">&lt;=
+                matriz.length</span> en lugar de <span class="inline-code">&lt; matriz.length</span>.</p>
+          </article>
+          <article class="card">
+            <h4>Se repite o falta una celda</h4>
+            <p>Verifica que el ciclo interior use <span class="inline-code">j</span> para controlar columnas y que la
+              asignación sea <span class="inline-code">matriz[i][j]</span>.</p>
+          </article>
+          <article class="card">
+            <h4>El promedio no tiene decimales</h4>
+            <p>Al dividir enteros, Java produce división entera. Convierte la suma a <span
+                class="inline-code">double</span> o divide entre un literal como <span class="inline-code">4.0</span>.
+            </p>
+          </article>
+          <article class="card">
+            <h4>nextLine() no espera texto</h4>
+            <p>Hay un Enter pendiente después de <span class="inline-code">nextInt()</span>. Ejecuta un <span
+                class="inline-code">nextLine()</span> adicional antes de leer la palabra.</p>
+          </article>
+          <article class="card">
+            <h4>Todo aparece en una sola línea</h4>
+            <p>El <span class="inline-code">System.out.println()</span> que cambia de fila debe estar después del ciclo
+              interior, pero dentro del exterior.</p>
+          </article>
+          <article class="card">
+            <h4>El máximo señala un día vacío</h4>
+            <p>En estructuras como calendarios, descarta el valor especial de las posiciones que no pertenecen al mes.
+            </p>
+          </article>
+        </div>
+
+        <h3>El error de límite más frecuente</h3>
+        <div class="comparison">
+          <div class="comparison-card">
+            <h4 style="color: var(--danger);">Incorrecto</h4>
+            <p><span class="inline-code">i &lt;= matriz.length</span></p>
+            <p>Intenta llegar hasta un índice igual a la cantidad de filas. Ese índice no existe.</p>
+          </div>
+          <div class="comparison-vs" aria-hidden="true">→</div>
+          <div class="comparison-card">
+            <h4 style="color: var(--success);">Correcto</h4>
+            <p><span class="inline-code">i &lt; matriz.length</span></p>
+            <p>El último valor de <span class="inline-code">i</span> será <span class="inline-code">matriz.length -
+                1</span>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="eclipse"
+        data-title="Eclipse crear proyecto clase main ejecutar depurar trabajo flujo">
+        <div class="section-kicker">10 · Herramienta</div>
+        <h2>Flujo de trabajo en Eclipse</h2>
+        <p class="section-lead">Avanza en fragmentos pequeños. Un programa que compila después de cada paso es mucho más
+          fácil de corregir.</p>
+
+        <div class="steps">
+          <article class="step">
+            <strong>Crea un Java Project</strong>
+            <p>Usa un nombre reconocible, por ejemplo <span class="inline-code">EjerciciosMatrices</span>.</p>
+          </article>
+          <article class="step">
+            <strong>Crea una clase para cada ejercicio</strong>
+            <p>Ejemplos: <span class="inline-code">Ejercicio01</span>, <span class="inline-code">Ejercicio02</span>.
+              Marca la opción para generar <span class="inline-code">public static void main</span>.</p>
+          </article>
+          <article class="step">
+            <strong>Declara y muestra la matriz primero</strong>
+            <p>Antes de agregar cálculos, confirma que las dimensiones, la carga y la impresión funcionan.</p>
+          </article>
+          <article class="step">
+            <strong>Agrega un requisito a la vez</strong>
+            <p>Primero suma, ejecuta; luego promedio, ejecuta; después conteos, ejecuta.</p>
+          </article>
+          <article class="step">
+            <strong>Prueba con datos conocidos</strong>
+            <p>Antes de usar números aleatorios, utiliza valores pequeños cuyo resultado puedas calcular a mano.</p>
+          </article>
+          <article class="step">
+            <strong>Ejecuta con Run As → Java Application</strong>
+            <p>Lee la consola completa. Si aparece una excepción, la primera línea de tu clase indica dónde comenzar a
+              revisar.</p>
+          </article>
+        </div>
+
+        <details>
+          <summary>Plantilla mínima de una clase en Java</summary>
+          <div class="details-body">
+            <div class="code-block">
+              <div class="code-header">
+                <span><span class="code-dots"><i></i><i></i><i></i></span>Java · estructura inicial</span>
+                <button class="copy-btn" type="button">Copiar</button>
+              </div>
+              <pre><code><span class="tok-key">import</span> java.util.Random;
+<span class="tok-key">import</span> java.util.Scanner;
+
+<span class="tok-key">public</span> <span class="tok-key">class</span> <span class="tok-type">EjercicioMatriz</span> {
+
+    <span class="tok-key">public</span> <span class="tok-key">static</span> <span class="tok-key">void</span> <span class="tok-method">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> teclado = <span class="tok-key">new</span> <span class="tok-type">Scanner</span>(System.in);
+        <span class="tok-type">Random</span> random = <span class="tok-key">new</span> <span class="tok-type">Random</span>();
+
+        <span class="tok-com">// 1. Crear la matriz</span>
+        <span class="tok-com">// 2. Llenarla</span>
+        <span class="tok-com">// 3. Procesar los datos</span>
+        <span class="tok-com">// 4. Mostrar los resultados</span>
+
+        teclado.close();
+    }
+}</code></pre>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="doc-section" id="autoevaluacion"
+        data-title="Autoevaluación quiz preguntas práctica comprobar aprendizaje">
+        <div class="section-kicker">11 · Comprueba</div>
+        <h2>Autoevaluación rápida</h2>
+        <p class="section-lead">Selecciona una respuesta. Si fallas, vuelve a la sección indicada por la explicación.
+        </p>
+
+        <div class="quiz-question" data-answer="1" data-explanation="matriz.length representa la cantidad de filas: 3.">
+          <p>1. Si declaras <span class="inline-code">int[][] matriz = new int[3][4]</span>, ¿cuánto vale <span
+              class="inline-code">matriz.length</span>?</p>
+          <div class="quiz-options">
+            <button class="quiz-option" type="button">4</button>
+            <button class="quiz-option" type="button">3</button>
+            <button class="quiz-option" type="button">12</button>
+          </div>
+          <div class="quiz-feedback" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-question" data-answer="2"
+          data-explanation="Los índices comienzan en 0; la última fila es 2 y la última columna es 3.">
+          <p>2. ¿Cuál es la última posición válida de esa matriz 3×4?</p>
+          <div class="quiz-options">
+            <button class="quiz-option" type="button">matriz[3][4]</button>
+            <button class="quiz-option" type="button">matriz[3][3]</button>
+            <button class="quiz-option" type="button">matriz[2][3]</button>
+          </div>
+          <div class="quiz-feedback" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-question" data-answer="0"
+          data-explanation="nextInt(13) genera desde 0 hasta 12; el límite 13 queda excluido.">
+          <p>3. ¿Qué rango genera <span class="inline-code">random.nextInt(13)</span>?</p>
+          <div class="quiz-options">
+            <button class="quiz-option" type="button">0 a 12</button>
+            <button class="quiz-option" type="button">1 a 13</button>
+            <button class="quiz-option" type="button">0 a 13</button>
+          </div>
+          <div class="quiz-feedback" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-question" data-answer="1"
+          data-explanation="El ciclo exterior controla filas y el interior recorre las columnas de cada fila.">
+          <p>4. En el patrón recomendado, ¿qué controla el ciclo exterior?</p>
+          <div class="quiz-options">
+            <button class="quiz-option" type="button">Las columnas</button>
+            <button class="quiz-option" type="button">Las filas</button>
+            <button class="quiz-option" type="button">Los valores aleatorios</button>
+          </div>
+          <div class="quiz-feedback" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-question" data-answer="2"
+          data-explanation="La división entre enteros elimina la parte decimal; 4.0 obliga a realizar división con decimales.">
+          <p>5. ¿Cuál expresión conserva los decimales al promediar cuatro esquinas enteras?</p>
+          <div class="quiz-options">
+            <button class="quiz-option" type="button">suma / 4</button>
+            <button class="quiz-option" type="button">(int) suma / 4</button>
+            <button class="quiz-option" type="button">suma / 4.0</button>
+          </div>
+          <div class="quiz-feedback" aria-live="polite"></div>
+        </div>
+      </section>
+
+      
+
+      <div class="no-results" id="noResults">
+        <h3>Sin resultados</h3>
+        <p>No encontramos ese término. Prueba con “promedio”, “aleatorio”, “String”, “esquinas” o “Eclipse”.</p>
+      </div>
+
+      <footer class="page-footer">
+        <p>Guía de apoyo · Matrices en Java con Eclipse</p>
+      </footer>
+    </main>
+  </div>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Volver al inicio"
+    title="Volver al inicio">↑</button>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var body = document.body;
+      var root = document.documentElement;
+      var menuButton = document.getElementById("menuButton");
+      var mobileOverlay = document.getElementById("mobileOverlay");
+      var themeButton = document.getElementById("themeButton");
+      var printButton = document.getElementById("printButton");
+      var backToTop = document.getElementById("backToTop");
+      var readingProgress = document.getElementById("readingProgress");
+      var searchInput = document.getElementById("searchInput");
+      var searchStatus = document.getElementById("searchStatus");
+      var noResults = document.getElementById("noResults");
+      var sections = Array.prototype.slice.call(document.querySelectorAll(".doc-section"));
+      var tocLinks = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
+
+      function normalizeText(text) {
+        return text
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+      }
+
+      function setMenu(open) {
+        body.classList.toggle("menu-open", open);
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      }
+
+      menuButton.addEventListener("click", function () {
+        setMenu(!body.classList.contains("menu-open"));
+      });
+
+      mobileOverlay.addEventListener("click", function () {
+        setMenu(false);
+      });
+
+      tocLinks.forEach(function (link) {
+        link.addEventListener("click", function () {
+          setMenu(false);
+        });
+      });
+
+      var savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem("matrices-theme");
+      } catch (error) {
+        savedTheme = null;
+      }
+
+      if (savedTheme === "dark" || savedTheme === "light") {
+        root.setAttribute("data-theme", savedTheme);
+      } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        root.setAttribute("data-theme", "dark");
+      }
+
+      themeButton.addEventListener("click", function () {
+        var nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", nextTheme);
+        try {
+          localStorage.setItem("matrices-theme", nextTheme);
+        } catch (error) {
+          /* La guía continúa funcionando si el navegador bloquea el almacenamiento. */
+        }
+      });
+
+      printButton.addEventListener("click", function () {
+        window.print();
+      });
+
+      function updateScrollUI() {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+        readingProgress.style.width = progress + "%";
+        backToTop.classList.toggle("visible", scrollTop > 520);
+      }
+
+      window.addEventListener("scroll", updateScrollUI, { passive: true });
+      updateScrollUI();
+
+      backToTop.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      var copyButtons = document.querySelectorAll(".copy-btn");
+      copyButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var block = button.closest(".code-block");
+          var code = block.querySelector("code").innerText;
+
+          function showCopied() {
+            var original = button.textContent;
+            button.textContent = "✓ Copiado";
+            window.setTimeout(function () {
+              button.textContent = original;
+            }, 1500);
+          }
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(code).then(showCopied);
+          } else {
+            var area = document.createElement("textarea");
+            area.value = code;
+            area.style.position = "fixed";
+            area.style.opacity = "0";
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand("copy");
+            area.remove();
+            showCopied();
+          }
+        });
+      });
+
+      var matrixCells = document.querySelectorAll(".matrix-cell");
+      var coordinateOutput = document.getElementById("coordinateOutput");
+      matrixCells.forEach(function (cell) {
+        cell.addEventListener("click", function () {
+          matrixCells.forEach(function (other) {
+            other.classList.remove("selected");
+          });
+          cell.classList.add("selected");
+
+          var row = Number(cell.getAttribute("data-row"));
+          var col = Number(cell.getAttribute("data-col"));
+          var value = cell.getAttribute("data-value");
+          coordinateOutput.innerHTML =
+            "<small>Celda seleccionada</small>" +
+            "<strong>matriz[" + row + "][" + col + "] = " + value + "</strong>" +
+            "<p>Fila " + (row + 1) + " y columna " + (col + 1) +
+            " para una persona; índices " + row + " y " + col + " para Java.</p>";
+        });
+      });
+
+      function runSearch() {
+        var query = normalizeText(searchInput.value.trim());
+        var visibleCount = 0;
+
+        sections.forEach(function (section) {
+          var searchable = normalizeText(
+            (section.getAttribute("data-title") || "") + " " + section.textContent
+          );
+          var visible = query === "" || searchable.indexOf(query) !== -1;
+          section.classList.toggle("search-hidden", !visible);
+          if (visible) {
+            visibleCount++;
+          }
+        });
+
+        tocLinks.forEach(function (link) {
+          var id = link.getAttribute("href").slice(1);
+          var target = document.getElementById(id);
+          link.style.display = target && target.classList.contains("search-hidden") ? "none" : "";
+        });
+
+        noResults.classList.toggle("show", visibleCount === 0);
+        searchStatus.textContent = query === ""
+          ? ""
+          : visibleCount + (visibleCount === 1 ? " sección encontrada" : " secciones encontradas");
+      }
+
+      searchInput.addEventListener("input", runSearch);
+
+      document.addEventListener("keydown", function (event) {
+        var activeTag = document.activeElement && document.activeElement.tagName;
+        var isTyping = activeTag === "INPUT" || activeTag === "TEXTAREA";
+
+        if (event.key === "/" && !isTyping) {
+          event.preventDefault();
+          searchInput.focus();
+        }
+
+        if (event.key === "Escape") {
+          if (searchInput.value) {
+            searchInput.value = "";
+            runSearch();
+          }
+          searchInput.blur();
+          setMenu(false);
+        }
+      });
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          tocLinks.forEach(function (link) {
+            link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+          });
+        });
+      }, {
+        rootMargin: "-20% 0px -68% 0px",
+        threshold: 0
+      });
+
+      sections.forEach(function (section) {
+        observer.observe(section);
+      });
+
+      var quizQuestions = document.querySelectorAll(".quiz-question");
+      quizQuestions.forEach(function (question) {
+        var answer = Number(question.getAttribute("data-answer"));
+        var explanation = question.getAttribute("data-explanation");
+        var options = question.querySelectorAll(".quiz-option");
+        var feedback = question.querySelector(".quiz-feedback");
+
+        options.forEach(function (option, index) {
+          option.addEventListener("click", function () {
+            options.forEach(function (item) {
+              item.classList.remove("correct", "incorrect");
+            });
+
+            if (index === answer) {
+              option.classList.add("correct");
+              feedback.textContent = "¡Correcto! " + explanation;
+            } else {
+              option.classList.add("incorrect");
+              options[answer].classList.add("correct");
+              feedback.textContent = "Revisa: " + explanation;
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>
