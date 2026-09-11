@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Wiki práctica de Laravel con Blade, Eloquent y MySQL, trabajando sobre una base de datos existente y sin migraciones.">
+  <meta name="description"
+    content="Wiki práctica de Laravel con Blade, Eloquent y MySQL, trabajando sobre una base de datos existente y sin migraciones.">
   <title>Laravel de forma flexible</title>
   <style>
     :root {
@@ -28,17 +30,35 @@
       --shadow: 0 12px 34px rgba(31, 41, 55, .08);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
     body {
       margin: 0;
       background: var(--bg);
       color: var(--ink);
       font: 16px/1.68 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    a { color: var(--brand-dark); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    button, input { font: inherit; }
+
+    a {
+      color: var(--brand-dark);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
 
     .sidebar {
       position: fixed;
@@ -52,6 +72,7 @@
         radial-gradient(circle at 15% 0%, rgba(240, 68, 56, .24), transparent 26%),
         linear-gradient(165deg, #171b28, #202638 65%, #2b1d2f);
     }
+
     .brand {
       display: flex;
       align-items: center;
@@ -59,6 +80,7 @@
       padding: 2px 8px 19px;
       border-bottom: 1px solid rgba(255, 255, 255, .12);
     }
+
     .brand-mark {
       display: grid;
       flex: 0 0 45px;
@@ -72,8 +94,19 @@
       font-size: 1.35rem;
       font-weight: 900;
     }
-    .brand strong { display: block; color: #fff; font-size: 1.04rem; }
-    .brand small { display: block; margin-top: 1px; color: #adb8cd; }
+
+    .brand strong {
+      display: block;
+      color: #fff;
+      font-size: 1.04rem;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 1px;
+      color: #adb8cd;
+    }
+
     .search {
       width: 100%;
       margin: 18px 0 8px;
@@ -84,8 +117,20 @@
       color: #fff;
       background: rgba(255, 255, 255, .07);
     }
-    .search::placeholder { color: #aeb8cb; }
-    .search:focus { border-color: #ff7068; box-shadow: 0 0 0 3px rgba(240, 68, 56, .14); }
+
+    .search::placeholder {
+      color: #aeb8cb;
+    }
+
+    [hidden] { display: none !important; }
+
+    .search-status { color: #d1d9e8; font-size: .8rem; margin: 4px 0 10px; }
+
+    .search:focus {
+      border-color: #ff7068;
+      box-shadow: 0 0 0 3px rgba(240, 68, 56, .14);
+    }
+
     .nav-title {
       margin: 17px 10px 5px;
       color: #8e9ab2;
@@ -94,6 +139,7 @@
       letter-spacing: .11em;
       text-transform: uppercase;
     }
+
     .sidebar nav a {
       display: block;
       padding: 7px 10px;
@@ -101,6 +147,7 @@
       color: #d1d9e8;
       font-size: .87rem;
     }
+
     .sidebar nav a:hover,
     .sidebar nav a.active {
       color: #fff;
@@ -108,7 +155,10 @@
       text-decoration: none;
     }
 
-    .main { margin-left: var(--sidebar); }
+    .main {
+      margin-left: var(--sidebar);
+    }
+
     .hero {
       position: relative;
       overflow: hidden;
@@ -119,6 +169,7 @@
         radial-gradient(circle at 70% 120%, rgba(109, 74, 255, .36), transparent 38%),
         linear-gradient(125deg, #c92d25, #f04438 56%, #ff6b4f);
     }
+
     .hero::after {
       content: "{ }";
       position: absolute;
@@ -129,6 +180,7 @@
       transform: rotate(-8deg);
       pointer-events: none;
     }
+
     .eyebrow {
       position: relative;
       z-index: 1;
@@ -138,6 +190,7 @@
       letter-spacing: .13em;
       text-transform: uppercase;
     }
+
     .hero h1 {
       position: relative;
       z-index: 1;
@@ -147,6 +200,7 @@
       line-height: 1.04;
       letter-spacing: -.035em;
     }
+
     .hero p {
       position: relative;
       z-index: 1;
@@ -155,7 +209,9 @@
       color: #fff0ee;
       font-size: 1.13rem;
     }
-    .chips, .flow {
+
+    .chips,
+    .flow {
       position: relative;
       z-index: 1;
       display: flex;
@@ -163,7 +219,9 @@
       gap: 8px;
       margin-top: 25px;
     }
-    .chip, .flow span {
+
+    .chip,
+    .flow span {
       padding: 7px 11px;
       border: 1px solid rgba(255, 255, 255, .32);
       border-radius: 999px;
@@ -172,7 +230,12 @@
       font-size: .83rem;
     }
 
-    .content { max-width: 1120px; margin: auto; padding: 34px 44px 82px; }
+    .content {
+      max-width: 1120px;
+      margin: auto;
+      padding: 34px 44px 82px;
+    }
+
     .section {
       margin: 0 0 25px;
       padding: 32px;
@@ -181,11 +244,33 @@
       background: var(--card);
       box-shadow: 0 7px 25px rgba(31, 41, 55, .045);
     }
-    .section h2 { margin: 0 0 10px; color: #20283a; font-size: 1.72rem; line-height: 1.2; }
-    .section h3 { margin: 1.75em 0 .42em; color: #9f261f; font-size: 1.14rem; }
-    .section h3:first-child { margin-top: 0; }
-    .section p:last-child { margin-bottom: 0; }
-    .lead { color: #536074; font-size: 1.06rem; }
+
+    .section h2 {
+      margin: 0 0 10px;
+      color: #20283a;
+      font-size: 1.72rem;
+      line-height: 1.2;
+    }
+
+    .section h3 {
+      margin: 1.75em 0 .42em;
+      color: #9f261f;
+      font-size: 1.14rem;
+    }
+
+    .section h3:first-child {
+      margin-top: 0;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .lead {
+      color: #536074;
+      font-size: 1.06rem;
+    }
+
     .tag {
       display: inline-block;
       margin-bottom: 8px;
@@ -196,16 +281,35 @@
       font-size: .75rem;
       font-weight: 800;
     }
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 17px 0; }
-    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 17px 0;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .card {
       padding: 19px;
       border: 1px solid var(--line);
       border-radius: 12px;
       background: #fbfcfe;
     }
-    .card h3 { margin: 0 0 5px; color: #9f261f; }
-    .card p { margin: 0; color: #596579; }
+
+    .card h3 {
+      margin: 0 0 5px;
+      color: #9f261f;
+    }
+
+    .card p {
+      margin: 0;
+      color: #596579;
+    }
+
     .mini-flow {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -213,6 +317,7 @@
       margin: 20px 0;
       counter-reset: flow-step;
     }
+
     .mini-flow div {
       position: relative;
       padding: 35px 10px 12px;
@@ -223,6 +328,7 @@
       font-size: .84rem;
       font-weight: 750;
     }
+
     .mini-flow div::before {
       counter-increment: flow-step;
       content: counter(flow-step);
@@ -247,12 +353,36 @@
       border-radius: 9px;
       background: #eef7ff;
     }
-    .callout strong { display: block; margin-bottom: 2px; }
-    .callout.info { border-color: var(--info); background: #eef7ff; }
-    .callout.success { border-color: var(--ok); background: #edf9f4; }
-    .callout.warning { border-color: #e89a27; background: #fff8e9; }
-    .callout.danger { border-color: var(--danger); background: #fff0ef; }
-    .callout.note { border-color: var(--accent); background: var(--accent-soft); }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .callout.info {
+      border-color: var(--info);
+      background: #eef7ff;
+    }
+
+    .callout.success {
+      border-color: var(--ok);
+      background: #edf9f4;
+    }
+
+    .callout.warning {
+      border-color: #e89a27;
+      background: #fff8e9;
+    }
+
+    .callout.danger {
+      border-color: var(--danger);
+      background: #fff0ef;
+    }
+
+    .callout.note {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
 
     .code {
       position: relative;
@@ -263,6 +393,7 @@
       background: var(--code);
       box-shadow: 0 8px 20px rgba(17, 24, 39, .08);
     }
+
     .code .label {
       min-height: 37px;
       padding: 8px 88px 8px 14px;
@@ -271,6 +402,7 @@
       background: #1d2738;
       font-size: .75rem;
     }
+
     .code pre {
       margin: 0;
       padding: 18px;
@@ -279,6 +411,7 @@
       tab-size: 4;
       white-space: pre;
     }
+
     .copy {
       position: absolute;
       top: 6px;
@@ -290,24 +423,84 @@
       background: #344158;
       cursor: pointer;
     }
-    .copy:hover { background: var(--brand); }
-    .syntax-highlighted .tok-comment { color: #8b9bb4; font-style: italic; }
-    .syntax-highlighted .tok-keyword { color: #ff7ab2; font-weight: 650; }
-    .syntax-highlighted .tok-string { color: #a7e57b; }
-    .syntax-highlighted .tok-number { color: #ffd166; }
-    .syntax-highlighted .tok-variable { color: #7dd3fc; }
-    .syntax-highlighted .tok-function { color: #c4b5fd; }
-    .syntax-highlighted .tok-class { color: #fbbf7a; }
-    .syntax-highlighted .tok-operator { color: #ff9d76; }
-    .syntax-highlighted .tok-directive { color: #fb7185; font-weight: 650; }
-    .syntax-highlighted .tok-command { color: #5eead4; font-weight: 700; }
-    .syntax-highlighted .tok-flag { color: #f0abfc; }
-    .syntax-highlighted .tok-tag { color: #67e8f9; }
-    .syntax-highlighted .tok-attribute { color: #fbbf24; }
-    .syntax-highlighted .tok-key { color: #7dd3fc; font-weight: 650; }
-    .syntax-highlighted .tok-value { color: #a7e57b; }
-    .syntax-highlighted .tok-path { color: #f9d88b; }
-    .syntax-highlighted .tok-tree { color: #718096; }
+
+    .copy:hover {
+      background: var(--brand);
+    }
+
+    .syntax-highlighted .tok-comment {
+      color: #8b9bb4;
+      font-style: italic;
+    }
+
+    .syntax-highlighted .tok-keyword {
+      color: #ff7ab2;
+      font-weight: 650;
+    }
+
+    .syntax-highlighted .tok-string {
+      color: #a7e57b;
+    }
+
+    .syntax-highlighted .tok-number {
+      color: #ffd166;
+    }
+
+    .syntax-highlighted .tok-variable {
+      color: #7dd3fc;
+    }
+
+    .syntax-highlighted .tok-function {
+      color: #c4b5fd;
+    }
+
+    .syntax-highlighted .tok-class {
+      color: #fbbf7a;
+    }
+
+    .syntax-highlighted .tok-operator {
+      color: #ff9d76;
+    }
+
+    .syntax-highlighted .tok-directive {
+      color: #fb7185;
+      font-weight: 650;
+    }
+
+    .syntax-highlighted .tok-command {
+      color: #5eead4;
+      font-weight: 700;
+    }
+
+    .syntax-highlighted .tok-flag {
+      color: #f0abfc;
+    }
+
+    .syntax-highlighted .tok-tag {
+      color: #67e8f9;
+    }
+
+    .syntax-highlighted .tok-attribute {
+      color: #fbbf24;
+    }
+
+    .syntax-highlighted .tok-key {
+      color: #7dd3fc;
+      font-weight: 650;
+    }
+
+    .syntax-highlighted .tok-value {
+      color: #a7e57b;
+    }
+
+    .syntax-highlighted .tok-path {
+      color: #f9d88b;
+    }
+
+    .syntax-highlighted .tok-tree {
+      color: #718096;
+    }
+
     code:not(pre code) {
       padding: 2px 6px;
       border-radius: 5px;
@@ -315,6 +508,7 @@
       background: #fff0ee;
       font: .92em Consolas, "Courier New", monospace;
     }
+
     kbd {
       padding: 2px 7px;
       border: 1px solid #bec7d5;
@@ -324,15 +518,55 @@
       font: .82rem Consolas, monospace;
     }
 
-    table { display: block; width: 100%; margin: 17px 0; overflow-x: auto; border-collapse: collapse; }
-    th, td { min-width: 120px; padding: 10px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
-    th { color: #7e251f; background: #fff1ef; }
-    tbody tr:nth-child(even) { background: #fbfcfe; }
-    ul, ol { padding-left: 23px; }
-    li + li { margin-top: 6px; }
-    .steps { counter-reset: item; list-style: none; padding: 0; }
-    .steps > li { position: relative; min-height: 42px; padding: 4px 0 20px 52px; counter-increment: item; }
-    .steps > li::before {
+    table {
+      display: block;
+      width: 100%;
+      margin: 17px 0;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      min-width: 120px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #7e251f;
+      background: #fff1ef;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fbfcfe;
+    }
+
+    ul,
+    ol {
+      padding-left: 23px;
+    }
+
+    li+li {
+      margin-top: 6px;
+    }
+
+    .steps {
+      counter-reset: item;
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps>li {
+      position: relative;
+      min-height: 42px;
+      padding: 4px 0 20px 52px;
+      counter-increment: item;
+    }
+
+    .steps>li::before {
       content: counter(item);
       position: absolute;
       left: 0;
@@ -346,22 +580,78 @@
       background: var(--brand);
       font-weight: 850;
     }
-    .checklist { list-style: none; padding: 0; }
-    .checklist li { position: relative; padding: 9px 0 9px 31px; border-bottom: 1px solid #edf0f5; }
-    .checklist li::before { content: "✓"; position: absolute; left: 4px; color: var(--ok); font-weight: 900; }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding: 9px 0 9px 31px;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 4px;
+      color: var(--ok);
+      font-weight: 900;
+    }
+
     .file-tree {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 9px;
       margin: 16px 0;
     }
-    .file-tree div { padding: 11px 13px; border: 1px solid var(--line); border-radius: 9px; background: #fafbfe; }
-    .file-tree b { display: block; color: #8f2822; font-family: Consolas, monospace; }
-    .file-tree span { color: var(--muted); font-size: .88rem; }
-    .no-results { display: none; padding: 45px 20px; color: var(--muted); text-align: center; }
-    .no-results button { margin-top: 10px; padding: 8px 13px; border: 0; border-radius: 8px; color: #fff; background: var(--brand); cursor: pointer; }
-    .sources a { overflow-wrap: anywhere; }
-    footer { padding: 22px 0 4px; color: var(--muted); text-align: center; font-size: .88rem; }
+
+    .file-tree div {
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fafbfe;
+    }
+
+    .file-tree b {
+      display: block;
+      color: #8f2822;
+      font-family: Consolas, monospace;
+    }
+
+    .file-tree span {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .no-results {
+      display: none;
+      padding: 45px 20px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .no-results button {
+      margin-top: 10px;
+      padding: 8px 13px;
+      border: 0;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--brand);
+      cursor: pointer;
+    }
+
+    .sources a {
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      padding: 22px 0 4px;
+      color: var(--muted);
+      text-align: center;
+      font-size: .88rem;
+    }
 
     .menu-btn {
       display: none;
@@ -377,8 +667,23 @@
       box-shadow: 0 7px 22px rgba(0, 0, 0, .23);
       cursor: pointer;
     }
-    .backdrop { display: none; position: fixed; inset: 0; z-index: 20; border: 0; background: rgba(10, 15, 25, .48); }
-    .toolbar { position: fixed; right: 18px; bottom: 18px; z-index: 15; }
+
+    .backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      border: 0;
+      background: rgba(10, 15, 25, .48);
+    }
+
+    .toolbar {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 15;
+    }
+
     .toolbar button {
       padding: 11px 15px;
       border: 0;
@@ -388,61 +693,208 @@
       box-shadow: 0 7px 22px rgba(0, 0, 0, .2);
       cursor: pointer;
     }
-    .toolbar button:hover { background: var(--brand); }
+
+    .toolbar button:hover {
+      background: var(--brand);
+    }
 
     @media (max-width: 1000px) {
-      .mini-flow { grid-template-columns: repeat(3, 1fr); }
+      .mini-flow {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
+
     @media (max-width: 850px) {
-      .sidebar { transform: translateX(-100%); transition: transform .24s ease; }
-      .sidebar.open { transform: none; }
-      .sidebar.open + .backdrop { display: block; }
-      .main { margin-left: 0; }
-      .menu-btn { display: block; }
-      .hero { padding: 78px 22px 45px; }
-      .content { padding: 25px 15px 76px; }
-      .section { padding: 24px 19px; }
-      .grid, .grid.two { grid-template-columns: 1fr; }
-      .file-tree { grid-template-columns: 1fr; }
-      .hero::after { right: -40px; font-size: 140px; }
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform .24s ease;
+      }
+
+      .sidebar.open {
+        transform: none;
+      }
+
+      .sidebar.open+.backdrop {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .hero {
+        padding: 78px 22px 45px;
+      }
+
+      .content {
+        padding: 25px 15px 76px;
+      }
+
+      .section {
+        padding: 24px 19px;
+      }
+
+      .grid,
+      .grid.two {
+        grid-template-columns: 1fr;
+      }
+
+      .file-tree {
+        grid-template-columns: 1fr;
+      }
+
+      .hero::after {
+        right: -40px;
+        font-size: 140px;
+      }
     }
+
     @media (max-width: 540px) {
-      .mini-flow { grid-template-columns: repeat(2, 1fr); }
-      .section h2 { font-size: 1.48rem; }
-      .hero h1 { font-size: 2.35rem; }
-      .toolbar { right: 12px; bottom: 12px; }
-      .toolbar button { padding: 10px 12px; font-size: .84rem; }
+      .mini-flow {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section h2 {
+        font-size: 1.48rem;
+      }
+
+      .hero h1 {
+        font-size: 2.35rem;
+      }
+
+      .toolbar {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .toolbar button {
+        padding: 10px 12px;
+        font-size: .84rem;
+      }
     }
+
     @media print {
-      @page { margin: 1.4cm; }
-      body { color: #111; background: #fff; font-size: 10.5pt; }
-      .sidebar, .menu-btn, .backdrop, .toolbar, .copy { display: none !important; }
-      .main { margin: 0; }
-      .hero { padding: 20px 0; border-bottom: 2px solid #222; color: #111; background: #fff !important; }
-      .hero::after { display: none; }
-      .hero p, .eyebrow { color: #333; }
-      .chips, .flow { margin-top: 14px; }
-      .chip, .flow span { border-color: #777; color: #111; background: #fff; }
-      .content { max-width: none; padding: 16px 0; }
-      .section { margin: 0; padding: 18px 0; border: 0; border-bottom: 1px solid #bbb; border-radius: 0; box-shadow: none; }
-      h2, h3, .callout, .card, .code, table { break-inside: avoid; }
-      .code { border: 1px solid #555; color: #111; background: #f5f5f5; box-shadow: none; }
-      .code .label { border-bottom-color: #999; color: #111; background: #ddd; }
-      .syntax-highlighted span { color: #111 !important; font-style: normal !important; }
-      .tag, code:not(pre code) { color: #111; background: #eee; }
-      a { color: #111; text-decoration: underline; }
+      @page {
+        margin: 1.4cm;
+      }
+
+      body {
+        color: #111;
+        background: #fff;
+        font-size: 10.5pt;
+      }
+
+      .sidebar,
+      .menu-btn,
+      .backdrop,
+      .toolbar,
+      .copy {
+        display: none !important;
+      }
+
+      .main {
+        margin: 0;
+      }
+
+      .hero {
+        padding: 20px 0;
+        border-bottom: 2px solid #222;
+        color: #111;
+        background: #fff !important;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .hero p,
+      .eyebrow {
+        color: #333;
+      }
+
+      .chips,
+      .flow {
+        margin-top: 14px;
+      }
+
+      .chip,
+      .flow span {
+        border-color: #777;
+        color: #111;
+        background: #fff;
+      }
+
+      .content {
+        max-width: none;
+        padding: 16px 0;
+      }
+
+      .section {
+        margin: 0;
+        padding: 18px 0;
+        border: 0;
+        border-bottom: 1px solid #bbb;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      h2,
+      h3,
+      .callout,
+      .card,
+      .code,
+      table {
+        break-inside: avoid;
+      }
+
+      .code {
+        border: 1px solid #555;
+        color: #111;
+        background: #f5f5f5;
+        box-shadow: none;
+      }
+
+      .code .label {
+        border-bottom-color: #999;
+        color: #111;
+        background: #ddd;
+      }
+
+      .syntax-highlighted span {
+        color: #111 !important;
+        font-style: normal !important;
+      }
+
+      .tag,
+      code:not(pre code) {
+        color: #111;
+        background: #eee;
+      }
+
+      a {
+        color: #111;
+        text-decoration: underline;
+      }
     }
   </style>
 </head>
+
 <body>
-  <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">☰ Menú</button>
+  <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">☰
+    Menú</button>
 
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="brand-mark">L</div>
-      <div><strong>Desarrollo web</strong><small>Laravel de forma flexible</small></div>
+      <div><strong>Laravel</strong><small>M.Sc. Olivier Blanco Sandí</small></div>
     </div>
-    <input class="search" id="search" type="search" placeholder="Buscar: modelo, ruta, .env…" aria-label="Buscar contenido">
+    <input class="search" id="search" type="search" placeholder="Buscar: modelo, ruta, .env…"
+      aria-label="Buscar contenido">
+    <div id="searchStatus" class="search-status" role="status" aria-live="polite"></div>
     <nav aria-label="Contenido de la wiki">
       <div class="nav-title">Orientación</div>
       <a href="#inicio">Inicio</a>
@@ -456,6 +908,9 @@
       <a href="#entorno">Configurar .env</a>
       <a href="#sql">Base de datos sin migraciones</a>
 
+      <div class="nav-title">Rutas y navegación</div>
+      <a href="#rutas">Rutas</a>
+
       <div class="nav-title">Modelo y datos</div>
       <a href="#modelos">Modelos</a>
       <a href="#relaciones">Relaciones</a>
@@ -465,6 +920,7 @@
       <a href="#resource">Controlador resource</a>
       <a href="#anidadas">Rutas anidadas</a>
       <a href="#controlador">Controlador completo</a>
+      <a href="#plantillas">Plantillas Blade</a>
       <a href="#blade">Formularios Blade</a>
 
       <div class="nav-title">Cierre</div>
@@ -483,7 +939,8 @@
     <header class="hero" id="inicio">
       <div class="eyebrow">Wiki de clase · enfoque práctico</div>
       <h1>Laravel de forma flexible</h1>
-      <p>Guía esencial para construir un CRUD con Laravel, Blade, Eloquent y una base de datos MySQL existente, sin depender de migraciones ni de herramientas frontend adicionales.</p>
+      <p>Guía esencial para construir un CRUD con Laravel, Blade, Eloquent y una base de datos MySQL existente, sin
+        depender de migraciones ni de herramientas frontend adicionales.</p>
       <div class="chips">
         <span class="chip">Laravel</span>
         <span class="chip">Blade</span>
@@ -505,7 +962,8 @@
       <section class="section" id="objetivo">
         <span class="tag">Objetivo</span>
         <h2>Comprender un flujo completo, sin complicarlo</h2>
-        <p class="lead">Laravel ofrece muchas herramientas, pero para construir un sistema web tradicional primero deben dominar una ruta sencilla: solicitud, controlador, modelo, base de datos y vista.</p>
+        <p class="lead">Laravel ofrece muchas herramientas, pero para construir un sistema web tradicional primero deben
+          dominar una ruta sencilla: solicitud, controlador, modelo, base de datos y vista.</p>
         <div class="mini-flow">
           <div>Navegador</div>
           <div>Ruta</div>
@@ -515,24 +973,44 @@
           <div>Vista Blade</div>
         </div>
         <div class="grid">
-          <div class="card"><h3>Trabajaremos con</h3><p>Rutas resource, controladores, modelos Eloquent, relaciones, validación y vistas Blade.</p></div>
-          <div class="card"><h3>No necesitamos todavía</h3><p>Autenticación avanzada, colas, eventos, servicios, repositorios, Docker o una arquitectura SPA.</p></div>
-          <div class="card"><h3>Base de datos existente</h3><p>La estructura se administra en MySQL y se conserva mediante un archivo SQL versionado.</p></div>
+          <div class="card">
+            <h3>Trabajaremos con</h3>
+            <p>Rutas resource, controladores, modelos Eloquent, relaciones, validación y vistas Blade.</p>
+          </div>
+          <div class="card">
+            <h3>No necesitamos todavía</h3>
+            <p>Autenticación avanzada, colas, eventos, servicios, repositorios, Docker o una arquitectura SPA.</p>
+          </div>
+          <div class="card">
+            <h3>Base de datos existente</h3>
+            <p>La estructura se administra en MySQL y se conserva mediante un archivo SQL versionado.</p>
+          </div>
         </div>
-        <div class="callout success"><strong>Meta de aprendizaje</strong>Al finalizar, deben poder explicar qué archivo recibe cada solicitud, dónde se valida, cómo se consulta MySQL y cuál vista presenta el resultado.</div>
+        <div class="callout success"><strong>Meta de aprendizaje</strong>Al finalizar, deben poder explicar qué archivo
+          recibe cada solicitud, dónde se valida, cómo se consulta MySQL y cuál vista presenta el resultado.</div>
       </section>
 
       <section class="section" id="version">
         <span class="tag">1</span>
         <h2>Definir la versión antes de comenzar</h2>
-        <p>Todos los integrantes del curso deben trabajar con la misma versión principal de Laravel y una versión de PHP compatible. Una diferencia de versiones puede cambiar requisitos, archivos iniciales o comportamiento.</p>
-        <div class="code"><div class="label">Comprobar herramientas</div><button class="copy" type="button">Copiar</button><pre>php -v
-composer --version</pre></div>
+        <p>Todos los integrantes del curso deben trabajar con la misma versión principal de Laravel y una versión de PHP
+          compatible. Una diferencia de versiones puede cambiar requisitos, archivos iniciales o comportamiento.</p>
+        <div class="code">
+          <div class="label">Comprobar herramientas</div><button class="copy" type="button">Copiar</button>
+          <pre>php -v
+composer --version</pre>
+        </div>
         <p>Después de crear el proyecto:</p>
-        <div class="code"><div class="label">Comprobar Laravel</div><button class="copy" type="button">Copiar</button><pre>php artisan --version
-php artisan about</pre></div>
-        <div class="callout warning"><strong>Laravel 13</strong>Requiere PHP 8.3 o superior. Si el entorno del curso utiliza otra versión de PHP, el docente indicará la versión de Laravel correspondiente.</div>
-        <div class="callout danger"><strong>No fuerce una instalación incompatible</strong>Evite <code>--ignore-platform-reqs</code>. El proyecto podría instalarse y fallar posteriormente porque PHP o alguna extensión no cumple los requisitos.</div>
+        <div class="code">
+          <div class="label">Comprobar Laravel</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan --version
+php artisan about</pre>
+        </div>
+        <div class="callout warning"><strong>Laravel 13</strong>Requiere PHP 8.3 o superior. Si el entorno del curso
+          utiliza otra versión de PHP, el docente indicará la versión de Laravel correspondiente.</div>
+        <div class="callout danger"><strong>No fuerce una instalación incompatible</strong>Evite
+          <code>--ignore-platform-reqs</code>. El proyecto podría instalarse y fallar posteriormente porque PHP o alguna
+          extensión no cumple los requisitos.</div>
       </section>
 
       <section class="section" id="crear">
@@ -540,38 +1018,80 @@ php artisan about</pre></div>
         <h2>Crear y ejecutar un proyecto</h2>
         <h3>Opción A: Composer</h3>
         <p>No requiere instalar globalmente Laravel Installer. Descarga el proyecto y sus dependencias directamente.</p>
-        <div class="code"><div class="label">Terminal</div><button class="copy" type="button">Copiar</button><pre>composer create-project laravel/laravel nombre_proyecto</pre></div>
+        <div class="code">
+          <div class="label">Terminal</div><button class="copy" type="button">Copiar</button>
+          <pre>composer create-project laravel/laravel:^12.0 nombre_proyecto</pre>
+        </div>
+        <p>Se debe descomentar (eliminar el ;) <code>extension=zip</code> en xampp/php/php.ini.</p>
         <h3>Opción B: Laravel Installer</h3>
         <p>El primer comando se ejecuta una sola vez en la computadora.</p>
-        <div class="code"><div class="label">Terminal</div><button class="copy" type="button">Copiar</button><pre>composer global require laravel/installer
-laravel new nombre_proyecto</pre></div>
+        <div class="code">
+          <div class="label">Terminal</div><button class="copy" type="button">Copiar</button>
+          <pre>composer global require laravel/installer
+laravel new nombre_proyecto</pre>
+        </div>
         <h3>Ejecutar localmente</h3>
-        <div class="code"><div class="label">Terminal, dentro del proyecto</div><button class="copy" type="button">Copiar</button><pre>cd nombre_proyecto
-php artisan serve</pre></div>
-        <p>El servidor integrado suele quedar disponible en <a href="http://localhost:8000" target="_blank" rel="noopener">http://localhost:8000</a>. Se utiliza únicamente para desarrollo local.</p>
-        <div class="callout info"><strong>Con XAMPP y Virtual Hosts</strong>No es necesario ejecutar <code>php artisan serve</code>. El <code>DocumentRoot</code> del dominio local debe apuntar a la carpeta <code>public</code> del proyecto.</div>
+        <div class="code">
+          <div class="label">Terminal, dentro del proyecto</div><button class="copy" type="button">Copiar</button>
+          <pre>cd nombre_proyecto
+php artisan serve</pre>
+        </div>
+        <p>El servidor integrado suele quedar disponible en <a href="http://localhost:8000" target="_blank"
+            rel="noopener">http://localhost:8000</a>. Se utiliza únicamente para desarrollo local.</p>
+        <div class="callout info"><strong>Con XAMPP y Virtual Hosts</strong>No es necesario ejecutar
+          <code>php artisan serve</code>. El <code>DocumentRoot</code> del dominio local debe apuntar a la carpeta
+          <code>public</code> del proyecto.</div>
       </section>
 
       <section class="section" id="composer">
         <span class="tag">3</span>
         <h2>Usar Composer correctamente</h2>
         <table>
-          <thead><tr><th>Comando</th><th>Uso correcto</th><th>¿Modifica composer.lock?</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Uso correcto</th>
+              <th>¿Modifica composer.lock?</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td><code>composer install</code></td><td>Instala en <code>vendor</code> las versiones exactas registradas en <code>composer.lock</code>. Úselo después de clonar o descargar.</td><td>No, si el archivo ya existe.</td></tr>
-            <tr><td><code>composer update</code></td><td>Busca versiones nuevas permitidas por <code>composer.json</code>. Ejecútelo únicamente cuando se desea actualizar dependencias.</td><td>Sí.</td></tr>
-            <tr><td><code>composer install --no-dev --optimize-autoloader</code></td><td>Instala dependencias de producción, omite paquetes de desarrollo y optimiza la carga de clases.</td><td>No.</td></tr>
-            <tr><td><code>composer dump-autoload</code></td><td>Regenera el cargador de clases. Puede ayudar después de mover o crear clases manualmente.</td><td>No.</td></tr>
+            <tr>
+              <td><code>composer install</code></td>
+              <td>Instala en <code>vendor</code> las versiones exactas registradas en <code>composer.lock</code>. Úselo
+                después de clonar o descargar.</td>
+              <td>No, si el archivo ya existe.</td>
+            </tr>
+            <tr>
+              <td><code>composer update</code></td>
+              <td>Busca versiones nuevas permitidas por <code>composer.json</code>. Ejecútelo únicamente cuando se desea
+                actualizar dependencias.</td>
+              <td>Sí.</td>
+            </tr>
+            <tr>
+              <td><code>composer install --no-dev --optimize-autoloader</code></td>
+              <td>Instala dependencias de producción, omite paquetes de desarrollo y optimiza la carga de clases.</td>
+              <td>No.</td>
+            </tr>
+            <tr>
+              <td><code>composer dump-autoload</code></td>
+              <td>Regenera el cargador de clases. Puede ayudar después de mover o crear clases manualmente.</td>
+              <td>No.</td>
+            </tr>
           </tbody>
         </table>
-        <div class="callout danger"><strong>No utilice update para reparar el proyecto</strong><code>composer update</code> puede cambiar muchas versiones a la vez. Para reconstruir <code>vendor</code> a partir del proyecto recibido, normalmente corresponde <code>composer install</code>.</div>
-        <div class="callout note"><strong>En Git</strong>Se conserva <code>composer.json</code> y <code>composer.lock</code>. La carpeta <code>vendor</code> normalmente no se versiona.</div>
+        <div class="callout danger"><strong>No utilice update para reparar el
+            proyecto</strong><code>composer update</code> puede cambiar muchas versiones a la vez. Para reconstruir
+          <code>vendor</code> a partir del proyecto recibido, normalmente corresponde <code>composer install</code>.
+        </div>
+        <div class="callout note"><strong>En Git</strong>Se conserva <code>composer.json</code> y
+          <code>composer.lock</code>. La carpeta <code>vendor</code> normalmente no se versiona.</div>
       </section>
 
       <section class="section" id="estructura">
         <span class="tag">4</span>
         <h2>Ubicar las carpetas esenciales</h2>
-        <p>No es necesario memorizar todo el proyecto. Para un CRUD básico, estas ubicaciones concentran la mayor parte del trabajo:</p>
+        <p>No es necesario memorizar todo el proyecto. Para un CRUD básico, estas ubicaciones concentran la mayor parte
+          del trabajo:</p>
         <div class="file-tree">
           <div><b>app/Models</b><span>Modelos Eloquent y relaciones.</span></div>
           <div><b>app/Http/Controllers</b><span>Controladores y lógica de cada solicitud.</span></div>
@@ -582,14 +1102,18 @@ php artisan serve</pre></div>
           <div><b>config</b><span>Configuración interna de la aplicación.</span></div>
           <div><b>.env</b><span>Valores propios de cada computadora o servidor.</span></div>
         </div>
-        <div class="callout warning"><strong>No edite vendor</strong>Su contenido pertenece a Composer y puede reemplazarse al instalar dependencias.</div>
+        <div class="callout warning"><strong>No edite vendor</strong>Su contenido pertenece a Composer y puede
+          reemplazarse al instalar dependencias.</div>
       </section>
 
       <section class="section" id="entorno">
         <span class="tag">5</span>
         <h2>Configurar .env para MySQL</h2>
-        <p>Laravel reciente inicia normalmente con SQLite. Para utilizar una base MySQL existente, modifique las variables <code>DB_*</code> del archivo <code>.env</code>.</p>
-        <div class="code"><div class="label">.env · desarrollo local</div><button class="copy" type="button">Copiar</button><pre>APP_NAME="Sistema de Personas"
+        <p>Laravel reciente inicia normalmente con SQLite. Para utilizar una base MySQL existente, modifique las
+          variables <code>DB_*</code> del archivo <code>.env</code>.</p>
+        <div class="code">
+          <div class="label">.env · desarrollo local</div><button class="copy" type="button">Copiar</button>
+          <pre>APP_NAME="Sistema de Personas"
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
@@ -605,16 +1129,23 @@ DB_PASSWORD=
 
 SESSION_DRIVER=file
 CACHE_STORE=file
-QUEUE_CONNECTION=sync</pre></div>
-        <div class="callout danger"><strong>Importante cuando no se usan migraciones</strong>Las instalaciones actuales pueden configurar sesiones, caché y colas con el controlador <code>database</code>. Eso requiere tablas adicionales. Para el enfoque de esta guía se utilizarán <code>file</code> y <code>sync</code>.</div>
-        <div class="callout info"><strong>APP_KEY</strong>Si ya contiene una clave, no la cambie. Si está vacía en una instalación nueva, ejecute una sola vez <code>php artisan key:generate</code>.</div>
-        <div class="callout warning"><strong>.env no se comparte en Git</strong>Cada computadora y cada servidor posee credenciales distintas. Mantenga actualizado <code>.env.example</code>, pero sin contraseñas ni claves reales.</div>
+QUEUE_CONNECTION=sync</pre>
+        </div>
+        <div class="callout danger"><strong>Importante cuando no se usan migraciones</strong>Las instalaciones actuales
+          pueden configurar sesiones, caché y colas con el controlador <code>database</code>. Eso requiere tablas
+          adicionales. Para el enfoque de esta guía se utilizarán <code>file</code> y <code>sync</code>.</div>
+        <div class="callout info"><strong>APP_KEY</strong>Si ya contiene una clave, no la cambie. Si está vacía en una
+          instalación nueva, ejecute una sola vez <code>php artisan key:generate</code>.</div>
+        <div class="callout warning"><strong>.env no se comparte en Git</strong>Cada computadora y cada servidor posee
+          credenciales distintas. Mantenga actualizado <code>.env.example</code>, pero sin contraseñas ni claves reales.
+        </div>
       </section>
 
       <section class="section" id="sql">
         <span class="tag">6</span>
         <h2>Trabajar sin migraciones de forma reproducible</h2>
-        <p class="lead">Laravel no obliga a utilizar migraciones. Puede conectarse a tablas ya creadas, pero el proyecto debe conservar una forma clara de reconstruir su estructura.</p>
+        <p class="lead">Laravel no obliga a utilizar migraciones. Puede conectarse a tablas ya creadas, pero el proyecto
+          debe conservar una forma clara de reconstruir su estructura.</p>
         <ol class="steps">
           <li>Cree la base de datos directamente en MySQL o phpMyAdmin.</li>
           <li>Defina llaves primarias, foráneas, índices y tipos de datos.</li>
@@ -622,18 +1153,242 @@ QUEUE_CONNECTION=sync</pre></div>
           <li>Guarde el archivo dentro del proyecto y actualícelo cuando cambie el esquema.</li>
           <li>Importe ese archivo al preparar otra computadora o servidor.</li>
         </ol>
-        <div class="code"><div class="label">Organización recomendada</div><button class="copy" type="button">Copiar</button><pre>database/
+        <div class="code">
+          <div class="label">Organización recomendada</div><button class="copy" type="button">Copiar</button>
+          <pre>database/
 └── sql/
-    └── esquema.sql</pre></div>
-        <div class="callout success"><strong>El archivo SQL reemplaza la función de reproducción</strong>No debe contener contraseñas ni información real de clientes. Incluya la estructura y, solo cuando sea necesario, datos de catálogo o prueba.</div>
-        <div class="callout note"><strong>Sobre database/migrations</strong>Los archivos predeterminados pueden permanecer sin utilizar. No ejecute <code>php artisan migrate</code> salvo que el docente lo solicite expresamente.</div>
+    └── esquema.sql</pre>
+        </div>
+        <div class="callout success"><strong>El archivo SQL reemplaza la función de reproducción</strong>No debe
+          contener contraseñas ni información real de clientes. Incluya la estructura y, solo cuando sea necesario,
+          datos de catálogo o prueba.</div>
+        <div class="callout note"><strong>Sobre database/migrations</strong>Los archivos predeterminados pueden
+          permanecer sin utilizar. No ejecute <code>php artisan migrate</code> salvo que el docente lo solicite
+          expresamente.</div>
+      </section>
+
+      <section class="section" id="rutas">
+        <span class="tag">7</span>
+        <h2>Definir rutas y controlar la navegación</h2>
+        <p class="lead">Las rutas reciben una solicitud del navegador y determinan qué respuesta debe generar la
+          aplicación. Se definen principalmente en <code>routes/web.php</code>.</p>
+
+        <h3>Rutas simples</h3>
+        <p>Una ruta puede devolver texto directamente o cargar una vista Blade.</p>
+        <div class="code">
+          <div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button>
+          <pre>use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('inicio');
+});
+
+Route::get('/saludo', function () {
+    return 'Hola desde Laravel';
+});</pre>
+        </div>
+
+        <h3>Rutas con parámetros</h3>
+        <p>Los parámetros permiten recibir valores directamente desde la dirección de la página, como el identificador
+          de una persona.</p>
+        <div class="code">
+          <div class="label">Parámetro obligatorio</div><button class="copy" type="button">Copiar</button>
+          <pre>Route::get('/personas/{id}', function ($id) {
+    return 'Persona número: ' . $id;
+});</pre>
+        </div>
+
+        <p>También pueden enviarse como parámetros a un método de controlador:</p>
+        <div class="code">
+          <div class="label">Parámetro en un controlador</div><button class="copy" type="button">Copiar</button>
+          <pre>Route::get('/personas/{id}', [ControllerPersona::class, 'show'])
+    -&gt;name('personas.show');</pre>
+        </div>
+
+        <div class="code">
+          <div class="label">ControllerPersona.php</div><button class="copy" type="button">Copiar</button>
+          <pre>public function show($id)
+{
+    return 'Persona número: ' . $id;
+}</pre>
+        </div>
+
+        <h3>Parámetros opcionales</h3>
+        <p>Cuando un parámetro puede omitirse, se agrega un signo de interrogación y se establece un valor
+          predeterminado.</p>
+        <div class="code">
+          <div class="label">Parámetro opcional</div><button class="copy" type="button">Copiar</button>
+          <pre>Route::get('/saludo/{nombre?}', function ($nombre = 'estudiante') {
+    return 'Hola, ' . $nombre;
+});</pre>
+        </div>
+
+        <p>En este ejemplo funcionan las siguientes direcciones:</p>
+        <ul>
+          <li><code>/saludo</code></li>
+          <li><code>/saludo/Olivier</code></li>
+        </ul>
+
+        <h3>Parámetros de consulta</h3>
+        <p>Los parámetros de consulta se agregan después del signo <code>?</code>. Son útiles para filtros, búsquedas y
+          paginación.</p>
+        <div class="code">
+          <div class="label">Ejemplo de URL</div><button class="copy" type="button">Copiar</button>
+          <pre>/personas?buscar=Ana&amp;orden=asc</pre>
+        </div>
+
+        <div class="code">
+          <div class="label">Leer parámetros de consulta</div><button class="copy" type="button">Copiar</button>
+          <pre>use Illuminate\Http\Request;
+
+Route::get('/personas', function (Request $request) {
+    $buscar = $request-&gt;query('buscar');
+    $orden = $request-&gt;query('orden', 'asc');
+
+    return view('personas.index', compact('buscar', 'orden'));
+});</pre>
+        </div>
+
+        <h3>Rutas manuales hacia un controlador</h3>
+        <p>Cuando una ruta necesita lógica, es preferible enviarla a un método de un controlador.</p>
+        <div class="code">
+          <div class="label">Crear el controlador</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan make:controller ControllerPersona</pre>
+        </div>
+
+        <div class="code">
+          <div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button>
+          <pre>use App\Http\Controllers\ControllerPersona;
+
+Route::get('/personas', [ControllerPersona::class, 'index'])
+    -&gt;name('personas.index');
+
+Route::get('/personas/crear', [ControllerPersona::class, 'create'])
+    -&gt;name('personas.create');
+
+Route::post('/personas', [ControllerPersona::class, 'store'])
+    -&gt;name('personas.store');
+
+Route::get('/personas/{id}', [ControllerPersona::class, 'show'])
+    -&gt;name('personas.show');</pre>
+        </div>
+
+        <div class="callout note"><strong>El orden importa</strong>Coloque rutas específicas como
+          <code>/personas/crear</code> antes de rutas dinámicas como <code>/personas/{id}</code>, para evitar que
+          “crear” sea interpretado como un identificador.</div>
+
+        <h3>Vinculación automática con modelos</h3>
+        <p>Laravel puede buscar automáticamente un modelo cuando el parámetro de la ruta coincide con el nombre de la
+          variable y el tipo corresponde al modelo.</p>
+        <div class="code">
+          <div class="label">Route Model Binding</div><button class="copy" type="button">Copiar</button>
+          <pre>use App\Models\Persona;
+
+Route::get('/personas/{persona}', function (Persona $persona) {
+    return view('personas.show', compact('persona'));
+});</pre>
+        </div>
+
+        <div class="callout info"><strong>¿Qué ocurre aquí?</strong>Laravel utiliza el valor de <code>{persona}</code>
+          para buscar el registro correspondiente. Si no lo encuentra, devuelve automáticamente una respuesta 404.</div>
+
+        <h3>Rutas resource para un CRUD</h3>
+        <p><code>Route::resource</code> genera automáticamente las siete rutas convencionales de un CRUD.</p>
+        <div class="code">
+          <div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button>
+          <pre>use App\Http\Controllers\ControllerPersona;
+
+Route::resource('personas', ControllerPersona::class);</pre>
+        </div>
+
+        <div class="code">
+          <div class="label">Consultar las rutas disponibles</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan route:list</pre>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Método</th>
+              <th>URL</th>
+              <th>Método del controlador</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GET</td>
+              <td><code>/personas</code></td>
+              <td>index</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td><code>/personas/create</code></td>
+              <td>create</td>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td><code>/personas</code></td>
+              <td>store</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td><code>/personas/{persona}</code></td>
+              <td>show</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td><code>/personas/{persona}/edit</code></td>
+              <td>edit</td>
+            </tr>
+            <tr>
+              <td>PUT/PATCH</td>
+              <td><code>/personas/{persona}</code></td>
+              <td>update</td>
+            </tr>
+            <tr>
+              <td>DELETE</td>
+              <td><code>/personas/{persona}</code></td>
+              <td>destroy</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Proteger rutas con middleware</h3>
+        <p>El middleware <code>auth</code> permite que una ruta sea accesible únicamente para usuarios autenticados.</p>
+        <div class="code">
+          <div class="label">Proteger una ruta individual</div><button class="copy" type="button">Copiar</button>
+          <pre>Route::get('/panel', function () {
+    return view('panel');
+})-&gt;middleware('auth');</pre>
+        </div>
+
+        <div class="code">
+          <div class="label">Proteger un grupo de rutas</div><button class="copy" type="button">Copiar</button>
+          <pre>Route::middleware('auth')-&gt;group(function () {
+    Route::resource('personas', ControllerPersona::class);
+    Route::get('/reportes', [ReporteController::class, 'index']);
+});</pre>
+        </div>
+
+        <div class="callout success"><strong>Recomendación</strong>Use nombres de rutas, controladores para la lógica y
+          middleware para las reglas de acceso. Mantenga las rutas fáciles de leer y evite colocar consultas
+          directamente dentro de los archivos de rutas.</div>
       </section>
 
       <section class="section" id="modelos">
-        <span class="tag">7</span>
+        <span class="tag">8</span>
         <h2>Configurar un modelo</h2>
-        <p>Laravel supone por convención que el modelo <code>Persona</code> utiliza la tabla <code>personas</code>, una llave primaria llamada <code>id</code> y columnas <code>created_at</code> y <code>updated_at</code>. Solo se cambian las propiedades que no coincidan con esa convención.</p>
-        <div class="code"><div class="label">app/Models/Persona.php</div><button class="copy" type="button">Copiar</button><pre>&lt;?php
+        <p>Primero vamos a crear el modelo:</p>
+        <div class="code">
+          <div class="label">Artisan</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan make:model Persona</pre>
+        </div>
+        <p>Laravel supone por convención que el modelo <code>Persona</code> utiliza la tabla <code>personas</code>, una
+          llave primaria llamada <code>id</code> y columnas <code>created_at</code> y <code>updated_at</code>. Solo se
+          cambian las propiedades que no coincidan con esa convención.</p>
+        <div class="code">
+          <div class="label">app/Models/Persona.php</div><button class="copy" type="button">Copiar</button>
+          <pre>&lt;?php
 
 namespace App\Models;
 
@@ -650,25 +1405,30 @@ class Persona extends Model
     // Utilice false solo si estas columnas no existen.
     public $timestamps = false;
 
-    // Campos permitidos para create(), fill() y update().
-    protected $fillable = [
-        'nombre',
-        'correo',
-        'telefono',
-    ];
-}</pre></div>
-        <div class="grid two">
-          <div class="card"><h3>$fillable</h3><p>Protege el modelo e indica qué campos pueden asignarse en bloque.</p></div>
-          <div class="card"><h3>$timestamps</h3><p>No debe desactivarse por costumbre; hágalo únicamente cuando la tabla no tenga las columnas esperadas.</p></div>
+}</pre>
         </div>
-        <div class="callout danger"><strong>No use request()-&gt;all()</strong>Valide los datos y entregue al modelo únicamente el arreglo validado.</div>
+        <div class="grid two">
+          <div class="card">
+            <h3>$fillable</h3>
+            <p>Protege el modelo e indica qué campos pueden asignarse en bloque.</p>
+          </div>
+          <div class="card">
+            <h3>$timestamps</h3>
+            <p>No debe desactivarse por costumbre; hágalo únicamente cuando la tabla no tenga las columnas esperadas.
+            </p>
+          </div>
+        </div>
+        <div class="callout danger"><strong>No use request()-&gt;all()</strong>Valide los datos y entregue al modelo
+          únicamente el arreglo validado.</div>
       </section>
 
       <section class="section" id="relaciones">
-        <span class="tag">8</span>
+        <span class="tag">9</span>
         <h2>Representar relaciones entre tablas</h2>
         <p>En este ejemplo, un criterio pertenece a un formulario y posee muchos subcriterios.</p>
-        <div class="code"><div class="label">app/Models/Criterio.php</div><button class="copy" type="button">Copiar</button><pre>&lt;?php
+        <div class="code">
+          <div class="label">app/Models/Criterio.php</div><button class="copy" type="button">Copiar</button>
+          <pre>&lt;?php
 
 namespace App\Models;
 
@@ -682,120 +1442,246 @@ class Criterio extends Model
     protected $primaryKey = 'id_criterio';
     public $timestamps = false;
 
-    protected $fillable = [
-        'id_formulario',
-        'nombre',
-    ];
-
-    public function subcriterios(): HasMany
+    public function subcriterios()
     {
         return $this-&gt;hasMany(Subcriterio::class, 'id_criterio');
     }
 
-    public function formulario(): BelongsTo
+    public function formulario()
     {
         return $this-&gt;belongsTo(Formulario::class, 'id_formulario');
     }
-}</pre></div>
-        <div class="code"><div class="label">Acceder a las relaciones</div><button class="copy" type="button">Copiar</button><pre>$criterio = Criterio::findOrFail($id_criterio);
+}</pre>
+        </div>
+        <div class="code">
+          <div class="label">Acceder a las relaciones</div><button class="copy" type="button">Copiar</button>
+          <pre>$criterio = Criterio::findOrFail($id_criterio);
 
 $formulario = $criterio-&gt;formulario;       // Un modelo o null
-$subcriterios = $criterio-&gt;subcriterios;   // Una colección</pre></div>
-        <div class="callout info"><strong>Eloquent sí consulta la base de datos</strong>La ventaja es que no deben escribir manualmente el SQL ni el <code>JOIN</code>. Al acceder a la propiedad, Eloquent carga la relación.</div>
+$subcriterios = $criterio-&gt;subcriterios;   // Una colección</pre>
+        </div>
+        <div class="callout info"><strong>Eloquent sí consulta la base de datos</strong>La ventaja es que no deben
+          escribir manualmente el SQL ni el <code>JOIN</code>. Al acceder a la propiedad, Eloquent carga la relación.
+        </div>
         <h3>Cargar relaciones junto con el modelo</h3>
-        <div class="code"><div class="label">Carga anticipada</div><button class="copy" type="button">Copiar</button><pre>$criterio = Criterio::with(['formulario', 'subcriterios'])
-    -&gt;findOrFail($id_criterio);</pre></div>
-        <p>Esta forma es especialmente útil al recorrer listas, porque evita ejecutar consultas repetidas por cada registro.</p>
+        <div class="code">
+          <div class="label">Carga anticipada</div><button class="copy" type="button">Copiar</button>
+          <pre>$criterio = Criterio::with(['formulario', 'subcriterios'])
+    -&gt;findOrFail($id_criterio);</pre>
+        </div>
+        <p>Esta forma es especialmente útil al recorrer listas, porque evita ejecutar consultas repetidas por cada
+          registro.</p>
       </section>
 
       <section class="section" id="eloquent">
-        <span class="tag">9</span>
+        <span class="tag">10</span>
         <h2>Operaciones esenciales con Eloquent</h2>
         <table>
-          <thead><tr><th>Necesidad</th><th>Ejemplo</th><th>Resultado</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Necesidad</th>
+              <th>Ejemplo</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Listar</td><td><code>Persona::all()</code></td><td>Colección de registros.</td></tr>
-            <tr><td>Ordenar</td><td><code>Persona::orderBy('nombre')->get()</code></td><td>Colección ordenada.</td></tr>
-            <tr><td>Buscar por llave</td><td><code>Persona::findOrFail($id)</code></td><td>Modelo o respuesta 404.</td></tr>
-            <tr><td>Filtrar</td><td><code>Persona::where('activo', 1)->get()</code></td><td>Colección filtrada.</td></tr>
-            <tr><td>Insertar</td><td><code>Persona::create($datos)</code></td><td>Nuevo modelo.</td></tr>
-            <tr><td>Actualizar</td><td><code>$persona->update($datos)</code></td><td>Modelo actualizado.</td></tr>
-            <tr><td>Eliminar</td><td><code>$persona->delete()</code></td><td>Registro eliminado.</td></tr>
+            <tr>
+              <td>Listar</td>
+              <td><code>Persona::all()</code></td>
+              <td>Colección de registros.</td>
+            </tr>
+            <tr>
+              <td>Ordenar</td>
+              <td><code>Persona::orderBy('nombre')->get()</code></td>
+              <td>Colección ordenada.</td>
+            </tr>
+            <tr>
+              <td>Buscar por llave</td>
+              <td><code>Persona::findOrFail($id)</code></td>
+              <td>Modelo o respuesta 404.</td>
+            </tr>
+            <tr>
+              <td>Filtrar</td>
+              <td><code>Persona::where('activo', 1)->get()</code></td>
+              <td>Colección filtrada.</td>
+            </tr>
+            <tr>
+              <td>Insertar</td>
+              <td><code>Persona::create($datos)</code></td>
+              <td>Nuevo modelo.</td>
+            </tr>
+            <tr>
+              <td>Actualizar</td>
+              <td><code>$persona->update($datos)</code></td>
+              <td>Modelo actualizado.</td>
+            </tr>
+            <tr>
+              <td>Eliminar</td>
+              <td><code>$persona->delete()</code></td>
+              <td>Registro eliminado.</td>
+            </tr>
           </tbody>
         </table>
-        <div class="callout warning"><strong>all() no siempre es apropiado</strong>Para una tabla grande, utilice paginación: <code>Persona::orderBy('nombre')->paginate(15)</code>.</div>
+        <div class="callout warning"><strong>all() no siempre es apropiado</strong>Para una tabla grande, utilice
+          paginación: <code>Persona::orderBy('nombre')->paginate(15)</code>.</div>
       </section>
 
       <section class="section" id="resource">
-        <span class="tag">10</span>
+        <span class="tag">11</span>
         <h2>Crear un controlador resource</h2>
-        <div class="code"><div class="label">Artisan</div><button class="copy" type="button">Copiar</button><pre>php artisan make:model Persona
-php artisan make:controller PersonaController --model=Persona --resource</pre></div>
-        <p>En <code>routes/web.php</code> importe el controlador y registre el recurso:</p>
-        <div class="code"><div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button><pre>&lt;?php
+        <div class="code">
+          <div class="label">Artisan</div><button class="copy" type="button">Copiar</button>
+          <pre>
+php artisan make:controller ControllerPersona --resource</pre>
+        </div>
 
-use App\Http\Controllers\PersonaController;
+        <p>También se puede crear el modelo junto con el controlador:</p>
+        <div class="code">
+          <div class="label">Artisan</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan make:model Persona
+php artisan make:controller ControllerPersona --model=Persona --resource</pre>
+        </div>
+
+        <p>En <code>routes/web.php</code> importe el controlador y registre el recurso:</p>
+        <div class="code">
+          <div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button>
+          <pre>&lt;?php
+
+use App\Http\Controllers\ControllerPersona;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('personas', PersonaController::class);</pre></div>
+Route::resource('personas', ControllerPersona::class);</pre>
+        </div>
         <table>
-          <thead><tr><th>Método HTTP</th><th>URI</th><th>Función</th><th>Nombre</th><th>Propósito</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Método HTTP</th>
+              <th>URI</th>
+              <th>Función</th>
+              <th>Nombre</th>
+              <th>Propósito</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>GET</td><td>/personas</td><td>index</td><td>personas.index</td><td>Listar registros.</td></tr>
-            <tr><td>GET</td><td>/personas/create</td><td>create</td><td>personas.create</td><td>Mostrar formulario de registro.</td></tr>
-            <tr><td>POST</td><td>/personas</td><td>store</td><td>personas.store</td><td>Insertar el registro.</td></tr>
-            <tr><td>GET</td><td>/personas/{persona}</td><td>show</td><td>personas.show</td><td>Mostrar un registro.</td></tr>
-            <tr><td>GET</td><td>/personas/{persona}/edit</td><td>edit</td><td>personas.edit</td><td>Mostrar formulario de edición.</td></tr>
-            <tr><td>PUT / PATCH</td><td>/personas/{persona}</td><td>update</td><td>personas.update</td><td>Actualizar el registro.</td></tr>
-            <tr><td>DELETE</td><td>/personas/{persona}</td><td>destroy</td><td>personas.destroy</td><td>Eliminar el registro.</td></tr>
+            <tr>
+              <td>GET</td>
+              <td>/personas</td>
+              <td>index</td>
+              <td>personas.index</td>
+              <td>Listar registros.</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/personas/create</td>
+              <td>create</td>
+              <td>personas.create</td>
+              <td>Mostrar formulario de registro.</td>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td>/personas</td>
+              <td>store</td>
+              <td>personas.store</td>
+              <td>Insertar el registro.</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/personas/{persona}</td>
+              <td>show</td>
+              <td>personas.show</td>
+              <td>Mostrar un registro.</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/personas/{persona}/edit</td>
+              <td>edit</td>
+              <td>personas.edit</td>
+              <td>Mostrar formulario de edición.</td>
+            </tr>
+            <tr>
+              <td>PUT / PATCH</td>
+              <td>/personas/{persona}</td>
+              <td>update</td>
+              <td>personas.update</td>
+              <td>Actualizar el registro.</td>
+            </tr>
+            <tr>
+              <td>DELETE</td>
+              <td>/personas/{persona}</td>
+              <td>destroy</td>
+              <td>personas.destroy</td>
+              <td>Eliminar el registro.</td>
+            </tr>
           </tbody>
         </table>
-        <div class="code"><div class="label">Revisar las rutas generadas</div><button class="copy" type="button">Copiar</button><pre>php artisan route:list --path=personas</pre></div>
-        <div class="callout success"><strong>Convención recomendada</strong>Modelo en singular: <code>Persona</code>. Controlador en singular más <code>Controller</code>: <code>PersonaController</code>. Recurso en plural: <code>personas</code>.</div>
+        <div class="code">
+          <div class="label">Revisar las rutas generadas</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan route:list --path=personas</pre>
+        </div>
+        <div class="callout success"><strong>Convención recomendada</strong>Modelo en singular: <code>Persona</code>.
+          Controlador en singular más <code>Controller</code>: <code>ControllerPersona</code>. Recurso en plural:
+          <code>personas</code>.</div>
       </section>
 
       <section class="section" id="anidadas">
-        <span class="tag">11</span>
+        <span class="tag">12</span>
         <h2>Rutas con recursos relacionados</h2>
         <p>Cuando un criterio debe identificarse dentro de un formulario, puede utilizarse un recurso anidado:</p>
-        <div class="code"><div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button><pre>use App\Http\Controllers\CriterioController;
+        <div class="code">
+          <div class="label">routes/web.php</div><button class="copy" type="button">Copiar</button>
+          <pre>use App\Http\Controllers\CriterioController;
 
 Route::resource(
     'formularios.criterios',
     CriterioController::class
-);</pre></div>
+);</pre>
+        </div>
         <p>Laravel generará rutas como:</p>
-        <div class="code"><div class="label">Ruta de edición generada</div><button class="copy" type="button">Copiar</button><pre>GET /formularios/{formulario}/criterios/{criterio}/edit
+        <div class="code">
+          <div class="label">Ruta de edición generada</div><button class="copy" type="button">Copiar</button>
+          <pre>GET /formularios/{formulario}/criterios/{criterio}/edit
 
-Nombre: formularios.criterios.edit</pre></div>
-        <div class="code"><div class="label">Controlador con Route Model Binding</div><button class="copy" type="button">Copiar</button><pre>public function edit(Formulario $formulario, Criterio $criterio)
+Nombre: formularios.criterios.edit</pre>
+        </div>
+        <div class="code">
+          <div class="label">Controlador con Route Model Binding</div><button class="copy" type="button">Copiar</button>
+          <pre>public function edit(Formulario $formulario, Criterio $criterio)
 {
     return view(
         'criterios.edit',
         compact('formulario', 'criterio')
     );
-}</pre></div>
-        <div class="code"><div class="label">Enlace en Blade</div><button class="copy" type="button">Copiar</button><pre>&lt;a href="{{ route(
+}</pre>
+        </div>
+        <div class="code">
+          <div class="label">Enlace en Blade</div><button class="copy" type="button">Copiar</button>
+          <pre>&lt;a href="{{ route(
     'formularios.criterios.edit',
     [$formulario, $criterio]
 ) }}"&gt;
     Editar criterio
-&lt;/a&gt;</pre></div>
-        <div class="callout danger"><strong>Los nombres deben ser únicos</strong>Si <code>Route::resource('criterios', ...)</code> ya creó <code>criterios.edit</code>, no declare otra ruta manual con ese mismo nombre.</div>
+&lt;/a&gt;</pre>
+        </div>
+        <div class="callout danger"><strong>Los nombres deben ser únicos</strong>Si
+          <code>Route::resource('criterios', ...)</code> ya creó <code>criterios.edit</code>, no declare otra ruta
+          manual con ese mismo nombre.</div>
       </section>
 
       <section class="section" id="controlador">
-        <span class="tag">12</span>
+        <span class="tag">13</span>
         <h2>Ejemplo de controlador CRUD completo</h2>
         <p>Este ejemplo utiliza validación, asignación masiva controlada y vinculación automática del modelo.</p>
-        <div class="code"><div class="label">app/Http/Controllers/PersonaController.php</div><button class="copy" type="button">Copiar</button><pre>&lt;?php
+        <div class="code">
+          <div class="label">app/Http/Controllers/ControllerPersona.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>&lt;?php
 
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaController extends Controller
+class ControllerPersona extends Controller
 {
     public function index()
     {
@@ -858,15 +1744,163 @@ class PersonaController extends Controller
             'telefono' =&gt; ['nullable', 'string', 'max:30'],
         ]);
     }
-}</pre></div>
-        <div class="callout info"><strong>Route Model Binding</strong>En métodos como <code>edit(Persona $persona)</code>, Laravel busca automáticamente el registro utilizando el valor de <code>{persona}</code>. Si no existe, responde con 404.</div>
+}</pre>
+        </div>
+        <div class="callout info"><strong>Route Model Binding</strong>En métodos como
+          <code>edit(Persona $persona)</code>, Laravel busca automáticamente el registro utilizando el valor de
+          <code>{persona}</code>. Si no existe, responde con 404.</div>
+      </section>
+
+      <section class="section" id="plantillas">
+        <span class="tag">14</span>
+        <h2>Crear plantillas y reutilizar contenido con Blade</h2>
+        <p class="lead">Blade permite crear una plantilla general para conservar elementos comunes, como el menú, el
+          encabezado y el pie de página, mientras cada vista define su propio título y contenido.</p>
+
+        <h3>Organización recomendada</h3>
+        <p>Las plantillas generales se guardan dentro de <code>resources/views/layouts</code> y los fragmentos
+          reutilizables dentro de <code>resources/views/parts</code>.</p>
+        <div class="code">
+          <div class="label">Estructura de vistas</div><button class="copy" type="button">Copiar</button>
+          <pre>resources/views/
+├── layouts/
+│   └── app.blade.php
+├── parts/
+│   ├── menu.blade.php
+│   ├── header.blade.php
+│   └── footer.blade.php
+└── personas/
+    ├── index.blade.php
+    ├── create.blade.php
+    └── edit.blade.php</pre>
+        </div>
+
+        <h3>Crear una plantilla general</h3>
+        <p>La plantilla contiene la estructura común del sitio. La directiva <code>@yield</code> define espacios que
+          serán completados por cada vista.</p>
+        <div class="code">
+          <div class="label">resources/views/layouts/app.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;@yield('titulo', 'Sistema Laravel')&lt;/title&gt;
+    &lt;link rel="stylesheet" href="{{ asset('css/app.css') }}"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    @include('parts.menu')
+
+    &lt;main class="container"&gt;
+        @include('parts.mensajes')
+        @yield('contenido')
+    &lt;/main&gt;
+
+    @include('parts.footer')
+    &lt;script src="{{ asset('js/app.js') }}"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </div>
+
+        <div class="callout info"><strong>@yield</strong>Define un espacio dentro de la plantilla. Cada vista hija puede
+          colocar contenido allí utilizando <code>@section</code>.</div>
+
+        <h3>Crear el menú reutilizable</h3>
+        <p>El menú se escribe una sola vez y se incorpora en todas las vistas mediante <code>@include</code>.</p>
+        <div class="code">
+          <div class="label">resources/views/parts/menu.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>&lt;nav&gt;
+    &lt;a href="{{ route('personas.index') }}"&gt;Personas&lt;/a&gt;
+    &lt;a href="{{ route('personas.create') }}"&gt;Registrar persona&lt;/a&gt;
+&lt;/nav&gt;</pre>
+        </div>
+
+        <h3>Utilizar la plantilla desde una vista</h3>
+        <p>La directiva <code>@extends</code> indica la plantilla que utilizará la vista. Luego, <code>@section</code>
+          completa los espacios definidos con <code>@yield</code>.</p>
+        <div class="code">
+          <div class="label">resources/views/personas/index.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>@extends('layouts.app')
+
+@section('titulo', 'Listado de personas')
+
+@section('contenido')
+    &lt;h1&gt;Listado de personas&lt;/h1&gt;
+    &lt;p&gt;En esta sección se muestran las personas registradas.&lt;/p&gt;
+
+    &lt;a href="{{ route('personas.create') }}"&gt;
+        Registrar persona
+    &lt;/a&gt;
+@endsection</pre>
+        </div>
+
+        <h3>Secciones con contenido extenso</h3>
+        <p>Cuando la sección contiene varias líneas, se utiliza la forma de apertura y cierre de <code>@section</code>.
+        </p>
+        <div class="code">
+          <div class="label">resources/views/personas/create.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>@extends('layouts.app')
+
+@section('titulo', 'Registrar persona')
+
+@section('contenido')
+    &lt;h1&gt;Registrar persona&lt;/h1&gt;
+
+    &lt;form method="POST" action="{{ route('personas.store') }}"&gt;
+        @csrf
+        &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+        &lt;input type="text" id="nombre" name="nombre"&gt;
+        &lt;button type="submit"&gt;Guardar&lt;/button&gt;
+    &lt;/form&gt;
+@endsection</pre>
+        </div>
+
+        <h3>Incluir archivos parciales</h3>
+        <p><code>@include</code> permite insertar el contenido de otro archivo Blade dentro de la vista actual. Es útil
+          para menús, encabezados, mensajes y pies de página.</p>
+        <div class="code">
+          <div class="label">Incluir un archivo parcial</div><button class="copy" type="button">Copiar</button>
+          <pre>@include('parts.menu')
+@include('parts.header')
+@include('parts.footer')</pre>
+        </div>
+
+        <h3>Enviar datos a un include</h3>
+        <p>También es posible enviar información específica al archivo incluido.</p>
+        <div class="code">
+          <div class="label">Incluir un mensaje</div><button class="copy" type="button">Copiar</button>
+          <pre>@include('parts.alerta', [
+    'mensaje' =&gt; 'Persona registrada correctamente.',
+    'tipo' =&gt; 'success'
+])</pre>
+        </div>
+        <div class="code">
+          <div class="label">resources/views/parts/alerta.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>&lt;div class="alert alert-{{ $tipo }}"&gt;
+    {{ $mensaje }}
+&lt;/div&gt;</pre>
+        </div>
+
+        <div class="callout success"><strong>Flujo recomendado</strong>Utilice <code>layouts/app.blade.php</code> para
+          la estructura general, <code>@yield</code> para los espacios variables, <code>@section</code> para completar
+          cada vista y <code>@include</code> para reutilizar fragmentos.</div>
+        <div class="callout warning"><strong>No repita el menú en cada vista</strong>Al utilizar un include, se
+          actualiza una sola vez y el cambio se refleja en todas las vistas.</div>
       </section>
 
       <section class="section" id="blade">
-        <span class="tag">13</span>
+        <span class="tag">15</span>
         <h2>Construir formularios Blade correctamente</h2>
         <h3>Registrar</h3>
-        <div class="code"><div class="label">resources/views/personas/create.blade.php</div><button class="copy" type="button">Copiar</button><pre>&lt;form method="POST" action="{{ route('personas.store') }}"&gt;
+        <div class="code">
+          <div class="label">resources/views/personas/create.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>&lt;form method="POST" action="{{ route('personas.store') }}"&gt;
     @csrf
 
     &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
@@ -882,9 +1916,13 @@ class PersonaController extends Controller
     @enderror
 
     &lt;button type="submit"&gt;Guardar&lt;/button&gt;
-&lt;/form&gt;</pre></div>
+&lt;/form&gt;</pre>
+        </div>
         <h3>Actualizar</h3>
-        <div class="code"><div class="label">resources/views/personas/edit.blade.php</div><button class="copy" type="button">Copiar</button><pre>&lt;form method="POST" action="{{ route('personas.update', $persona) }}"&gt;
+        <div class="code">
+          <div class="label">resources/views/personas/edit.blade.php</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>&lt;form method="POST" action="{{ route('personas.update', $persona) }}"&gt;
     @csrf
     @method('PUT')
 
@@ -895,65 +1933,130 @@ class PersonaController extends Controller
     &gt;
 
     &lt;button type="submit"&gt;Actualizar&lt;/button&gt;
-&lt;/form&gt;</pre></div>
+&lt;/form&gt;</pre>
+        </div>
         <h3>Eliminar</h3>
-        <div class="code"><div class="label">Formulario de eliminación</div><button class="copy" type="button">Copiar</button><pre>&lt;form method="POST" action="{{ route('personas.destroy', $persona) }}"&gt;
+        <div class="code">
+          <div class="label">Formulario de eliminación</div><button class="copy" type="button">Copiar</button>
+          <pre>&lt;form method="POST" action="{{ route('personas.destroy', $persona) }}"&gt;
     @csrf
     @method('DELETE')
 
     &lt;button type="submit"&gt;Eliminar&lt;/button&gt;
-&lt;/form&gt;</pre></div>
-        <div class="grid">
-          <div class="card"><h3>@csrf</h3><p>Debe aparecer en todos los formularios que envían datos.</p></div>
-          <div class="card"><h3>@method</h3><p>Permite representar <code>PUT</code>, <code>PATCH</code> y <code>DELETE</code>, que HTML no envía directamente.</p></div>
-          <div class="card"><h3>old()</h3><p>Conserva los valores cuando la validación devuelve el formulario.</p></div>
+&lt;/form&gt;</pre>
         </div>
-        <div class="callout warning"><strong>Un enlace no elimina registros</strong>La operación <code>destroy</code> debe ejecutarse mediante un formulario con <code>POST</code>, <code>@csrf</code> y <code>@method('DELETE')</code>.</div>
+        <div class="grid">
+          <div class="card">
+            <h3>@csrf</h3>
+            <p>Debe aparecer en todos los formularios que envían datos.</p>
+          </div>
+          <div class="card">
+            <h3>@method</h3>
+            <p>Permite representar <code>PUT</code>, <code>PATCH</code> y <code>DELETE</code>, que HTML no envía
+              directamente.</p>
+          </div>
+          <div class="card">
+            <h3>old()</h3>
+            <p>Conserva los valores cuando la validación devuelve el formulario.</p>
+          </div>
+        </div>
+        <div class="callout warning"><strong>Un enlace no elimina registros</strong>La operación <code>destroy</code>
+          debe ejecutarse mediante un formulario con <code>POST</code>, <code>@csrf</code> y
+          <code>@method('DELETE')</code>.</div>
       </section>
 
       <section class="section" id="assets">
-        <span class="tag">14</span>
+        <span class="tag">16</span>
         <h2>Guardar CSS y JavaScript sin Vite</h2>
-        <p>Para mantener el curso simple, los archivos que el navegador necesita directamente pueden guardarse dentro de <code>public</code>. Esta es una estrategia válida sin compilación frontend.</p>
-        <div class="code"><div class="label">Estructura sugerida</div><button class="copy" type="button">Copiar</button><pre>public/
+        <p>Para mantener el curso simple, los archivos que el navegador necesita directamente pueden guardarse dentro de
+          <code>public</code>. Esta es una estrategia válida sin compilación frontend.</p>
+        <div class="code">
+          <div class="label">Estructura sugerida</div><button class="copy" type="button">Copiar</button>
+          <pre>public/
 ├── css/
 │   └── app.css
 ├── js/
 │   └── app.js
 ├── img/
-└── plugins/</pre></div>
-        <div class="code"><div class="label">Cargar archivos desde Blade</div><button class="copy" type="button">Copiar</button><pre>&lt;link rel="stylesheet" href="{{ asset('css/app.css') }}"&gt;
-&lt;script src="{{ asset('js/app.js') }}" defer&gt;&lt;/script&gt;</pre></div>
-        <div class="callout success"><strong>Utilice asset()</strong>Genera la URL correcta según la aplicación y evita depender de rutas absolutas como <code>/css/app.css</code>.</div>
-        <div class="callout note"><strong>Vite existe, pero no es obligatorio aquí</strong>Laravel lo ofrece como solución moderna para compilar recursos. Esta guía utiliza archivos directos en <code>public</code> para concentrarse primero en Laravel, PHP y el flujo MVC.</div>
+└── plugins/</pre>
+        </div>
+        <div class="code">
+          <div class="label">Cargar archivos desde Blade</div><button class="copy" type="button">Copiar</button>
+          <pre>&lt;link rel="stylesheet" href="{{ asset('css/app.css') }}"&gt;
+&lt;script src="{{ asset('js/app.js') }}" defer&gt;&lt;/script&gt;</pre>
+        </div>
+        <div class="callout success"><strong>Utilice asset()</strong>Genera la URL correcta según la aplicación y evita
+          depender de rutas absolutas como <code>/css/app.css</code>.</div>
+        <div class="callout note"><strong>Vite existe, pero no es obligatorio aquí</strong>Laravel lo ofrece como
+          solución moderna para compilar recursos. Esta guía utiliza archivos directos en <code>public</code> para
+          concentrarse primero en Laravel, PHP y el flujo MVC.</div>
         <h3>Archivos subidos por usuarios</h3>
-        <p>No confunda recursos propios del sitio con archivos cargados por usuarios. Para archivos públicos administrados por Laravel, se recomienda <code>storage/app/public</code> y el enlace:</p>
-        <div class="code"><div class="label">Crear enlace público</div><button class="copy" type="button">Copiar</button><pre>php artisan storage:link</pre></div>
+        <p>No confunda recursos propios del sitio con archivos cargados por usuarios. Para archivos públicos
+          administrados por Laravel, se recomienda <code>storage/app/public</code> y el enlace:</p>
+        <div class="code">
+          <div class="label">Crear enlace público</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan storage:link</pre>
+        </div>
       </section>
 
       <section class="section" id="artisan">
-        <span class="tag">15</span>
+        <span class="tag">17</span>
         <h2>Comandos Artisan que realmente necesitaremos</h2>
         <table>
-          <thead><tr><th>Comando</th><th>Función</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Función</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td><code>php artisan serve</code></td><td>Servidor local de desarrollo.</td></tr>
-            <tr><td><code>php artisan key:generate</code></td><td>Genera <code>APP_KEY</code> cuando está vacía. No debe repetirse en producción.</td></tr>
-            <tr><td><code>php artisan make:model Persona</code></td><td>Crea un modelo.</td></tr>
-            <tr><td><code>php artisan make:controller PersonaController --resource</code></td><td>Crea un controlador resource.</td></tr>
-            <tr><td><code>php artisan route:list</code></td><td>Muestra las rutas registradas.</td></tr>
-            <tr><td><code>php artisan model:show Persona</code></td><td>Muestra información detectada sobre el modelo.</td></tr>
-            <tr><td><code>php artisan tinker</code></td><td>Abre una consola para probar PHP y Eloquent.</td></tr>
-            <tr><td><code>php artisan optimize:clear</code></td><td>Elimina cachés de optimización y aplicación.</td></tr>
-            <tr><td><code>php artisan optimize</code></td><td>Genera cachés para producción.</td></tr>
+            <tr>
+              <td><code>php artisan serve</code></td>
+              <td>Servidor local de desarrollo.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan key:generate</code></td>
+              <td>Genera <code>APP_KEY</code> cuando está vacía. No debe repetirse en producción.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan make:model Persona</code></td>
+              <td>Crea un modelo.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan make:controller ControllerPersona --resource</code></td>
+              <td>Crea un controlador resource.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan route:list</code></td>
+              <td>Muestra las rutas registradas.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan model:show Persona</code></td>
+              <td>Muestra información detectada sobre el modelo.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan tinker</code></td>
+              <td>Abre una consola para probar PHP y Eloquent.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan optimize:clear</code></td>
+              <td>Elimina cachés de optimización y aplicación.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan optimize</code></td>
+              <td>Genera cachés para producción.</td>
+            </tr>
           </tbody>
         </table>
-        <div class="callout info"><strong>Comandos específicos</strong><code>config:clear</code>, <code>route:clear</code>, <code>view:clear</code> y <code>cache:clear</code> sirven para limpiar una caché concreta. Para una limpieza general durante el desarrollo suele bastar <code>optimize:clear</code>.</div>
-        <div class="callout warning"><strong>config:cache es para producción</strong>Durante el desarrollo, los valores de <code>.env</code> cambian con frecuencia. No mantenga la configuración cacheada localmente.</div>
+        <div class="callout info"><strong>Comandos específicos</strong><code>config:clear</code>,
+          <code>route:clear</code>, <code>view:clear</code> y <code>cache:clear</code> sirven para limpiar una caché
+          concreta. Para una limpieza general durante el desarrollo suele bastar <code>optimize:clear</code>.</div>
+        <div class="callout warning"><strong>config:cache es para producción</strong>Durante el desarrollo, los valores
+          de <code>.env</code> cambian con frecuencia. No mantenga la configuración cacheada localmente.</div>
       </section>
 
       <section class="section" id="despliegue">
-        <span class="tag">16</span>
+        <span class="tag">18</span>
         <h2>Publicar el proyecto de forma segura</h2>
         <ol class="steps">
           <li>Compruebe que el servidor utiliza una versión compatible de PHP y las extensiones requeridas.</li>
@@ -964,47 +2067,104 @@ class PersonaController extends Controller
           <li>Verifique permisos de escritura en <code>storage</code> y <code>bootstrap/cache</code>.</li>
           <li>Genere las cachés de producción y pruebe el sistema.</li>
         </ol>
-        <div class="code"><div class="label">.env · valores esenciales de producción</div><button class="copy" type="button">Copiar</button><pre>APP_ENV=production
+        <div class="code">
+          <div class="label">.env · valores esenciales de producción</div><button class="copy"
+            type="button">Copiar</button>
+          <pre>APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://www.ejemplo.com
 
 SESSION_DRIVER=file
 CACHE_STORE=file
-QUEUE_CONNECTION=sync</pre></div>
-        <div class="code"><div class="label">Terminal del servidor</div><button class="copy" type="button">Copiar</button><pre>composer install --no-dev --optimize-autoloader
+QUEUE_CONNECTION=sync</pre>
+        </div>
+        <div class="code">
+          <div class="label">Terminal del servidor</div><button class="copy" type="button">Copiar</button>
+          <pre>composer install --no-dev --optimize-autoloader
 php artisan optimize
 
 # Solo si el proyecto publica archivos desde storage:
-php artisan storage:link</pre></div>
-        <div class="callout danger"><strong>Nunca publique la raíz completa</strong>El dominio debe dirigir las solicitudes a <code>proyecto/public/index.php</code>. Mover <code>index.php</code> a la raíz o exponer el proyecto completo puede revelar archivos sensibles.</div>
-        <div class="callout warning"><strong>No borre manualmente las carpetas de caché</strong>No elimine el contenido de <code>storage/framework/sessions</code>, <code>storage/framework/views</code> ni <code>bootstrap/cache</code> como parte normal del despliegue. Podría cerrar sesiones o eliminar archivos necesarios. Utilice Artisan.</div>
-        <div class="callout info"><strong>Hosting sin terminal</strong>El proyecto puede funcionar sin <code>php artisan optimize</code>. Si no existe acceso a Composer en el servidor, prepare <code>vendor</code> en un entorno compatible y súbalo junto con el proyecto.</div>
+php artisan storage:link</pre>
+        </div>
+        <div class="callout danger"><strong>Nunca publique la raíz completa</strong>El dominio debe dirigir las
+          solicitudes a <code>proyecto/public/index.php</code>. Mover <code>index.php</code> a la raíz o exponer el
+          proyecto completo puede revelar archivos sensibles.</div>
+        <div class="callout warning"><strong>No borre manualmente las carpetas de caché</strong>No elimine el contenido
+          de <code>storage/framework/sessions</code>, <code>storage/framework/views</code> ni
+          <code>bootstrap/cache</code> como parte normal del despliegue. Podría cerrar sesiones o eliminar archivos
+          necesarios. Utilice Artisan.</div>
+        <div class="callout info"><strong>Hosting sin terminal</strong>El proyecto puede funcionar sin
+          <code>php artisan optimize</code>. Si no existe acceso a Composer en el servidor, prepare <code>vendor</code>
+          en un entorno compatible y súbalo junto con el proyecto.</div>
       </section>
 
       <section class="section" id="errores">
-        <span class="tag">17</span>
+        <span class="tag">19</span>
         <h2>Errores frecuentes y causa probable</h2>
         <table>
-          <thead><tr><th>Mensaje o situación</th><th>Qué revisar</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Mensaje o situación</th>
+              <th>Qué revisar</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>419 Page Expired</td><td>Falta <code>@csrf</code> en el formulario o la sesión no funciona.</td></tr>
-            <tr><td>POST method is not supported</td><td>Falta <code>@method('PUT')</code> o <code>@method('DELETE')</code>, o la acción apunta a otra ruta.</td></tr>
-            <tr><td>MassAssignmentException</td><td>Revise <code>$fillable</code> y entregue únicamente los datos validados.</td></tr>
-            <tr><td>Base table or view not found: sessions / cache / jobs</td><td>Como no se usan migraciones, configure <code>SESSION_DRIVER=file</code>, <code>CACHE_STORE=file</code> y <code>QUEUE_CONNECTION=sync</code>.</td></tr>
-            <tr><td>Route [...] not defined</td><td>Ejecute <code>php artisan route:list</code> y compare el nombre exacto.</td></tr>
-            <tr><td>Unable to prepare route for serialization</td><td>Puede existir un nombre de ruta duplicado. Todos deben ser únicos.</td></tr>
-            <tr><td>Unknown database</td><td>Cree la base, importe <code>esquema.sql</code> y revise <code>DB_DATABASE</code>.</td></tr>
-            <tr><td>could not find driver</td><td>Habilite la extensión PDO correspondiente, normalmente <code>pdo_mysql</code>.</td></tr>
-            <tr><td>Class not found</td><td>Revise namespace, importación y nombre del archivo; luego pruebe <code>composer dump-autoload</code>.</td></tr>
-            <tr><td>CSS o JS no carga</td><td>Use <code>asset()</code> y compruebe que el archivo esté dentro de <code>public</code>.</td></tr>
-            <tr><td>Error 500 en producción</td><td>Revise <code>storage/logs/laravel.log</code>, <code>APP_KEY</code>, permisos y compatibilidad de PHP.</td></tr>
+            <tr>
+              <td>419 Page Expired</td>
+              <td>Falta <code>@csrf</code> en el formulario o la sesión no funciona.</td>
+            </tr>
+            <tr>
+              <td>POST method is not supported</td>
+              <td>Falta <code>@method('PUT')</code> o <code>@method('DELETE')</code>, o la acción apunta a otra ruta.
+              </td>
+            </tr>
+            <tr>
+              <td>MassAssignmentException</td>
+              <td>Revise <code>$fillable</code> y entregue únicamente los datos validados.</td>
+            </tr>
+            <tr>
+              <td>Base table or view not found: sessions / cache / jobs</td>
+              <td>Como no se usan migraciones, configure <code>SESSION_DRIVER=file</code>, <code>CACHE_STORE=file</code>
+                y <code>QUEUE_CONNECTION=sync</code>.</td>
+            </tr>
+            <tr>
+              <td>Route [...] not defined</td>
+              <td>Ejecute <code>php artisan route:list</code> y compare el nombre exacto.</td>
+            </tr>
+            <tr>
+              <td>Unable to prepare route for serialization</td>
+              <td>Puede existir un nombre de ruta duplicado. Todos deben ser únicos.</td>
+            </tr>
+            <tr>
+              <td>Unknown database</td>
+              <td>Cree la base, importe <code>esquema.sql</code> y revise <code>DB_DATABASE</code>.</td>
+            </tr>
+            <tr>
+              <td>could not find driver</td>
+              <td>Habilite la extensión PDO correspondiente, normalmente <code>pdo_mysql</code>.</td>
+            </tr>
+            <tr>
+              <td>Class not found</td>
+              <td>Revise namespace, importación y nombre del archivo; luego pruebe <code>composer dump-autoload</code>.
+              </td>
+            </tr>
+            <tr>
+              <td>CSS o JS no carga</td>
+              <td>Use <code>asset()</code> y compruebe que el archivo esté dentro de <code>public</code>.</td>
+            </tr>
+            <tr>
+              <td>Error 500 en producción</td>
+              <td>Revise <code>storage/logs/laravel.log</code>, <code>APP_KEY</code>, permisos y compatibilidad de PHP.
+              </td>
+            </tr>
           </tbody>
         </table>
-        <div class="callout danger"><strong>No active APP_DEBUG en producción</strong>Los detalles del error pueden mostrar rutas internas, consultas, variables y otros datos sensibles. Consulte el log del servidor.</div>
+        <div class="callout danger"><strong>No active APP_DEBUG en producción</strong>Los detalles del error pueden
+          mostrar rutas internas, consultas, variables y otros datos sensibles. Consulte el log del servidor.</div>
       </section>
 
       <section class="section" id="checklist">
-        <span class="tag">18</span>
+        <span class="tag">20</span>
         <h2>Lista de comprobación del proyecto</h2>
         <ul class="checklist">
           <li>Todos trabajan con la misma versión principal de Laravel.</li>
@@ -1028,40 +2188,65 @@ php artisan storage:link</pre></div>
       </section>
 
       <section class="section" id="chuleta">
-        <span class="tag">19</span>
+        <span class="tag">21</span>
         <h2>Chuleta final</h2>
-        <div class="code"><div class="label">Crear y preparar</div><button class="copy" type="button">Copiar</button><pre>composer create-project laravel/laravel nombre_proyecto
+        <div class="code">
+          <div class="label">Crear y preparar</div><button class="copy" type="button">Copiar</button>
+          <pre>composer create-project laravel/laravel:^12.0 nombre_proyecto
 cd nombre_proyecto
-php artisan serve</pre></div>
-        <div class="code"><div class="label">Proyecto recibido</div><button class="copy" type="button">Copiar</button><pre>composer install
+php artisan serve</pre>
+        </div>
+        <div class="code">
+          <div class="label">Proyecto recibido</div><button class="copy" type="button">Copiar</button>
+          <pre>composer install
 php artisan optimize:clear
-php artisan key:generate  # Solo si APP_KEY está vacía</pre></div>
-        <div class="code"><div class="label">Generar código</div><button class="copy" type="button">Copiar</button><pre>php artisan make:model Persona
-php artisan make:controller PersonaController --model=Persona --resource</pre></div>
-        <div class="code"><div class="label">Diagnóstico</div><button class="copy" type="button">Copiar</button><pre>php artisan about
+php artisan key:generate  # Solo si APP_KEY está vacía</pre>
+        </div>
+        <div class="code">
+          <div class="label">Generar código</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan make:model Persona
+php artisan make:controller ControllerPersona --model=Persona --resource</pre>
+        </div>
+        <div class="code">
+          <div class="label">Diagnóstico</div><button class="copy" type="button">Copiar</button>
+          <pre>php artisan about
 php artisan route:list
 php artisan model:show Persona
-php artisan tinker</pre></div>
-        <div class="code"><div class="label">Producción</div><button class="copy" type="button">Copiar</button><pre>composer install --no-dev --optimize-autoloader
+php artisan tinker</pre>
+        </div>
+        <div class="code">
+          <div class="label">Producción</div><button class="copy" type="button">Copiar</button>
+          <pre>composer install --no-dev --optimize-autoloader
 php artisan optimize
-php artisan storage:link  # Solo cuando corresponda</pre></div>
+php artisan storage:link  # Solo cuando corresponda</pre>
+        </div>
       </section>
 
       <section class="section sources" id="fuentes">
         <span class="tag">Referencia</span>
         <h2>Documentación oficial</h2>
-        <p>Laravel evoluciona con rapidez. Cuando un comando o requisito cambie, consulte primero la documentación correspondiente a la versión utilizada por el proyecto.</p>
+        <p>Laravel evoluciona con rapidez. Cuando un comando o requisito cambie, consulte primero la documentación
+          correspondiente a la versión utilizada por el proyecto.</p>
         <ul>
-          <li><a href="https://laravel.com/docs/13.x/installation" target="_blank" rel="noopener">Instalación y configuración inicial de Laravel</a></li>
-          <li><a href="https://laravel.com/docs/13.x/configuration" target="_blank" rel="noopener">Configuración y archivos de entorno</a></li>
-          <li><a href="https://laravel.com/docs/13.x/eloquent" target="_blank" rel="noopener">Modelos y operaciones con Eloquent</a></li>
-          <li><a href="https://laravel.com/docs/13.x/eloquent-relationships" target="_blank" rel="noopener">Relaciones de Eloquent</a></li>
-          <li><a href="https://laravel.com/docs/13.x/controllers" target="_blank" rel="noopener">Controladores resource</a></li>
-          <li><a href="https://laravel.com/docs/13.x/routing" target="_blank" rel="noopener">Rutas y Route Model Binding</a></li>
+          <li><a href="https://laravel.com/docs/13.x/installation" target="_blank" rel="noopener">Instalación y
+              configuración inicial de Laravel</a></li>
+          <li><a href="https://laravel.com/docs/13.x/configuration" target="_blank" rel="noopener">Configuración y
+              archivos de entorno</a></li>
+          <li><a href="https://laravel.com/docs/13.x/eloquent" target="_blank" rel="noopener">Modelos y operaciones con
+              Eloquent</a></li>
+          <li><a href="https://laravel.com/docs/13.x/eloquent-relationships" target="_blank" rel="noopener">Relaciones
+              de Eloquent</a></li>
+          <li><a href="https://laravel.com/docs/13.x/controllers" target="_blank" rel="noopener">Controladores
+              resource</a></li>
+          <li><a href="https://laravel.com/docs/13.x/routing" target="_blank" rel="noopener">Rutas y Route Model
+              Binding</a></li>
           <li><a href="https://laravel.com/docs/13.x/validation" target="_blank" rel="noopener">Validación</a></li>
-          <li><a href="https://laravel.com/docs/13.x/blade" target="_blank" rel="noopener">Plantillas y formularios Blade</a></li>
-          <li><a href="https://laravel.com/docs/13.x/deployment" target="_blank" rel="noopener">Despliegue y optimización</a></li>
-          <li><a href="https://getcomposer.org/doc/01-basic-usage.md" target="_blank" rel="noopener">Uso básico de Composer</a></li>
+          <li><a href="https://laravel.com/docs/13.x/blade" target="_blank" rel="noopener">Plantillas y formularios
+              Blade</a></li>
+          <li><a href="https://laravel.com/docs/13.x/deployment" target="_blank" rel="noopener">Despliegue y
+              optimización</a></li>
+          <li><a href="https://getcomposer.org/doc/01-basic-usage.md" target="_blank" rel="noopener">Uso básico de
+              Composer</a></li>
         </ul>
       </section>
 
@@ -1196,7 +2381,7 @@ php artisan storage:link  # Solo cuando corresponda</pre></div>
         });
       }
 
-      highlightCodeBlocks();
+      // Activar primero los controles; el resaltado es una mejora independiente.
 
       function setMenu(open) {
         sidebar.classList.toggle('open', open);
@@ -1251,24 +2436,66 @@ php artisan storage:link  # Solo cuando corresponda</pre></div>
       });
 
       function filterSections() {
-        var query = search.value.toLowerCase().trim();
+        // textContent incluye también el contenido de los bloques de código
+        // después del resaltado de sintaxis. La normalización permite buscar
+        // sin preocuparse por mayúsculas, tildes o espacios repetidos.
+        function normalize(value) {
+          return String(value || '')
+            .toLocaleLowerCase('es')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
+        var query = normalize(search.value);
         var visible = 0;
 
         sections.forEach(function (section) {
-          var match = !query || section.innerText.toLowerCase().indexOf(query) !== -1;
+          var sectionText = normalize(section.textContent);
+          var match = !query || sectionText.indexOf(query) !== -1;
           section.hidden = !match;
           if (match) visible += 1;
         });
 
         noResults.style.display = visible ? 'none' : 'block';
+        document.getElementById('searchStatus').textContent = query
+          ? visible + (visible === 1 ? ' sección encontrada' : ' secciones encontradas') : '';
+
+        links.forEach(function (link) {
+          var target = document.getElementById(link.getAttribute('href').slice(1));
+          link.hidden = !!query && (!target || target.hidden || target.id === 'inicio');
+        });
+        document.querySelectorAll('.nav-title').forEach(function (title) {
+          var sibling = title.nextElementSibling;
+          var hasVisibleLink = false;
+          while (sibling && !sibling.classList.contains('nav-title')) {
+            if (sibling.tagName === 'A' && !sibling.hidden) hasVisibleLink = true;
+            sibling = sibling.nextElementSibling;
+          }
+          title.hidden = !!query && !hasVisibleLink;
+        });
       }
 
       search.addEventListener('input', filterSections);
+      search.addEventListener('search', filterSections);
+      search.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter' || !search.value.trim()) return;
+        event.preventDefault();
+        var first = sections.find(function (section) { return !section.hidden; });
+        (first || noResults).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (window.innerWidth <= 850) setMenu(false);
+      });
       clearSearch.addEventListener('click', function () {
         search.value = '';
         filterSections();
         search.focus();
       });
+
+      filterSections();
+      try { highlightCodeBlocks(); } catch (error) {
+        console.warn('No se pudo resaltar el código. La búsqueda sigue disponible.', error);
+      }
 
       if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function (entries) {
@@ -1287,4 +2514,5 @@ php artisan storage:link  # Solo cuando corresponda</pre></div>
     }());
   </script>
 </body>
+
 </html>
