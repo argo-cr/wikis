@@ -435,136 +435,153 @@ switch ($route) {
     public $edad;
 
     public static function all() {
+
         self::init();
-        $stmt = self::$conn->prepare('SELECT * FROM personas');
+
+        $sql = "select * from personas;";
+
+        $stmt = self::$conn->prepare($sql);
         $stmt->execute();
-        // Convertir cada fila en un objeto Persona
+
+        $data = [];
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $item = new Persona();
+            $item->id = $row['id_persona'];
+            $item->nombre = $row['nombre'];
+            $item->edad = $row['edad'];
+
+            $data[] = $item;
+
+        }
+
         return $data;
     }
 
     public function save() {
-        $sql = 'INSERT INTO personas (nombre, edad)
-                VALUES (:nombre, :edad)';
-        return self::$conn->prepare($sql)->execute([
+        $query = "insert into personas (nombre, edad) values (:nombre, :edad);";
+        $stmt = self::$conn->prepare($query);
+        return $stmt->execute([
             ':nombre' => $this->nombre,
-            ':edad' => $this->edad
+            ':edad' => $this->edad,
         ]);
     }
 }</code></pre>
 
 
 
-   
-                    <h2>Métodos del modelo <code>Persona</code></h2>
 
-                    <p>
-                        El modelo <code>Persona.php</code> contiene métodos para establecer la conexión,
-                        consultar registros y ejecutar las operaciones CRUD.
-                    </p>
+                <h2>Métodos del modelo <code>Persona</code></h2>
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Método</th>
-                                <th>Tipo</th>
-                                <th>Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>__construct()</code></td>
-                                <td>Instancia</td>
-                                <td>Se ejecuta al crear un objeto Persona y llama a <code>init()</code>.</td>
-                            </tr>
-                            <tr>
-                                <td><code>init()</code></td>
-                                <td>Estático</td>
-                                <td>Inicializa la conexión con la base de datos solamente cuando todavía no existe.</td>
-                            </tr>
-                            <tr>
-                                <td><code>all()</code></td>
-                                <td>Estático</td>
-                                <td>Consulta todas las personas y devuelve un arreglo de objetos Persona.</td>
-                            </tr>
-                            <tr>
-                                <td><code>find($id)</code></td>
-                                <td>Estático</td>
-                                <td>Busca una persona utilizando su identificador.</td>
-                            </tr>
-                            <tr>
-                                <td><code>save()</code></td>
-                                <td>Instancia</td>
-                                <td>Guarda en la base de datos la información del objeto actual.</td>
-                            </tr>
-                            <tr>
-                                <td><code>update()</code></td>
-                                <td>Instancia</td>
-                                <td>Actualiza los datos de la persona representada por el objeto actual.</td>
-                            </tr>
-                            <tr>
-                                <td><code>delete()</code></td>
-                                <td>Instancia</td>
-                                <td>Elimina de la base de datos la persona representada por el objeto actual.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
+                <p>
+                    El modelo <code>Persona.php</code> contiene métodos para establecer la conexión,
+                    consultar registros y ejecutar las operaciones CRUD.
+                </p>
 
-                <section class="section" id="self-static">
-                    <a class="top" href="#inicio">↑ Inicio</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>__construct()</code></td>
+                            <td>Instancia</td>
+                            <td>Se ejecuta al crear un objeto Persona y llama a <code>init()</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>init()</code></td>
+                            <td>Estático</td>
+                            <td>Inicializa la conexión con la base de datos solamente cuando todavía no existe.</td>
+                        </tr>
+                        <tr>
+                            <td><code>all()</code></td>
+                            <td>Estático</td>
+                            <td>Consulta todas las personas y devuelve un arreglo de objetos Persona.</td>
+                        </tr>
+                        <tr>
+                            <td><code>find($id)</code></td>
+                            <td>Estático</td>
+                            <td>Busca una persona utilizando su identificador.</td>
+                        </tr>
+                        <tr>
+                            <td><code>save()</code></td>
+                            <td>Instancia</td>
+                            <td>Guarda en la base de datos la información del objeto actual.</td>
+                        </tr>
+                        <tr>
+                            <td><code>update()</code></td>
+                            <td>Instancia</td>
+                            <td>Actualiza los datos de la persona representada por el objeto actual.</td>
+                        </tr>
+                        <tr>
+                            <td><code>delete()</code></td>
+                            <td>Instancia</td>
+                            <td>Elimina de la base de datos la persona representada por el objeto actual.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
 
-                    <span class="tag">05.2</span>
-                    <h2><code>self</code> y <code>static</code></h2>
+            <section class="section" id="self-static">
+                <a class="top" href="#inicio">↑ Inicio</a>
 
-                    <p>
-                        En PHP, <code>self</code> y <code>static</code> se utilizan principalmente
-                        cuando trabajamos con propiedades y métodos estáticos.
-                    </p>
+                <span class="tag">05.2</span>
+                <h2><code>self</code> y <code>static</code></h2>
 
-                    <div class="grid">
-                        <div class="card">
-                            <h3><code>self</code></h3>
-                            <p>
-                                Hace referencia a la clase en la que se encuentra escrito el código.
-                                En este caso, <code>self</code> representa a la clase <code>Persona</code>.
-                            </p>
-                        </div>
+                <p>
+                    En PHP, <code>self</code> y <code>static</code> se utilizan principalmente
+                    cuando trabajamos con propiedades y métodos estáticos.
+                </p>
 
-                        <div class="card">
-                            <h3><code>static</code></h3>
-                            <p>
-                                Indica que una propiedad o método pertenece a la clase y no a un objeto
-                                específico. Puede utilizarse sin crear una instancia.
-                            </p>
-                        </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3><code>self</code></h3>
+                        <p>
+                            Hace referencia a la clase en la que se encuentra escrito el código.
+                            En este caso, <code>self</code> representa a la clase <code>Persona</code>.
+                        </p>
                     </div>
 
-                    <h3>Utilizar una propiedad estática</h3>
+                    <div class="card">
+                        <h3><code>static</code></h3>
+                        <p>
+                            Indica que una propiedad o método pertenece a la clase y no a un objeto
+                            específico. Puede utilizarse sin crear una instancia.
+                        </p>
+                    </div>
+                </div>
 
-                    <pre><div class="label">Persona.php</div><code>private static $conn;
+                <h3>Utilizar una propiedad estática</h3>
+
+                <pre><div class="label">Persona.php</div><code>private static $conn;
 
 self::$conn = $database->getConnection();</code></pre>
 
-                    <p>
-                        La propiedad <code>$conn</code> es estática porque la conexión puede ser
-                        compartida por todos los métodos del modelo. Para acceder a ella desde la
-                        misma clase se utiliza <code>self::$conn</code>.
-                    </p>
+                <p>
+                    La propiedad <code>$conn</code> es estática porque la conexión puede ser
+                    compartida por todos los métodos del modelo. Para acceder a ella desde la
+                    misma clase se utiliza <code>self::$conn</code>.
+                </p>
 
-                    <h3>Utilizar un método estático</h3>
+                <h3>Utilizar un método estático</h3>
 
-                    <pre><div class="label">Desde el controlador</div><code>$data = Persona::all();
+                <pre><div class="label">Desde el controlador</div><code>$data = Persona::all();
 
 $item = Persona::find($id);</code></pre>
 
-                    <p>
-                        El operador <code>::</code> permite llamar métodos estáticos directamente
-                        desde la clase, sin crear primero un objeto.
-                    </p>
+                <p>
+                    El operador <code>::</code> permite llamar métodos estáticos directamente
+                    desde la clase, sin crear primero un objeto.
+                </p>
 
-                    <h3>Comparación rápida</h3>
+                <h3>Comparación rápida</h3>
 
-                    <pre><code>// Método estático: se llama desde la clase
+                <pre><code>// Método estático: se llama desde la clase
 $data = Persona::all();
 
 // Método de instancia: requiere un objeto
@@ -573,12 +590,12 @@ $item->nombre = 'Ana';
 $item->edad =  20;
 $item->save();</code></pre>
 
-                    <div class="note">
-                        <strong>Idea clave:</strong>
-                        <code>Persona::all()</code> utiliza un método estático porque consulta
-                        una colección completa. En cambio, <code>$item->save()</code> utiliza
-                        un método de instancia porque guarda los datos de un objeto específico.
-                    </div>
+                <div class="note">
+                    <strong>Idea clave:</strong>
+                    <code>Persona::all()</code> utiliza un método estático porque consulta
+                    una colección completa. En cambio, <code>$item->save()</code> utiliza
+                    un método de instancia porque guarda los datos de un objeto específico.
+                </div>
 
             </section>
             <section class="section" id="controlador"><a class="top" href="#inicio">↑ Inicio</a><span
@@ -658,7 +675,8 @@ public function store($request) {
     $this->password
 );
 $this->conn->exec('set names utf8');</code></pre>
-                <p>Para colocar el proyecto en XAMPP, puede ubicarse dentro de <code>htdocs</code> o en la carpeta configurada para este fin. La base de datos se
+                <p>Para colocar el proyecto en XAMPP, puede ubicarse dentro de <code>htdocs</code> o en la carpeta
+                    configurada para este fin. La base de datos se
                     crea importando el archivo <code>public/bk/db_mvc_php.sql</code> desde phpMyAdmin.</p>
             </section>
             <section class="section" id="crud"><a class="top" href="#inicio">↑ Inicio</a><span class="tag">09</span>
