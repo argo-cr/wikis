@@ -147,6 +147,15 @@
       font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
       font-size: .9em;
     }
+    pre .token-comment { color: #7f94b0; font-style: italic; }
+    pre .token-string { color: #c3e88d; }
+    pre .token-tag { color: #f07178; }
+    pre .token-keyword { color: #c792ea; }
+    pre .token-literal { color: #ffcb6b; }
+    pre .token-number { color: #f78c6c; }
+    pre .token-property { color: #89ddff; }
+    pre .token-function { color: #82aaff; }
+    pre .token-operator { color: #89ddff; }
 
     .callout {
       margin: 18px 0;
@@ -496,6 +505,47 @@ fetch('https://rickandmortyapi.com/api/character/')
           console.log('Fetch finally: la solicitud finalizó.');
         });
     });
+  </script>
+  <script>
+    (() => {
+      const tokenPattern = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/|<!--[\s\S]*?-->)|(`(?:\\[\s\S]|[^`])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(<\/?[A-Za-z][^>]*>)|(\b(?:async|await|break|case|catch|class|const|continue|default|do|else|export|extends|finally|for|function|if|import|in|let|new|of|return|switch|throw|try|typeof|var|while)\b)|(\b(?:true|false|null|undefined)\b)|(\b\d+(?:\.\d+)?\b)|(\b[A-Za-z_$][\w$]*(?=\s*:))|(\b[A-Za-z_$][\w$]*(?=\s*\())|(===|!==|=>|==|!=|<=|>=|&&|\|\||\+\+|--|\+=|-=|\?\.|[=+\-*\/<>!?:;,.])/g;
+
+      const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[character]);
+
+      const highlight = (source) => {
+        let result = '';
+        let cursor = 0;
+
+        source.replace(tokenPattern, (match, comment, string, tag, keyword, literal, number, property,
+          functionName, operator, offset) => {
+          result += escapeHtml(source.slice(cursor, offset));
+          const type = comment ? 'comment'
+            : string ? 'string'
+              : tag ? 'tag'
+                : keyword ? 'keyword'
+                  : literal ? 'literal'
+                    : number ? 'number'
+                      : property ? 'property'
+                        : functionName ? 'function'
+                          : 'operator';
+          result += `<span class="token token-${type}">${escapeHtml(match)}</span>`;
+          cursor = offset + match.length;
+          return match;
+        });
+
+        return result + escapeHtml(source.slice(cursor));
+      };
+
+      document.querySelectorAll('pre code').forEach((block) => {
+        block.innerHTML = highlight(block.textContent);
+      });
+    })();
   </script>
 </body>
 </html>
