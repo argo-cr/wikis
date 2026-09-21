@@ -186,6 +186,45 @@
             padding: 0
         }
 
+        /* Resaltado de sintaxis para los ejemplos de PHP y vistas HTML. */
+        pre .token-delimiter {
+            color: #f07178
+        }
+
+        pre .token-comment {
+            color: #7f94b0;
+            font-style: italic
+        }
+
+        pre .token-tag {
+            color: #f07178
+        }
+
+        pre .token-string {
+            color: #c3e88d
+        }
+
+        pre .token-variable {
+            color: #82aaff
+        }
+
+        pre .token-keyword {
+            color: #c792ea
+        }
+
+        pre .token-literal,
+        pre .token-class-name {
+            color: #ffcb6b
+        }
+
+        pre .token-number {
+            color: #f78c6c
+        }
+
+        pre .token-operator {
+            color: #89ddff
+        }
+
         .label {
             color: #93c5fd;
             font-weight: bold;
@@ -737,6 +776,57 @@ $this->conn->exec('set names utf8');</code></pre>
         </main>
     </div>
     <footer>Wiki de apoyo · PHP puro con MVC · Proyecto educativo de ejemplo</footer>
+    <script>
+        /*
+         * Resaltado ligero y sin dependencias externas: la wiki continúa
+         * funcionando incluso al abrirse directamente desde una carpeta.
+         */
+        (() => {
+            const tokenPattern = /(<\?(?:php|=)?|\?>)|(<!--[\s\S]*?-->|\/\/[^\n]*|#[^\n]*|\/\*[\s\S]*?\*\/)|(<\/?[A-Za-z][^>]*>)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(\$\w+)|(\b(?:abstract|as|break|case|catch|class|const|continue|default|do|echo|else|elseif|extends|final|for|foreach|function|if|include|include_once|instanceof|interface|namespace|new|private|protected|public|require|require_once|return|self|static|switch|throw|try|use|while)\b)|(\b(?:true|false|null)\b)|(\b\d+(?:\.\d+)?\b)|(\b[A-Z][A-Za-z0-9_]*\b)|(::|->|=>|\?\?|===|!==|==|!=|<=|>=|&&|\|\||[=+\-*\/<>!?:;,.])/g;
+
+            const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[character]);
+
+            const paintToken = (type, value) =>
+                `<span class="token token-${type}">${escapeHtml(value)}</span>`;
+
+            const highlight = (source) => {
+                let result = '';
+                let cursor = 0;
+
+                source.replace(tokenPattern, (match, delimiter, comment, tag, string, variable, keyword,
+                    literal, number, className, operator, offset) => {
+                    result += escapeHtml(source.slice(cursor, offset));
+
+                    const type = delimiter ? 'delimiter'
+                        : comment ? 'comment'
+                            : tag ? 'tag'
+                                : string ? 'string'
+                                    : variable ? 'variable'
+                                        : keyword ? 'keyword'
+                                            : literal ? 'literal'
+                                                : number ? 'number'
+                                                    : className ? 'class-name'
+                                                        : 'operator';
+
+                    result += paintToken(type, match);
+                    cursor = offset + match.length;
+                    return match;
+                });
+
+                return result + escapeHtml(source.slice(cursor));
+            };
+
+            document.querySelectorAll('pre code').forEach((block) => {
+                block.innerHTML = highlight(block.textContent);
+            });
+        })();
+    </script>
 </body>
 
 </html>
