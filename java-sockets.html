@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Sockets en Java | Wiki</title>
+      <style>
+            :root {
+                  --bg: #0b1020;
+                  --panel: #111831;
+                  --panel2: #161f3d;
+                  --text: #e9edf8;
+                  --muted: #aab4cf;
+                  --accent: #66d9ef;
+                  --accent2: #a78bfa;
+                  --green: #6ee7b7;
+                  --border: #263252;
+                  --code: #090d18;
+                  --warn: #fbbf24;
+            }
+
+            * {
+                  box-sizing: border-box
+            }
+
+            html {
+                  scroll-behavior: smooth
+            }
+
+            body {
+                  margin: 0;
+                  font-family: Inter, Segoe UI, Arial, sans-serif;
+                  background: var(--bg);
+                  color: var(--text);
+                  line-height: 1.65
+            }
+
+            a {
+                  color: var(--accent);
+                  text-decoration: none
+            }
+
+            .sidebar {
+                  position: fixed;
+                  inset: 0 auto 0 0;
+                  width: 285px;
+                  background: #080d1a;
+                  border-right: 1px solid var(--border);
+                  padding: 24px 18px;
+                  overflow: auto
+            }
+
+            .brand {
+                  font-size: 1.25rem;
+                  font-weight: 800;
+                  margin-bottom: 4px
+            }
+
+            .author {
+                  font-size: .86rem;
+                  color: var(--muted);
+                  margin-bottom: 20px
+            }
+
+            .search {
+                  width: 100%;
+                  background: var(--panel);
+                  border: 1px solid var(--border);
+                  color: var(--text);
+                  padding: 10px 12px;
+                  border-radius: 10px;
+                  margin-bottom: 18px
+            }
+
+            .nav-title {
+                  font-size: .72rem;
+                  text-transform: uppercase;
+                  letter-spacing: .12em;
+                  color: #7f8baa;
+                  margin: 18px 8px 7px
+            }
+
+            .sidebar a {
+                  display: block;
+                  padding: 7px 9px;
+                  border-radius: 8px;
+                  color: #cbd5e1;
+                  font-size: .91rem
+            }
+
+            .sidebar a:hover {
+                  background: var(--panel);
+                  color: white
+            }
+
+            .main {
+                  margin-left: 285px;
+                  max-width: 1100px;
+                  padding: 54px 58px 90px
+            }
+
+            .hero {
+                  padding: 38px;
+                  border: 1px solid var(--border);
+                  border-radius: 22px;
+                  background: linear-gradient(135deg, #121a34, #182143);
+                  margin-bottom: 42px
+            }
+
+            .kicker {
+                  color: var(--accent);
+                  font-weight: 800;
+                  text-transform: uppercase;
+                  letter-spacing: .12em;
+                  font-size: .75rem
+            }
+
+            h1 {
+                  font-size: 2.65rem;
+                  line-height: 1.05;
+                  margin: 10px 0 12px
+            }
+
+            h2 {
+                  font-size: 1.75rem;
+                  margin-top: 52px;
+                  padding-top: 12px;
+                  border-top: 1px solid var(--border)
+            }
+
+            h3 {
+                  font-size: 1.2rem;
+                  margin-top: 30px;
+                  color: #f4f6fb
+            }
+
+            p,
+            li {
+                  color: #cbd5e1
+            }
+
+            .lead {
+                  font-size: 1.08rem;
+                  max-width: 820px
+            }
+
+            .grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                  gap: 14px;
+                  margin: 20px 0
+            }
+
+            .card {
+                  background: var(--panel);
+                  border: 1px solid var(--border);
+                  border-radius: 14px;
+                  padding: 18px
+            }
+
+            .card b {
+                  color: white
+            }
+
+            .note {
+                  border-left: 4px solid var(--accent);
+                  background: var(--panel);
+                  padding: 14px 18px;
+                  border-radius: 0 12px 12px 0;
+                  margin: 18px 0
+            }
+
+            .warn {
+                  border-left-color: var(--warn)
+            }
+
+            .good {
+                  border-left-color: var(--green)
+            }
+
+            .flow {
+                  background: var(--panel);
+                  border: 1px solid var(--border);
+                  padding: 18px;
+                  border-radius: 14px;
+                  overflow: auto;
+                  white-space: pre;
+                  font-family: Consolas, monospace;
+                  color: #dce6ff
+            }
+
+            .code-wrap {
+                  margin: 18px 0 28px;
+                  background: var(--code);
+                  border: 1px solid var(--border);
+                  border-radius: 14px;
+                  overflow: hidden
+            }
+
+            .code-head {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 8px 12px;
+                  background: #11182a;
+                  border-bottom: 1px solid var(--border);
+                  font-size: .72rem;
+                  color: #8fa1c7;
+                  font-weight: 700;
+                  letter-spacing: .08em
+            }
+
+            .copy-btn,
+            .print-btn {
+                  border: 1px solid var(--border);
+                  background: #18213a;
+                  color: #dbe7ff;
+                  border-radius: 8px;
+                  padding: 6px 10px;
+                  cursor: pointer
+            }
+
+            .copy-btn:hover,
+            .print-btn:hover {
+                  background: #223052
+            }
+
+            pre {
+                  margin: 0;
+                  padding: 18px;
+                  overflow: auto;
+                  font: 14px/1.55 Consolas, "Courier New", monospace
+            }
+
+            table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  margin: 18px 0;
+                  background: var(--panel);
+                  border-radius: 12px;
+                  overflow: hidden
+            }
+
+            th,
+            td {
+                  padding: 11px 13px;
+                  border-bottom: 1px solid var(--border);
+                  text-align: left;
+                  vertical-align: top
+            }
+
+            th {
+                  background: #17213d;
+                  color: white
+            }
+
+            td {
+                  color: #cbd5e1
+            }
+
+            .badge {
+                  display: inline-block;
+                  padding: 3px 8px;
+                  border-radius: 999px;
+                  background: #172542;
+                  color: #9bdff0;
+                  font-size: .78rem
+            }
+
+            .footer {
+                  margin-top: 60px;
+                  padding-top: 24px;
+                  border-top: 1px solid var(--border);
+                  color: #7f8baa;
+                  font-size: .88rem
+            }
+
+            .top-actions {
+                  position: fixed;
+                  right: 18px;
+                  top: 16px;
+                  z-index: 5
+            }
+
+            pre {
+                  line-height: 125%;
+            }
+
+            td.linenos .normal {
+                  color: inherit;
+                  background-color: transparent;
+                  padding-left: 5px;
+                  padding-right: 5px;
+            }
+
+            span.linenos {
+                  color: inherit;
+                  background-color: transparent;
+                  padding-left: 5px;
+                  padding-right: 5px;
+            }
+
+            td.linenos .special {
+                  color: #000000;
+                  background-color: #ffffc0;
+                  padding-left: 5px;
+                  padding-right: 5px;
+            }
+
+            span.linenos.special {
+                  color: #000000;
+                  background-color: #ffffc0;
+                  padding-left: 5px;
+                  padding-right: 5px;
+            }
+
+            .code-wrap .hll {
+                  background-color: #ffffcc
+            }
+
+            .code-wrap {
+                  background: #010715;
+            }
+
+            .code-wrap .c {
+                  color: #3D7B7B;
+                  font-style: italic
+            }
+
+            /* Comment */
+            .code-wrap .err {
+                  border: 1px solid #F00
+            }
+
+            /* Error */
+            .code-wrap .k {
+                  color: #008000;
+                  font-weight: bold
+            }
+
+            /* Keyword */
+            .code-wrap .o {
+                  color: #666
+            }
+
+            /* Operator */
+            .code-wrap .ch {
+                  color: #3D7B7B;
+                  font-style: italic
+            }
+
+            /* Comment.Hashbang */
+            .code-wrap .cm {
+                  color: #3D7B7B;
+                  font-style: italic
+            }
+
+            /* Comment.Multiline */
+            .code-wrap .cp {
+                  color: #9C6500
+            }
+
+            /* Comment.Preproc */
+            .code-wrap .cpf {
+                  color: #3D7B7B;
+                  font-style: italic
+            }
+
+            /* Comment.PreprocFile */
+            .code-wrap .c1 {
+                  color: #3D7B7B;
+                  font-style: italic
+            }
+
+            /* Comment.Single */
+            .code-wrap .cs {
+                  color: #3D7B7B;
+                  font-style: italic
+            }
+
+            /* Comment.Special */
+            .code-wrap .gd {
+                  color: #A00000
+            }
+
+            /* Generic.Deleted */
+            .code-wrap .ge {
+                  font-style: italic
+            }
+
+            /* Generic.Emph */
+            .code-wrap .ges {
+                  font-weight: bold;
+                  font-style: italic
+            }
+
+            /* Generic.EmphStrong */
+            .code-wrap .gr {
+                  color: #E40000
+            }
+
+            /* Generic.Error */
+            .code-wrap .gh {
+                  color: #000080;
+                  font-weight: bold
+            }
+
+            /* Generic.Heading */
+            .code-wrap .gi {
+                  color: #008400
+            }
+
+            /* Generic.Inserted */
+            .code-wrap .go {
+                  color: #717171
+            }
+
+            /* Generic.Output */
+            .code-wrap .gp {
+                  color: #000080;
+                  font-weight: bold
+            }
+
+            /* Generic.Prompt */
+            .code-wrap .gs {
+                  font-weight: bold
+            }
+
+            /* Generic.Strong */
+            .code-wrap .gu {
+                  color: #800080;
+                  font-weight: bold
+            }
+
+            /* Generic.Subheading */
+            .code-wrap .gt {
+                  color: #04D
+            }
+
+            /* Generic.Traceback */
+            .code-wrap .kc {
+                  color: #008000;
+                  font-weight: bold
+            }
+
+            /* Keyword.Constant */
+            .code-wrap .kd {
+                  color: #008000;
+                  font-weight: bold
+            }
+
+            /* Keyword.Declaration */
+            .code-wrap .kn {
+                  color: #008000;
+                  font-weight: bold
+            }
+
+            /* Keyword.Namespace */
+            .code-wrap .kp {
+                  color: #008000
+            }
+
+            /* Keyword.Pseudo */
+            .code-wrap .kr {
+                  color: #008000;
+                  font-weight: bold
+            }
+
+            /* Keyword.Reserved */
+            .code-wrap .kt {
+                  color: #B00040
+            }
+
+            /* Keyword.Type */
+            .code-wrap .m {
+                  color: #666
+            }
+
+            /* Literal.Number */
+            .code-wrap .s {
+                  color: #BA2121
+            }
+
+            /* Literal.String */
+            .code-wrap .na {
+                  color: #687822
+            }
+
+            /* Name.Attribute */
+            .code-wrap .nb {
+                  color: #008000
+            }
+
+            /* Name.Builtin */
+            .code-wrap .nc {
+                  color: #00F;
+                  font-weight: bold
+            }
+
+            /* Name.Class */
+            .code-wrap .no {
+                  color: #800
+            }
+
+            /* Name.Constant */
+            .code-wrap .nd {
+                  color: #A2F
+            }
+
+            /* Name.Decorator */
+            .code-wrap .ni {
+                  color: #717171;
+                  font-weight: bold
+            }
+
+            /* Name.Entity */
+            .code-wrap .ne {
+                  color: #CB3F38;
+                  font-weight: bold
+            }
+
+            /* Name.Exception */
+            .code-wrap .nf {
+                  color: #00F
+            }
+
+            /* Name.Function */
+            .code-wrap .nl {
+                  color: #767600
+            }
+
+            /* Name.Label */
+            .code-wrap .nn {
+                  color: #00F;
+                  font-weight: bold
+            }
+
+            /* Name.Namespace */
+            .code-wrap .nt {
+                  color: #008000;
+                  font-weight: bold
+            }
+
+            /* Name.Tag */
+            .code-wrap .nv {
+                  color: #19177C
+            }
+
+            /* Name.Variable */
+            .code-wrap .ow {
+                  color: #A2F;
+                  font-weight: bold
+            }
+
+            /* Operator.Word */
+            .code-wrap .w {
+                  color: #BBB
+            }
+
+            /* Text.Whitespace */
+            .code-wrap .mb {
+                  color: #666
+            }
+
+            /* Literal.Number.Bin */
+            .code-wrap .mf {
+                  color: #666
+            }
+
+            /* Literal.Number.Float */
+            .code-wrap .mh {
+                  color: #666
+            }
+
+            /* Literal.Number.Hex */
+            .code-wrap .mi {
+                  color: #666
+            }
+
+            /* Literal.Number.Integer */
+            .code-wrap .mo {
+                  color: #666
+            }
+
+            /* Literal.Number.Oct */
+            .code-wrap .sa {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Affix */
+            .code-wrap .sb {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Backtick */
+            .code-wrap .sc {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Char */
+            .code-wrap .dl {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Delimiter */
+            .code-wrap .sd {
+                  color: #BA2121;
+                  font-style: italic
+            }
+
+            /* Literal.String.Doc */
+            .code-wrap .s2 {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Double */
+            .code-wrap .se {
+                  color: #AA5D1F;
+                  font-weight: bold
+            }
+
+            /* Literal.String.Escape */
+            .code-wrap .sh {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Heredoc */
+            .code-wrap .si {
+                  color: #A45A77;
+                  font-weight: bold
+            }
+
+            /* Literal.String.Interpol */
+            .code-wrap .sx {
+                  color: #008000
+            }
+
+            /* Literal.String.Other */
+            .code-wrap .sr {
+                  color: #A45A77
+            }
+
+            /* Literal.String.Regex */
+            .code-wrap .s1 {
+                  color: #BA2121
+            }
+
+            /* Literal.String.Single */
+            .code-wrap .ss {
+                  color: #19177C
+            }
+
+            /* Literal.String.Symbol */
+            .code-wrap .bp {
+                  color: #008000
+            }
+
+            /* Name.Builtin.Pseudo */
+            .code-wrap .fm {
+                  color: #00F
+            }
+
+            /* Name.Function.Magic */
+            .code-wrap .vc {
+                  color: #19177C
+            }
+
+            /* Name.Variable.Class */
+            .code-wrap .vg {
+                  color: #19177C
+            }
+
+            /* Name.Variable.Global */
+            .code-wrap .vi {
+                  color: #19177C
+            }
+
+            /* Name.Variable.Instance */
+            .code-wrap .vm {
+                  color: #19177C
+            }
+
+            /* Name.Variable.Magic */
+            .code-wrap .il {
+                  color: #666
+            }
+
+            /* Literal.Number.Integer.Long */
+            @media(max-width:850px) {
+                  .sidebar {
+                        position: relative;
+                        width: auto;
+                        height: auto
+                  }
+
+                  .main {
+                        margin-left: 0;
+                        padding: 30px 20px 70px
+                  }
+
+                  .top-actions {
+                        position: absolute
+                  }
+
+                  h1 {
+                        font-size: 2.1rem
+                  }
+            }
+
+            @media print {
+
+                  .sidebar,
+                  .top-actions,
+                  .copy-btn {
+                        display: none !important
+                  }
+
+                  .main {
+                        margin: 0;
+                        max-width: none;
+                        padding: 20px
+                  }
+
+                  body {
+                        background: white;
+                        color: #111
+                  }
+
+                  p,
+                  li,
+                  td {
+                        color: #222
+                  }
+
+                  .hero,
+                  .card,
+                  .note,
+                  .code-wrap,
+                  table {
+                        break-inside: avoid
+                  }
+
+                  .hero,
+                  .card,
+                  .note,
+                  table {
+                        background: white;
+                        border-color: #ccc
+                  }
+
+                  h1,
+                  h2,
+                  h3,
+                  th {
+                        color: #111
+                  }
+
+                  .code-wrap {
+                        background: #f7f7f7;
+                        border-color: #ccc
+                  }
+
+                  pre {
+                        white-space: pre-wrap
+                  }
+            }
+      </style>
+</head>
+
+<body>
+      <div class="top-actions"><button class="print-btn" onclick="window.print()">Imprimir / PDF</button></div>
+
+      <aside class="sidebar">
+            <div class="brand">Java · Sockets</div>
+            <div class="author">M.Sc. Olivier Blanco Sandí</div>
+            <input id="search" class="search" placeholder="Buscar en la wiki..." oninput="searchWiki()">
+
+            <div class="nav-title">Parte I · Fundamentos</div>
+            <a href="#que-es">1. ¿Qué es un socket?</a>
+            <a href="#ip-puerto">2. IP y puerto</a>
+            <a href="#consultar-ip">3. Consultar la IP</a>
+            <a href="#clases-basicas">4. Clases principales</a>
+            <a href="#serializacion">5. Objetos y serialización</a>
+            <a href="#basic">6. Proyecto Sockets-Basic</a>
+
+            <div class="nav-title">Parte II · Multichat</div>
+            <a href="#problema">7. Del socket al multichat</a>
+            <a href="#server">8. Server</a>
+            <a href="#handler">9. ClientHandler</a>
+            <a href="#lista">10. Lista de clientes</a>
+            <a href="#broadcast">11. Broadcast</a>
+            <a href="#client">12. Client</a>
+            <a href="#flujo">13. Flujo completo</a>
+      </aside>
+
+      <main class="main" id="content">
+            <section class="hero">
+                  <div class="kicker">Redes y concurrencia</div>
+                  <h1>Sockets en Java</h1>
+                  <p class="lead">Guía práctica para comprender la comunicación cliente-servidor con TCP, envío de
+                        objetos, hilos y la construcción progresiva de un multichat.</p>
+                  <span class="badge">M.Sc. Olivier Blanco Sandí</span>
+            </section>
+
+            <section id="que-es">
+                  <h2>Parte I · Fundamentos de sockets</h2>
+                  <h3>1. ¿Qué es un socket?</h3>
+                  <p>Un <b>socket</b> es un punto de comunicación entre dos programas. En un modelo cliente-servidor, el
+                        servidor abre un puerto y espera conexiones; el cliente conoce la dirección del servidor y
+                        solicita conectarse.</p>
+                  <div class="flow">CLIENTE SERVIDOR
+                        Socket(host, 5000) ───── conexión TCP ─────► ServerSocket(5000)
+                        │
+                        └── accept()</div>
+                  <div class="grid">
+                        <div class="card"><b>Servidor</b><br>Escucha conexiones y atiende solicitudes.</div>
+                        <div class="card"><b>Cliente</b><br>Inicia la conexión con el servidor.</div>
+                        <div class="card"><b>TCP</b><br>Mantiene una conexión confiable y ordenada.</div>
+                  </div>
+            </section>
+
+            <section id="ip-puerto">
+                  <h3>2. Dirección IP y puerto</h3>
+                  <p>Para encontrar un servicio en la red necesitamos dos datos: la <b>IP</b> identifica el equipo y el
+                        <b>puerto</b> identifica la aplicación o servicio dentro de ese equipo.</p>
+                  <div class="flow">192.168.1.25 : 5000
+                        ──────────── ────
+                        IP Puerto</div>
+                  <p><code>127.0.0.1</code> y <code>localhost</code> representan el propio equipo. Son ideales para
+                        probar cliente y servidor en la misma computadora. Para conectarse desde otra computadora de la
+                        red local se utiliza normalmente la IPv4 local del equipo servidor.</p>
+                  <div class="note warn"><b>Importante:</b> el puerto usado por el programa debe estar disponible.
+                        Además, para conexiones desde otros equipos, el firewall puede requerir autorización para Java o
+                        para el puerto utilizado.</div>
+            </section>
+
+            <section id="consultar-ip">
+                  <h3>3. ¿Cómo consultar la IP de la computadora?</h3>
+                  <p>En Windows, abre <b>Símbolo del sistema (CMD)</b> o Terminal y ejecuta:</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>BASH</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code>ipconfig
+</code></pre>
+                  </div>
+                  <p>Busca el adaptador que estés utilizando —Wi-Fi o Ethernet— y localiza <b>Dirección IPv4</b>. Un
+                        valor típico podría ser <code>192.168.1.25</code>.</p>
+                  <table>
+                        <tr>
+                              <th>Escenario</th>
+                              <th>Host utilizado por el cliente</th>
+                        </tr>
+                        <tr>
+                              <td>Cliente y servidor en la misma PC</td>
+                              <td><code>127.0.0.1</code> o <code>localhost</code></td>
+                        </tr>
+                        <tr>
+                              <td>Equipos distintos en la misma red</td>
+                              <td>IPv4 local del equipo servidor, por ejemplo <code>192.168.1.25</code></td>
+                        </tr>
+                  </table>
+            </section>
+
+            <section id="clases-basicas">
+                  <h3>4. Clases principales de Java</h3>
+                  <table>
+                        <tr>
+                              <th>Clase</th>
+                              <th>Responsabilidad</th>
+                        </tr>
+                        <tr>
+                              <td><code>ServerSocket</code></td>
+                              <td>Abre un puerto y permite al servidor esperar conexiones.</td>
+                        </tr>
+                        <tr>
+                              <td><code>Socket</code></td>
+                              <td>Representa una conexión entre dos extremos.</td>
+                        </tr>
+                        <tr>
+                              <td><code>ObjectOutputStream</code></td>
+                              <td>Permite enviar objetos mediante <code>writeObject()</code>.</td>
+                        </tr>
+                        <tr>
+                              <td><code>ObjectInputStream</code></td>
+                              <td>Permite recibir objetos mediante <code>readObject()</code>.</td>
+                        </tr>
+                        <tr>
+                              <td><code>Thread</code></td>
+                              <td>Permite ejecutar tareas concurrentemente.</td>
+                        </tr>
+                  </table>
+            </section>
+
+            <section id="serializacion">
+                  <h3>5. Enviar objetos: Serializable</h3>
+                  <p>En estos proyectos no enviamos únicamente texto: enviamos objetos <code>Mensaje</code>. Para que
+                        Java pueda convertir el objeto a bytes y reconstruirlo en el otro extremo, la clase implementa
+                        <code>Serializable</code>.</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Mensaje</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Serializable</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">serialVersionUID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1L</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">texto</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Mensaje</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">usuario</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">texto</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">texto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">texto</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getUsuario</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getTexto</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">texto</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">texto</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+                  <div class="flow">Mensaje Java
+                        │
+                        │ writeObject()
+                        ▼
+                        SERIALIZACIÓN ─────► SOCKET / RED ─────► DESERIALIZACIÓN
+                        │
+                        ▼
+                        Mensaje Java</div>
+            </section>
+
+            <section id="basic">
+                  <h3>6. Primer proyecto: Sockets-Basic</h3>
+                  <p>El objetivo del primer proyecto es comprender una comunicación sencilla: el servidor espera una
+                        conexión, recibe un <code>Mensaje</code>, responde y continúa esperando hasta completar una
+                        cantidad determinada de conexiones.</p>
+
+                  <h3>Server básico</h3>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Server</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">conexiones</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Server</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">conexiones</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">conexiones</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conexiones</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="c1">// ABRIR SERVIDOR</span>
+<span class="w">            </span><span class="n">ServerSocket</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">conexiones</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;\nEsperando conexión...&quot;</span><span class="p">);</span>
+
+<span class="w">                </span><span class="n">Socket</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="na">accept</span><span class="p">();</span>
+
+<span class="w">                </span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                    </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">());</span>
+<span class="w">                </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                    </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">());</span>
+
+<span class="w">                </span><span class="c1">// RECIBIR MENSAJE</span>
+<span class="w">                </span><span class="n">Mensaje</span><span class="w"> </span><span class="n">msj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Mensaje</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span><span class="w">    </span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">msj</span><span class="p">);</span>
+
+<span class="w">                </span><span class="c1">// ENVIAR MENSAJE</span>
+<span class="w">                </span><span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span>
+<span class="w">                    </span><span class="k">new</span><span class="w"> </span><span class="n">Mensaje</span><span class="p">(</span><span class="s">&quot;Servidor&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;Bienvenido &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">msj</span><span class="p">.</span><span class="na">getUsuario</span><span class="p">())</span>
+<span class="w">                </span><span class="p">);</span>
+<span class="w">                </span><span class="n">out</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+
+<span class="w">                </span><span class="c1">// ESPERAMOS 1 SEGUNDO</span>
+<span class="w">                </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="c1">// CERRAR SERVIDOR</span>
+<span class="w">            </span><span class="n">server</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+                  <div class="note"><b>Idea clave:</b> <code>accept()</code> bloquea el hilo del servidor hasta que
+                        llega una conexión. Por eso el servidor se ejecuta mediante <code>start()</code> en un hilo
+                        independiente.</div>
+
+                  <h3>Client básico</h3>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Client</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Client</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="c1">// ABRIR LA CONEXIÓN</span>
+<span class="w">            </span><span class="n">Socket</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Socket</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5000</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">());</span>
+
+<span class="w">            </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">());</span>
+
+<span class="w">            </span><span class="c1">// ENVIAR MENSAJE</span>
+<span class="w">            </span><span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">Mensaje</span><span class="p">(</span><span class="s">&quot;Cliente &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hola server :D&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">);</span>
+<span class="w">            </span><span class="n">out</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+
+<span class="w">            </span><span class="c1">// RECIBIR MENSAJE</span>
+<span class="w">            </span><span class="n">Mensaje</span><span class="w"> </span><span class="n">msj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Mensaje</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">msj</span><span class="p">);</span>
+
+<span class="w">            </span><span class="c1">// CERRAR LA CONEXIÓN</span>
+<span class="w">            </span><span class="n">client</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+
+                  <h3>Arranque del ejercicio</h3>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">conexiones</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// El servidor se ejecuta en un hilo independiente.</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">Server</span><span class="p">(</span><span class="n">conexiones</span><span class="p">).</span><span class="na">start</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Los clientes se conectan de forma secuencial.</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">conexiones</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Client</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="na">init</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+                  <div class="flow">THREAD SERVIDOR THREAD PRINCIPAL
+                        Server.start() ControllerSockets
+                        │ │
+                        ServerSocket(5000) Client 1
+                        │ ◄────────────────────────────────────────┘
+                        accept()
+                        │ Client 2
+                        │ ◄────────────────────────────────────────┘
+                        accept()
+                        │ Client 3
+                        │ ◄────────────────────────────────────────┘</div>
+                  <p>En esta primera versión los clientes se ejecutan uno después de otro. El propósito todavía no es
+                        mantener muchos usuarios conversando simultáneamente, sino entender conexión, envío, recepción y
+                        cierre.</p>
+            </section>
+
+            <section id="problema">
+                  <h2>Parte II · Multichat con hilos</h2>
+                  <h3>7. ¿Qué problema debemos resolver?</h3>
+                  <p>Un chat necesita mantener varios clientes conectados al mismo tiempo. Si el servidor atendiera
+                        completamente a un cliente antes de aceptar al siguiente, un usuario podría bloquear a todos los
+                        demás.</p>
+                  <div class="flow"> SERVER
+                        │
+                        accept()
+                        │
+                        ┌────────────┼────────────┐
+                        ▼ ▼ ▼
+                        ClientHandler ClientHandler ClientHandler
+                        │ │ │
+                        Cliente 1 Cliente 2 Cliente 3</div>
+                  <p>La solución es que <b>Server</b> se concentre en aceptar conexiones y entregue cada conexión a un
+                        <b>ClientHandler</b>, que se ejecuta en su propio hilo.</p>
+            </section>
+
+            <section id="server">
+                  <h3>8. Server: aceptar conexiones</h3>
+                  <p>El servidor mantiene un <code>while(true)</code>. Cada vez que <code>accept()</code> retorna un
+                        nuevo <code>Socket</code>, se crea un manejador específico para ese cliente.</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Server</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5000</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ServerSocket</span><span class="w"> </span><span class="n">server</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ClientHandler</span><span class="o">&gt;</span><span class="w"> </span><span class="n">clients</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">Collections</span><span class="p">.</span><span class="na">synchronizedList</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="n">PORT</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Servidor iniciado...&quot;</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">Socket</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="na">accept</span><span class="p">();</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Cliente: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">client</span><span class="p">);</span>
+
+<span class="w">                </span><span class="n">ClientHandler</span><span class="w"> </span><span class="n">ch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ClientHandler</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+
+<span class="w">                </span><span class="c1">// Registrar antes de iniciar el hilo.</span>
+<span class="w">                </span><span class="n">clients</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+<span class="w">                </span><span class="n">ch</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ClientHandler</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="n">Socket</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="nf">ClientHandler</span><span class="p">(</span><span class="n">Socket</span><span class="w"> </span><span class="n">client</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">());</span>
+<span class="w">                </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">());</span>
+
+<span class="w">                </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Mensaje</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Mensaje</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span>
+<span class="w">                    </span><span class="n">broadcast</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">client</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">                </span><span class="n">clients</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">broadcast</span><span class="p">(</span><span class="n">Mensaje</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">clients</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ClientHandler</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">clients</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">c</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">                        </span><span class="n">c</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+                  <div class="note good"><b>Separación de responsabilidades:</b> <code>Server</code> acepta conexiones;
+                        <code>ClientHandler</code> conversa con un cliente; <code>broadcast()</code> distribuye los
+                        mensajes.</div>
+            </section>
+
+            <section id="handler">
+                  <h3>9. ClientHandler: un hilo por cliente</h3>
+                  <p><code>ClientHandler</code> representa una conexión activa. Como extiende <code>Thread</code>, cada
+                        cliente puede quedarse esperando en <code>readObject()</code> sin detener a los demás.</p>
+                  <div class="flow">ClientHandler #1 ── readObject() ── Cliente 1
+                        ClientHandler #2 ── readObject() ── Cliente 2
+                        ClientHandler #3 ── readObject() ── Cliente 3
+
+                        Cada línea puede avanzar de manera independiente.</div>
+                  <p>Cuando un cliente envía un mensaje, su manejador lo recibe y llama a <code>broadcast(m)</code>. Si
+                        la conexión termina, el bloque <code>finally</code> cierra el socket y elimina ese manejador de
+                        la lista.</p>
+            </section>
+
+            <section id="lista">
+                  <h3>10. La lista de ClientHandler</h3>
+                  <p>El servidor necesita recordar quiénes están conectados. Por eso mantiene una lista compartida:</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ClientHandler</span><span class="o">&gt;</span><span class="w"> </span><span class="n">clients</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">Collections</span><span class="p">.</span><span class="na">synchronizedList</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+</code></pre>
+                  </div>
+                  <p>Cada elemento no es solamente un “usuario”: es un objeto que conserva el <code>Socket</code> y los
+                        streams necesarios para comunicarse con ese cliente.</p>
+                  <div class="flow">clients
+                        │
+                        ├── ClientHandler #1 ──► Socket + out + in
+                        ├── ClientHandler #2 ──► Socket + out + in
+                        └── ClientHandler #3 ──► Socket + out + in</div>
+                  <p>Cuando entra una conexión:</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="n">ClientHandler</span><span class="w"> </span><span class="n">ch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ClientHandler</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+<span class="n">clients</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+<span class="n">ch</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</code></pre>
+                  </div>
+                  <p>Cuando se desconecta:</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="n">clients</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</code></pre>
+                  </div>
+                  <div class="note warn"><b>Concurrencia:</b> <code>synchronizedList</code> protege operaciones
+                        individuales como <code>add()</code> y <code>remove()</code>. Al recorrer la lista, es
+                        recomendable sincronizar explícitamente el bloque de iteración, como se muestra en
+                        <code>broadcast()</code>.</div>
+            </section>
+
+            <section id="broadcast">
+                  <h3>11. Broadcast: enviar a todos</h3>
+                  <p>El servidor recibe un mensaje desde un cliente y recorre los manejadores conectados. A través del
+                        <code>ObjectOutputStream</code> de cada uno, reenvía el mismo objeto.</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">broadcast</span><span class="p">(</span><span class="n">Mensaje</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">clients</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ClientHandler</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">clients</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">c</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">                </span><span class="n">c</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+                  <div class="flow">Cliente A
+                        │
+                        │ Mensaje("Ana", "Hola")
+                        ▼
+                        ClientHandler A
+                        │
+                        ▼
+                        broadcast()
+                        │
+                        ├────────► ClientHandler A ──► Cliente A
+                        ├────────► ClientHandler B ──► Cliente B
+                        └────────► ClientHandler C ──► Cliente C</div>
+            </section>
+
+            <section id="client">
+                  <h3>12. Client: enviar y escuchar al mismo tiempo</h3>
+                  <p>El cliente del multichat también extiende <code>Thread</code>. Su hilo queda escuchando mensajes
+                        entrantes, mientras la interfaz gráfica puede seguir respondiendo a los botones del usuario.</p>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Client</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5000</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ViewChat</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Socket</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Client</span><span class="p">(</span><span class="n">ViewChat</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">host</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Socket</span><span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="w"> </span><span class="n">PORT</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">());</span>
+<span class="w">            </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">());</span>
+
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">Mensaje</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Mensaje</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">v</span><span class="p">.</span><span class="na">appendMessage</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="n">Mensaje</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">            </span><span class="n">out</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+
+<span class="w">            </span><span class="n">v</span><span class="p">.</span><span class="na">clearSend</span><span class="p">();</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">close</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="w">            </span><span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="w">            </span><span class="n">client</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+                  </div>
+                  <p>El método <code>run()</code> se dedica a <b>recibir</b>. El método <code>send()</code> se invoca
+                        cuando el usuario desea <b>enviar</b>. Esa separación hace posible que el chat reciba mensajes
+                        incluso cuando el usuario no está haciendo nada.</p>
+
+                  <h3>Conexión desde el controlador</h3>
+                  <div class="code-wrap">
+                        <div class="code-head"><span>JAVA</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copiar</button></div>
+                        <pre><code><span class="n">v</span><span class="p">.</span><span class="na">btnConectar</span><span class="p">.</span><span class="na">addActionListener</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="na">tUsuario</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="na">tHost</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Client</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">host</span><span class="p">);</span>
+<span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">v</span><span class="p">.</span><span class="na">allowChat</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="n">v</span><span class="p">.</span><span class="na">btnEnviar</span><span class="p">.</span><span class="na">addActionListener</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">texto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="na">tMensaje</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Mensaje</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Mensaje</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span><span class="w"> </span><span class="n">texto</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+                  </div>
+            </section>
+
+            <section id="flujo">
+                  <h3>13. Flujo completo del multichat</h3>
+                  <div class="flow">1. MainServer
+                        │
+                        ▼
+                        Server.start()
+                        │
+                        ▼
+                        ServerSocket(5000)
+                        │
+                        │ accept()
+                        ▼
+                        2. Llega Client A ─────► ClientHandler A.start()
+                        │
+                        │ accept()
+                        ▼
+                        3. Llega Client B ─────► ClientHandler B.start()
+
+                        4. Client A: send(Mensaje)
+                        │
+                        ▼
+                        ClientHandler A: readObject()
+                        │
+                        ▼
+                        broadcast(Mensaje)
+                        │
+                        ├────────► A
+                        └────────► B
+
+                        5. Cada Client.run()
+                        recibe el objeto y actualiza su ViewChat.</div>
+
+                  <div class="grid">
+                        <div class="card"><b>Server</b><br>Acepta nuevas conexiones. No debería quedarse atendiendo
+                              personalmente a un único usuario.</div>
+                        <div class="card"><b>ClientHandler</b><br>Atiende permanentemente a un cliente específico y
+                              participa en el broadcast.</div>
+                        <div class="card"><b>Client</b><br>Mantiene la conexión, escucha mensajes y proporciona
+                              <code>send()</code>.</div>
+                        <div class="card"><b>clients</b><br>Representa el conjunto de conexiones activas que pueden
+                              recibir mensajes.</div>
+                  </div>
+
+                  <h3>Resumen conceptual</h3>
+                  <table>
+                        <tr>
+                              <th>Concepto</th>
+                              <th>Qué debes recordar</th>
+                        </tr>
+                        <tr>
+                              <td>IP</td>
+                              <td>Identifica el equipo servidor en la red.</td>
+                        </tr>
+                        <tr>
+                              <td>Puerto</td>
+                              <td>Identifica el servicio; en el ejercicio usamos <code>5000</code>.</td>
+                        </tr>
+                        <tr>
+                              <td>ServerSocket</td>
+                              <td>Escucha conexiones entrantes.</td>
+                        </tr>
+                        <tr>
+                              <td>Socket</td>
+                              <td>Representa una conexión concreta.</td>
+                        </tr>
+                        <tr>
+                              <td>Object streams</td>
+                              <td>Permiten enviar y recibir objetos Java.</td>
+                        </tr>
+                        <tr>
+                              <td>Serializable</td>
+                              <td>Permite serializar objetos como <code>Mensaje</code>.</td>
+                        </tr>
+                        <tr>
+                              <td>Thread</td>
+                              <td>Evita que una tarea bloqueante detenga las demás.</td>
+                        </tr>
+                        <tr>
+                              <td>ClientHandler</td>
+                              <td>Un hilo que atiende una conexión específica.</td>
+                        </tr>
+                        <tr>
+                              <td>Lista de handlers</td>
+                              <td>Permite saber a quiénes reenviar los mensajes.</td>
+                        </tr>
+                        <tr>
+                              <td>Broadcast</td>
+                              <td>Distribuye un mensaje entre los clientes conectados.</td>
+                        </tr>
+                  </table>
+            </section>
+
+            <div class="footer">
+                  Material de apoyo · M.Sc. Olivier Blanco Sandí
+            </div>
+      </main>
+
+      <script>
+            function copyCode(btn) {
+                  const code = btn.closest('.code-wrap').querySelector('code').innerText;
+                  navigator.clipboard.writeText(code).then(() => {
+                        const old = btn.textContent; btn.textContent = 'Copiado ✓';
+                        setTimeout(() => btn.textContent = old, 1200);
+                  });
+            }
+            function searchWiki() {
+                  const q = document.getElementById('search').value.toLowerCase().trim();
+                  document.querySelectorAll('main section').forEach(s => {
+                        s.style.display = (!q || s.innerText.toLowerCase().includes(q)) ? '' : 'none';
+                  });
+            }
+      </script>
+</body>
+
+</html>
