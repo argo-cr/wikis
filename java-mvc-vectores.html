@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC en Java con Vectores | M.Sc. Olivier Blanco Sandí</title>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --panel: #fff;
+            --ink: #172033;
+            --muted: #657086;
+            --accent: #2563eb;
+            --accent2: #0f766e;
+            --border: #dce3ee;
+            --code: #101827;
+            --codeInk: #e5edf8;
+            --sidebar: #111827;
+            --warn: #fff7ed;
+            --ok: #ecfdf5
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.65
+        }
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 275px;
+            background: var(--sidebar);
+            color: white;
+            padding: 28px 20px;
+            overflow: auto
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: 1.15rem;
+            line-height: 1.3
+        }
+
+        .author {
+            font-size: .82rem;
+            color: #aebbd0;
+            margin: 8px 0 28px
+        }
+
+        .nav a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 9px 11px;
+            border-radius: 8px;
+            margin: 3px 0;
+            font-size: .92rem
+        }
+
+        .nav a:hover {
+            background: #1f2937;
+            color: white
+        }
+
+        .main {
+            margin-left: 275px
+        }
+
+        .hero {
+            padding: 70px max(6vw, 40px) 58px;
+            background: linear-gradient(135deg, #eef4ff, #f0fdfa);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .09em;
+            font-size: .78rem
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4.2rem);
+            line-height: 1.02;
+            margin: 12px 0 18px;
+            max-width: 900px
+        }
+
+        .hero p {
+            font-size: 1.12rem;
+            color: var(--muted);
+            max-width: 800px
+        }
+
+        .content {
+            max-width: 1050px;
+            margin: auto;
+            padding: 48px 42px 90px
+        }
+
+        section {
+            scroll-margin-top: 25px;
+            margin: 0 0 58px
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 12px
+        }
+
+        h3 {
+            margin-top: 30px
+        }
+
+        .lead {
+            font-size: 1.08rem;
+            color: #46536a
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, .04)
+        }
+
+        .card h3 {
+            margin-top: 0
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e8efff;
+            color: #174bb8;
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 700
+        }
+
+        .flow {
+            display: flex;
+            align-items: stretch;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .flow .box {
+            flex: 1;
+            min-width: 180px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px
+        }
+
+        .arrow {
+            align-self: center;
+            font-size: 1.6rem;
+            color: var(--accent)
+        }
+
+        pre {
+            background: var(--code);
+            color: var(--codeInk);
+            padding: 20px;
+            border-radius: 13px;
+            overflow: auto;
+            border: 1px solid #263349;
+            font: 14px/1.55 Consolas, Monaco, monospace;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .08)
+        }
+
+        code {
+            font-family: Consolas, Monaco, monospace
+        }
+
+        .kw {
+            color: #c792ea
+        }
+
+        .type {
+            color: #82aaff
+        }
+
+        .str {
+            color: #c3e88d
+        }
+
+        .num {
+            color: #f78c6c
+        }
+
+        .fn {
+            color: #82aaff
+        }
+
+        .cm {
+            color: #7f8c98
+        }
+
+        .var {
+            color: #f8f8f2
+        }
+
+        .op {
+            color: #89ddff
+        }
+
+        .inline {
+            background: #e9eef6;
+            padding: 2px 6px;
+            border-radius: 5px;
+            color: #24324a
+        }
+
+        .note {
+            border-left: 4px solid var(--accent);
+            background: #eef4ff;
+            padding: 16px 18px;
+            border-radius: 0 10px 10px 0
+        }
+
+        .good {
+            border-left-color: #059669;
+            background: var(--ok)
+        }
+
+        .warn {
+            border-left-color: #ea580c;
+            background: var(--warn)
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 13px 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top
+        }
+
+        th {
+            background: #f0f4fa
+        }
+
+        .vector {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin: 20px 0
+        }
+
+        .cell {
+            width: 105px;
+            min-height: 85px;
+            border: 2px solid #b8c5d9;
+            background: white;
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+            font-size: .82rem
+        }
+
+        .cell.empty {
+            border-style: dashed;
+            color: #9aa6b6
+        }
+
+        .index {
+            display: block;
+            color: var(--accent);
+            font-weight: 800
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px;
+            border-top: 1px solid var(--border)
+        }
+
+        @media(max-width:850px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto
+            }
+
+            .main {
+                margin-left: 0
+            }
+
+            .nav {
+                display: none
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .content {
+                padding: 35px 20px
+            }
+
+            .hero {
+                padding: 50px 22px
+            }
+
+            .arrow {
+                transform: rotate(90deg)
+            }
+        }
+
+        @media print {
+            .sidebar {
+                display: none
+            }
+
+            .main {
+                margin: 0
+            }
+
+            .hero {
+                padding: 30px
+            }
+
+            .content {
+                max-width: none;
+                padding: 25px
+            }
+
+            section {
+                break-inside: avoid
+            }
+
+            pre {
+                white-space: pre-wrap
+            }
+
+            .card {
+                box-shadow: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand">MVC en Java<br>con Vectores</div>
+        <div class="author">M.Sc. Olivier Blanco Sandí</div>
+        <nav class="nav">
+            <a href="#intro">1. ¿Qué es MVC?</a><a href="#estructura">2. Estructura del proyecto</a><a href="#modelo">3.
+                Modelo</a><a href="#vista">4. Vista</a><a href="#controlador">5. Controlador</a><a href="#vector">6.
+                Vector y registros</a><a href="#registro">7. Registrar</a><a href="#recorrer">8. Recorrer y
+                consultar</a><a href="#menu">9. Menú principal</a><a href="#flujo">10. Flujo completo</a><a
+                href="#main">11. Main</a><a href="#resumen">12. Resumen</a>
+        </nav>
+    </aside>
+    <main class="main">
+        <header class="hero">
+            <div class="eyebrow">Programación orientada a objetos · Java</div>
+            <h1>Modelo–Vista–Controlador usando vectores</h1>
+            <p>Guía práctica basada en el proyecto <strong>Cuenta Bancaria</strong>. El objetivo es comprender cómo se
+                distribuyen las responsabilidades entre las clases y cómo el controlador administra objetos almacenados
+                en un vector.</p>
+        </header>
+        <div class="content">
+            <section id="intro"><span class="badge">Concepto</span>
+                <h2>1. ¿Qué es MVC?</h2>
+                <p class="lead">MVC divide un programa en tres responsabilidades. En vez de colocar datos, menú, lectura
+                    del teclado y lógica en una sola clase, cada parte tiene un propósito específico.</p>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Modelo</h3>
+                        <p>Representa los datos y el comportamiento del objeto del mundo real. En este proyecto es <code
+                                class="inline">CuentaBancaria</code>.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Vista</h3>
+                        <p>Se comunica con el usuario: muestra títulos, mensajes y menús, y solicita información
+                            mediante <code class="inline">Scanner</code>.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Controlador</h3>
+                        <p>Coordina el programa. Recibe lo que pide la vista, administra el vector y decide qué
+                            operación realizar.</p>
+                    </div>
+                </div>
+            </section>
+            <section id="estructura">
+                <h2>2. Estructura del proyecto</h2>
+                <table>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Responsabilidad</th>
+                    </tr>
+                    <tr>
+                        <td><code>Main</code></td>
+                        <td>Crea el controlador y pone en marcha la aplicación.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Controlador</code></td>
+                        <td>Contiene el flujo principal y administra el vector de cuentas.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Vista</code></td>
+                        <td>Muestra información y solicita datos al usuario.</td>
+                    </tr>
+                    <tr>
+                        <td><code>CuentaBancaria</code></td>
+                        <td>Modelo que representa cada cuenta bancaria.</td>
+                    </tr>
+                </table>
+                <div class="flow" style="margin-top:24px">
+                    <div class="box"><strong>Usuario</strong><br><small>Escribe una opción o datos</small></div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>Vista</strong><br><small>Lee / muestra</small></div>
+                    <div class="arrow">↔</div>
+                    <div class="box"><strong>Controlador</strong><br><small>Coordina y administra</small></div>
+                    <div class="arrow">↔</div>
+                    <div class="box"><strong>Modelo</strong><br><small>Objetos CuentaBancaria</small></div>
+                </div>
+            </section>
+            <section id="modelo"><span class="badge">Modelo</span>
+                <h2>3. El Modelo: CuentaBancaria</h2>
+                <p>El modelo describe qué información tiene una cuenta. Sus atributos son privados y se accede a ellos
+                    mediante métodos.</p>
+                <pre><code><span class="kw">public class</span> <span class="type">CuentaBancaria</span> {
+    <span class="kw">private</span> <span class="type">String</span> titular;
+    <span class="kw">private int</span> saldo, interes;
+
+    <span class="kw">public</span> <span class="fn">CuentaBancaria</span>(<span class="type">String</span> titular, <span class="kw">int</span> saldo, <span class="kw">int</span> interes) {
+        <span class="kw">this</span>.titular = titular;
+        <span class="kw">this</span>.saldo = saldo;
+        <span class="kw">this</span>.interes = interes;
+    }
+}</code></pre>
+                <p>El modelo también puede contener comportamiento propio de una cuenta, por ejemplo calcular y aplicar
+                    su interés.</p>
+                <pre><code><span class="kw">public void</span> <span class="fn">aplicarInteres</span>() {
+    saldo += <span class="fn">calcularInteres</span>();
+}
+
+<span class="kw">public int</span> <span class="fn">calcularInteres</span>() {
+    <span class="kw">int</span> monto = (saldo * interes) / <span class="num">100</span>;
+    <span class="kw">return</span> monto;
+}</code></pre>
+                <div class="note good"><strong>Idea clave:</strong> una instancia de <code>CuentaBancaria</code>
+                    representa una cuenta. El vector del controlador permitirá guardar muchas instancias de este modelo.
+                </div>
+            </section>
+            <section id="vista"><span class="badge">Vista</span>
+                <h2>4. La Vista: comunicación con el usuario</h2>
+                <p>La vista concentra la interacción por consola. Por eso posee el <code class="inline">Scanner</code>.
+                </p>
+                <pre><code><span class="kw">private</span> <span class="type">Scanner</span> entrada;
+
+<span class="kw">public</span> <span class="fn">Vista</span>() {
+    entrada = <span class="kw">new</span> <span class="type">Scanner</span>(System.in);
+}</code></pre>
+                <h3>Mostrar información</h3>
+                <pre><code><span class="kw">public void</span> <span class="fn">mostrarMensaje</span>(<span class="type">String</span> texto) {
+    System.out.println(texto);
+}
+
+<span class="kw">public void</span> <span class="fn">mostrarTitulo</span>(<span class="type">String</span> titulo) {
+    System.out.println(<span class="str">"\n===== "</span> + titulo + <span class="str">" ====="</span>);
+}</code></pre>
+                <h3>Solicitar información</h3>
+                <pre><code><span class="kw">public int</span> <span class="fn">pedirOpcion</span>() {
+    System.out.print(<span class="str">"Opción: "</span>);
+    <span class="kw">int</span> opcion = entrada.nextInt();
+    entrada.nextLine();
+    <span class="kw">return</span> opcion;
+}</code></pre>
+                <p>La vista <strong>retorna</strong> el dato al controlador. No decide qué hacer con la opción; esa
+                    decisión corresponde al controlador.</p>
+                <h3>Solicitar los datos de una cuenta</h3>
+                <pre><code><span class="kw">public</span> <span class="type">CuentaBancaria</span> <span class="fn">registrarCuenta</span>() {
+    System.out.print(<span class="str">"Titular: "</span>);
+    <span class="type">String</span> titular = entrada.nextLine();
+
+    System.out.print(<span class="str">"Saldo: "</span>);
+    <span class="kw">int</span> saldo = entrada.nextInt();
+    entrada.nextLine();
+
+    System.out.print(<span class="str">"Interés: "</span>);
+    <span class="kw">int</span> interes = entrada.nextInt();
+    entrada.nextLine();
+
+    <span class="kw">return new</span> <span class="type">CuentaBancaria</span>(titular, saldo, interes);
+}</code></pre>
+                <div class="note"><strong>Observe:</strong> la vista obtiene tres datos, construye un objeto y lo
+                    devuelve. Todavía no lo guarda en el vector.</div>
+            </section>
+            <section id="controlador"><span class="badge">Controlador</span>
+                <h2>5. El Controlador: coordinador de la aplicación</h2>
+                <p>El controlador conoce la vista y administra la colección de modelos.</p>
+                <pre><code><span class="kw">private</span> <span class="type">Vista</span> v;
+<span class="kw">private</span> <span class="type">CuentaBancaria</span>[] cuentas;
+<span class="kw">private int</span> registros;
+
+<span class="kw">public</span> <span class="fn">Controlador</span>() {
+    v = <span class="kw">new</span> <span class="type">Vista</span>();
+    registros = <span class="num">0</span>;
+}</code></pre>
+                <p>Estas tres variables cumplen funciones distintas: <code class="inline">v</code> permite comunicarse
+                    con el usuario; <code class="inline">cuentas</code> almacena objetos; y <code
+                        class="inline">registros</code> controla cuántas posiciones del vector están ocupadas.</p>
+            </section>
+            <section id="vector">
+                <h2>6. ¿Cómo maneja el controlador el vector?</h2>
+                <pre><code>cuentas = <span class="kw">new</span> <span class="type">CuentaBancaria</span>[<span class="num">100</span>];</code></pre>
+                <p>Esta instrucción crea espacio para <strong>100 referencias a objetos CuentaBancaria</strong>. Eso no
+                    significa que ya existan 100 cuentas. Inicialmente las posiciones están vacías.</p>
+                <div class="vector">
+                    <div class="cell"><span class="index">0</span>Oli</div>
+                    <div class="cell"><span class="index">1</span>Ana</div>
+                    <div class="cell"><span class="index">2</span>Luis</div>
+                    <div class="cell"><span class="index">3</span>María</div>
+                    <div class="cell empty"><span class="index">4</span>null</div>
+                    <div class="cell empty"><span class="index">...</span>vacío</div>
+                    <div class="cell empty"><span class="index">99</span>null</div>
+                </div>
+                <p>Si hay cuatro objetos guardados, entonces <code class="inline">registros == 4</code>. La siguiente
+                    cuenta debe colocarse en <code class="inline">cuentas[4]</code>.</p>
+                <pre><code>cuentas[registros++] = <span class="kw">new</span> <span class="type">CuentaBancaria</span>(<span class="str">"Oli"</span>, <span class="num">5000</span>, <span class="num">10</span>);</code></pre>
+                <p>El operador <code class="inline">++</code> usa primero el valor actual de <code>registros</code> como
+                    índice y después lo aumenta en uno. Es equivalente a:</p>
+                <pre><code>cuentas[registros] = <span class="kw">new</span> <span class="type">CuentaBancaria</span>(<span class="str">"Oli"</span>, <span class="num">5000</span>, <span class="num">10</span>);
+registros++;</code></pre>
+                <div class="note warn"><strong>Importante:</strong> para recorrer las cuentas registradas se utiliza
+                    <code>i &lt; registros</code>, no <code>i &lt; cuentas.length</code>. <code>cuentas.length</code>
+                    vale 100 aunque la mayoría de posiciones todavía estén vacías.</div>
+            </section>
+            <section id="registro">
+                <h2>7. Registrar: de la Vista al vector</h2>
+                <pre><code><span class="kw">public void</span> <span class="fn">registrar</span>() {
+    v.mostrarTitulo(<span class="str">"REGISTRAR CUENTA"</span>);
+    <span class="type">CuentaBancaria</span> cuenta = v.registrarCuenta();
+    cuentas[registros++] = cuenta;
+    v.mostrarMensaje(<span class="str">"Cuenta registrada: "</span> + cuenta.getTitular());
+}</code></pre>
+                <p>Este método permite ver claramente la coordinación del MVC:</p>
+                <table>
+                    <tr>
+                        <th>Paso</th>
+                        <th>Qué ocurre</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>El controlador solicita a la vista mostrar el título.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>La vista pide titular, saldo e interés y devuelve un <code>CuentaBancaria</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>El controlador recibe ese objeto.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>El controlador lo guarda en la posición indicada por <code>registros</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><code>registros</code> aumenta y queda preparado para el próximo registro.</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>La vista muestra la confirmación al usuario.</td>
+                    </tr>
+                </table>
+            </section>
+            <section id="recorrer">
+                <h2>8. Recorrer el vector y consultar información</h2>
+                <p>Para procesar todas las cuentas registradas se utiliza un <code class="inline">for</code>.</p>
+                <pre><code><span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; registros; i++) {
+    v.mostrarMensaje(cuentas[i].toString());
+}</code></pre>
+                <p>En cada repetición, <code class="inline">cuentas[i]</code> representa un objeto distinto del vector.
+                    Desde ese objeto se pueden invocar getters o métodos del modelo.</p>
+                <h3>Ejemplo: acumular el saldo</h3>
+                <pre><code><span class="kw">int</span> total = <span class="num">0</span>;
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; registros; i++) {
+    total += cuentas[i].getSaldo();
+}
+
+v.mostrarMensaje(<span class="str">"Saldo: "</span> + total);</code></pre>
+                <h3>Ejemplo: seleccionar una cuenta</h3>
+                <pre><code><span class="kw">int</span> index = v.pedirOpcion();
+<span class="type">CuentaBancaria</span> cuenta = cuentas[index - <span class="num">1</span>];
+v.mostrarMensaje(cuenta.toString());</code></pre>
+                <p>Al usuario se le muestran números desde 1, pero los vectores comienzan en 0. Por eso se utiliza <code
+                        class="inline">index - 1</code>.</p>
+            </section>
+            <section id="menu">
+                <h2>9. ¿Dónde va el menú?</h2>
+                <p><strong>La presentación del menú pertenece a la Vista</strong>, porque es información que se muestra
+                    al usuario.</p>
+                <pre><code><span class="kw">public void</span> <span class="fn">mostrarMenuPrincipal</span>() {
+    mostrarTitulo(<span class="str">"MENÚ PRINCIPAL"</span>);
+    System.out.println(<span class="str">"1. Registrar Cuenta"</span>);
+    System.out.println(<span class="str">"2. Consultar Cuenta"</span>);
+    System.out.println(<span class="str">"3. Ver Cuentas"</span>);
+    System.out.println(<span class="str">"4. Ver Saldo Total"</span>);
+    System.out.println(<span class="str">"5. Aplicar Intereses"</span>);
+    System.out.println(<span class="str">"0. Salir"</span>);
+}</code></pre>
+                <p><strong>La decisión sobre qué ejecutar pertenece al Controlador.</strong></p>
+                <pre><code><span class="kw">do</span> {
+    v.mostrarMenuPrincipal();
+    opcion = v.pedirOpcion();
+
+    <span class="kw">switch</span> (opcion) {
+        <span class="kw">case</span> <span class="num">1</span>: registrar(); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="num">2</span>: consultar(); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="num">3</span>: verCuentas(); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="num">4</span>: verSaldoTotal(); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="num">5</span>: aplicarIntereses(); <span class="kw">break</span>;
+    }
+} <span class="kw">while</span> (opcion != <span class="num">0</span>);</code></pre>
+                <div class="note good"><strong>Regla sencilla:</strong> la Vista <em>muestra las opciones</em>; el
+                    Controlador <em>interpreta la opción y decide qué método ejecutar</em>.</div>
+            </section>
+            <section id="flujo">
+                <h2>10. Flujo completo de una operación</h2>
+                <div class="flow">
+                    <div class="box"><strong>1. Vista</strong><br>muestra el menú</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>2. Usuario</strong><br>elige “Registrar”</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>3. Controlador</strong><br>ejecuta registrar()</div>
+                </div>
+                <div class="flow" style="margin-top:10px">
+                    <div class="box"><strong>4. Vista</strong><br>solicita datos</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>5. Modelo</strong><br>se crea CuentaBancaria</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>6. Controlador</strong><br>guarda el objeto en el vector</div>
+                </div>
+                <div class="flow" style="margin-top:10px">
+                    <div class="box"><strong>7. Vista</strong><br>muestra confirmación</div>
+                    <div class="arrow">→</div>
+                    <div class="box"><strong>8. Controlador</strong><br>regresa al ciclo del menú</div>
+                </div>
+            </section>
+            <section id="main">
+                <h2>11. ¿Qué hace Main?</h2>
+                <p><code class="inline">Main</code> debe ser pequeño. Su responsabilidad es crear el controlador y
+                    arrancar la aplicación.</p>
+                <pre><code><span class="kw">public class</span> <span class="type">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Controlador</span> app = <span class="kw">new</span> <span class="type">Controlador</span>();
+        app.iniciar();
+    }
+}</code></pre>
+                <p>A partir de <code class="inline">app.iniciar()</code>, el controlador prepara el vector, carga datos
+                    iniciales y mantiene activo el menú.</p>
+            </section>
+            <section id="resumen">
+                <h2>12. Resumen para recordar</h2>
+                <table>
+                    <tr>
+                        <th>Pregunta</th>
+                        <th>Respuesta</th>
+                    </tr>
+                    <tr>
+                        <td>¿Dónde están los atributos de una cuenta?</td>
+                        <td>En el <strong>Modelo</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td>¿Quién usa Scanner?</td>
+                        <td>La <strong>Vista</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td>¿Dónde se imprime el menú?</td>
+                        <td>En la <strong>Vista</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td>¿Quién decide qué opción ejecutar?</td>
+                        <td>El <strong>Controlador</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td>¿Dónde está el vector?</td>
+                        <td>En el <strong>Controlador</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td>¿Qué indica registros?</td>
+                        <td>Cuántas posiciones del vector están ocupadas.</td>
+                    </tr>
+                    <tr>
+                        <td>¿Cómo se agrega un objeto?</td>
+                        <td><code>cuentas[registros++] = cuenta;</code></td>
+                    </tr>
+                    <tr>
+                        <td>¿Cómo se recorren los objetos existentes?</td>
+                        <td>Con un ciclo desde <code>0</code> hasta <code>registros - 1</code>.</td>
+                    </tr>
+                </table>
+                <div class="note" style="margin-top:22px"><strong>MVC no significa tener simplemente tres
+                        clases.</strong> Lo importante es separar responsabilidades: el modelo representa los datos, la
+                    vista se comunica con el usuario y el controlador coordina el flujo y administra los objetos.</div>
+            </section>
+        </div>
+        <footer class="footer">Material didáctico · M.Sc. Olivier Blanco Sandí · MVC en Java con Vectores</footer>
+    </main>
+</body>
+
+</html>
