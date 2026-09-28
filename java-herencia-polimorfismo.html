@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herencia y Polimorfismo en Java | Programación I</title>
+  <style>
+    :root {
+      --red: #b5121b;
+      --red2: #8e0e15;
+      --ink: #17202a;
+      --muted: #667085;
+      --bg: #f5f7fa;
+      --card: #fff;
+      --line: #e6e9ee;
+      --code: #111827;
+      --blue: #2563eb;
+      --green: #15803d;
+      --amber: #b45309;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--red2), var(--red));
+      color: #fff;
+      padding: 58px 24px 48px
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto
+    }
+
+    .eyebrow {
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: .82;
+      font-weight: 700
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.05;
+      margin: .35rem 0 1rem
+    }
+
+    header p {
+      max-width: 760px;
+      font-size: 1.08rem;
+      opacity: .94
+    }
+
+    .layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 28px;
+      padding: 28px 20px 70px
+    }
+
+    nav {
+      position: sticky;
+      top: 18px;
+      align-self: start;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 8px 25px rgba(16, 24, 40, .06)
+    }
+
+    nav strong {
+      display: block;
+      padding: 8px 10px;
+      color: var(--red)
+    }
+
+    nav a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 9px;
+      color: #344054;
+      text-decoration: none;
+      font-size: .93rem
+    }
+
+    nav a:hover {
+      background: #fff1f2;
+      color: var(--red)
+    }
+
+    main {
+      min-width: 0
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 25px rgba(16, 24, 40, .045)
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      margin: 0 0 10px;
+      color: var(--red2)
+    }
+
+    h3 {
+      margin-top: 26px
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: #475467
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      background: #fafafa
+    }
+
+    .card h3 {
+      margin: 0 0 6px
+    }
+
+    .badge {
+      display: inline-block;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 700
+    }
+
+    .note {
+      border-left: 4px solid var(--red);
+      background: #fff6f6;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 18px 0
+    }
+
+    .tip {
+      border-left: 4px solid var(--blue);
+      background: #eff6ff;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 18px 0
+    }
+
+    pre {
+      position: relative;
+      background: var(--code);
+      color: #e5e7eb;
+      padding: 20px;
+      border-radius: 13px;
+      overflow: auto;
+      font-size: .91rem;
+      line-height: 1.55
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace
+    }
+
+    :not(pre)>code {
+      background: #f2f4f7;
+      padding: 2px 6px;
+      border-radius: 5px;
+      color: #9f1239
+    }
+
+    .copy {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      border: 0;
+      border-radius: 7px;
+      padding: 6px 9px;
+      cursor: pointer;
+      background: #374151;
+      color: #fff;
+      font-size: .75rem
+    }
+
+    .diagram {
+      font-family: Consolas, monospace;
+      white-space: pre;
+
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 18px;
+      overflow: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0
+    }
+
+    th,
+    td {
+      padding: 11px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top
+    }
+
+    th {
+      background: #f8fafc
+    }
+
+    .good {
+      color: var(--green);
+      font-weight: 700
+    }
+
+    .bad {
+      color: #b91c1c;
+      font-weight: 700
+    }
+
+    .steps {
+      counter-reset: item;
+      padding: 0
+    }
+
+    .steps li {
+      list-style: none;
+      margin: 12px 0;
+      padding-left: 42px;
+      position: relative
+    }
+
+    .steps li:before {
+      counter-increment: item;
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: var(--red);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700
+    }
+
+    .quiz {
+      background: #fffbeb;
+      border: 1px solid #fde68a
+    }
+
+    details {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 10px 0;
+      background: #fff
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700
+    }
+
+    footer {
+      text-align: center;
+      color: #667085;
+      padding: 0 20px 40px
+    }
+
+    @media(max-width:850px) {
+      .layout {
+        grid-template-columns: 1fr
+      }
+
+      nav {
+        position: relative;
+        top: 0
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      section {
+        padding: 22px
+      }
+    }
+
+    @media print {
+
+      nav,
+      .copy {
+        display: none
+      }
+
+      .layout {
+        display: block
+      }
+
+      section {
+        box-shadow: none;
+        break-inside: avoid
+      }
+
+      header {
+        padding: 25px;
+        background: #fff;
+        color: #000
+      }
+    }
+
+    /* Resaltado de sintaxis */
+    .hljs {
+      color: #e5e7eb;
+      background: #111827
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-literal {
+      color: #c084fc;
+      font-weight: 600
+    }
+
+    .hljs-type,
+    .hljs-title.class_,
+    .hljs-built_in {
+      color: #67e8f9
+    }
+
+    .hljs-string {
+      color: #86efac
+    }
+
+    .hljs-number {
+      color: #fbbf24
+    }
+
+    .hljs-meta,
+    .hljs-meta .hljs-keyword {
+      color: #f472b6
+    }
+
+    .hljs-comment {
+      color: #94a3b8;
+      font-style: italic
+    }
+
+    .hljs-title.function_ {
+      color: #60a5fa
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="hero">
+      <div class="eyebrow">UNIVERSIDAD NACIONAL · CAMPUS SARAPIQUÍ</div>
+      <h1>Herencia y Polimorfismo</h1>
+      <p>Una guía rápida para comprender cómo crear clases especializadas, reutilizar características comunes y trabajar
+        con distintos objetos mediante un tipo común.</p>
+      <span class="badge">M.Sc. Olivier Blanco Sandí / M.Sc. Steven Cruz Sancho</span>
+    </div>
+
+  </header>
+
+  <div class="layout">
+    <nav>
+      <strong>Contenido</strong>
+      <a href="#conceptos">1. Conceptos fundamentales</a>
+      <a href="#terminologia">2. Terminología</a>
+      <a href="#java">3. Herencia en Java</a>
+      <a href="#animal">4. Ejemplo: Animal</a>
+      <a href="#polimorfismo">5. Polimorfismo</a>
+      <a href="#empleados">6. Ejemplo real: Empleados</a>
+      <a href="#tipos">7. Tipos de herencia</a>
+      <a href="#acceso">8. Modificadores de acceso</a>
+      <a href="#comparacion">9. Sobrecarga vs. sobrescritura</a>
+      <a href="#resumen">10. Resumen</a>
+    </nav>
+
+    <main>
+      <section id="conceptos">
+        <span class="badge">Fundamentos</span>
+        <h2>1. Herencia y polimorfismo</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Herencia</h3>
+            <p>Permite definir una nueva clase tomando como base una clase existente. La nueva clase puede reutilizar
+              características comunes y agregar o especializar comportamientos.</p>
+            <p><strong>Idea clave:</strong> normalmente representa una relación <em>“es un”</em>.</p>
+          </div>
+          <div class="card">
+            <h3>Polimorfismo</h3>
+            <p>Permite trabajar con objetos de distintas subclases mediante un tipo común. Aunque la referencia sea de
+              la superclase, cada objeto puede ejecutar su propio comportamiento.</p>
+            <p><strong>Idea clave:</strong> mismo mensaje, comportamientos diferentes.</p>
+          </div>
+        </div>
+        <div class="note"><strong>Ejemplo:</strong> un <code>Perro</code> es un <code>Animal</code>; un
+          <code>EmpleadoFijo</code> es un <code>Empleado</code>. Si la frase “es un” no tiene sentido, probablemente la
+          herencia no sea la relación adecuada.
+        </div>
+      </section>
+
+      <section id="terminologia">
+        <h2>2. Terminología básica</h2>
+        <p class="lead">En distintos libros y lenguajes encontrarás varios nombres para referirse a los mismos
+          elementos.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Término recomendado</th>
+              <th>También se conoce como</th>
+              <th>Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Superclase</strong></td>
+              <td>Clase padre, clase base</td>
+              <td>Clase general de la cual se heredan características.</td>
+            </tr>
+            <tr>
+              <td><strong>Subclase</strong></td>
+              <td>Clase hija, clase derivada</td>
+              <td>Clase especializada que hereda de otra.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="diagram">
+          Empleado ← Superclase
+          ▲
+          │
+          EmpleadoFijo ← Subclase
+        </div>
+        <p>Una clase puede cumplir ambos papeles. Por ejemplo, si <code>Docente</code> hereda de <code>Empleado</code> y
+          <code>DocenteInterino</code> hereda de <code>Docente</code>, entonces <code>Docente</code> es subclase de
+          <code>Empleado</code> y superclase de <code>DocenteInterino</code>.
+        </p>
+      </section>
+
+      <section id="java">
+        <h2>3. ¿Cómo se implementa la herencia en Java?</h2>
+        <p>Java utiliza la palabra reservada <code>extends</code> para establecer una relación de herencia entre clases.
+        </p>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class Perro extends Animal {
+
+    public Perro(String nombre) {
+        super(nombre);
+    }
+}</code></pre>
+        <p><code>extends</code> indica que <code>Perro</code> es una subclase de <code>Animal</code>. Por su parte,
+          <code>super(...)</code> permite llamar al constructor de la superclase.
+        </p>
+        <div class="tip"><strong>Importante:</strong> los constructores no se heredan. Una subclase puede invocar un
+          constructor de su superclase utilizando <code>super(...)</code>.</div>
+      </section>
+
+      <section id="animal">
+        <h2>4. Ejemplo introductorio: Animal</h2>
+        <p class="lead">Este ejemplo permite visualizar la herencia con pocas reglas de negocio.</p>
+        <div class="diagram">
+          Animal
+          ▲ ▲
+          │ │
+          Perro Gato
+        </div>
+
+        <h3>Superclase</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class Animal {
+
+    private String nombre;
+
+    public Animal(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void hacerSonido() {
+        System.out.println("Sonido de animal");
+    }
+}</code></pre>
+
+        <h3>Subclase Perro</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class Perro extends Animal {
+
+    public Perro(String nombre) {
+        super(nombre);
+    }
+
+    @Override
+    public void hacerSonido() {
+        System.out.println("Guau");
+    }
+}</code></pre>
+
+        <h3>Subclase Gato</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class Gato extends Animal {
+
+    public Gato(String nombre) {
+        super(nombre);
+    }
+
+    @Override
+    public void hacerSonido() {
+        System.out.println("Miau");
+    }
+}</code></pre>
+
+        <div class="note"><strong><code>@Override</code></strong> indica que la subclase está proporcionando una nueva
+          implementación de un método heredado. A esto se le llama <strong>sobrescritura</strong>.</div>
+      </section>
+
+      <section id="polimorfismo">
+        <h2>5. Ahora aparece el polimorfismo</h2>
+        <p>Gracias a la relación de herencia, una referencia de tipo <code>Animal</code> puede apuntar a objetos de sus
+          subclases.</p>
+        <pre><button class="copy">Copiar</button><code class="language-java">Animal animal1 = new Perro("Max");
+Animal animal2 = new Gato("Michi");
+
+animal1.hacerSonido(); // Guau
+animal2.hacerSonido(); // Miau</code></pre>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Tipo de referencia</th>
+              <th>Objeto real</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>animal1</code></td>
+              <td><code>Animal</code></td>
+              <td><code>Perro</code></td>
+              <td>Guau</td>
+            </tr>
+            <tr>
+              <td><code>animal2</code></td>
+              <td><code>Animal</code></td>
+              <td><code>Gato</code></td>
+              <td>Miau</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>La referencia es del mismo tipo, pero Java ejecuta la versión de <code>hacerSonido()</code> correspondiente
+          al <strong>objeto real</strong>.</p>
+
+        <h3>¿Por qué es útil?</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">Animal[] animales = new Animal[3];
+
+animales[0] = new Perro("Max");
+animales[1] = new Gato("Michi");
+animales[2] = new Perro("Toby");
+
+for (int i = 0; i &lt; animales.length; i++) {
+    animales[i].hacerSonido();
+}</code></pre>
+        <p>No es necesario preguntar si cada objeto es perro o gato. Cada objeto responde de acuerdo con su propia
+          implementación.</p>
+      </section>
+
+      <section id="empleados">
+        <span class="badge">Aplicación real</span>
+        <h2>6. Ejemplo: sistema de empleados</h2>
+        <p class="lead">En un sistema real podemos tener diferentes tipos de empleados que comparten información, pero
+          calculan su pago de manera diferente.</p>
+        <div class="diagram">
+          Empleado
+          ▲
+          ┌─────────┴──────────────┐
+          │ │
+          EmpleadoFijo EmpleadoPorHoras
+        </div>
+
+        <h3>Superclase Empleado</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class Empleado {
+
+    private String cedula;
+    private String nombre;
+
+    public Empleado(String cedula, String nombre) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double calcularPago() {
+        return 0;
+    }
+}</code></pre>
+
+        <h3>Empleado fijo</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class EmpleadoFijo extends Empleado {
+
+    private double salarioMensual;
+
+    public EmpleadoFijo(String cedula, String nombre,
+                        double salarioMensual) {
+        super(cedula, nombre);
+        this.salarioMensual = salarioMensual;
+    }
+
+    @Override
+    public double calcularPago() {
+        return salarioMensual;
+    }
+}</code></pre>
+
+        <h3>Empleado por horas</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">public class EmpleadoPorHoras extends Empleado {
+
+    private int horasTrabajadas;
+    private double pagoPorHora;
+
+    public EmpleadoPorHoras(String cedula, String nombre,
+                            int horasTrabajadas, double pagoPorHora) {
+        super(cedula, nombre);
+        this.horasTrabajadas = horasTrabajadas;
+        this.pagoPorHora = pagoPorHora;
+    }
+
+    @Override
+    public double calcularPago() {
+        return horasTrabajadas * pagoPorHora;
+    }
+}</code></pre>
+
+        <h3>La ventaja del polimorfismo</h3>
+        <pre><button class="copy">Copiar</button><code class="language-java">Empleado[] empleados = new Empleado[3];
+
+empleados[0] = new EmpleadoFijo(
+    "1-1111-1111", "Ana", 850000
+);
+
+empleados[1] = new EmpleadoPorHoras(
+    "2-2222-2222", "Carlos", 120, 4500
+);
+
+empleados[2] = new EmpleadoFijo(
+    "3-3333-3333", "María", 950000
+);
+
+for (int i = 0; i &lt; empleados.length; i++) {
+    System.out.println(
+        empleados[i].getNombre() + ": ₡" +
+        empleados[i].calcularPago()
+    );
+}</code></pre>
+        <div class="note"><strong>Observa:</strong> el ciclo no necesita conocer el tipo específico de empleado. Todos
+          se tratan como <code>Empleado</code>, pero cada objeto ejecuta su propia versión de
+          <code>calcularPago()</code>.
+        </div>
+      </section>
+
+      <section id="tipos">
+        <h2>7. Tipos de herencia</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Herencia simple <span class="good">✓</span></h3>
+            <p>Una subclase hereda directamente de una superclase.</p>
+            <pre><code class="language-java">class B extends A { }</code></pre>
+          </div>
+          <div class="card">
+            <h3>Herencia multinivel <span class="good">✓</span></h3>
+            <p>Una subclase puede convertirse en superclase de otra.</p>
+            <pre><code class="language-java">class B extends A { }
+class C extends B { }</code></pre>
+          </div>
+          <div class="card">
+            <h3>Herencia múltiple entre clases <span class="bad">✗</span></h3>
+            <p>Java no permite que una clase extienda directamente más de una clase.</p>
+            <pre><code class="language-java">// No es válido en Java
+class C extends A, B { }</code></pre>
+          </div>
+          <div class="card">
+            <h3>¿Y si necesito varios comportamientos?</h3>
+            <p>Java permite implementar múltiples <strong>interfaces</strong>. Ese mecanismo se estudiará
+              posteriormente.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="acceso">
+        <h2>8. Modificadores de acceso</h2>
+        <p>La herencia no elimina las reglas de encapsulamiento.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Modificador</th>
+              <th>Acceso general</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>private</code></td>
+              <td>Únicamente dentro de la propia clase.</td>
+            </tr>
+            <tr>
+              <td><code>protected</code></td>
+              <td>Desde la propia clase, clases del mismo paquete y subclases según las reglas de Java.</td>
+            </tr>
+            <tr>
+              <td><code>public</code></td>
+              <td>Desde cualquier clase donde el elemento sea visible.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip">Como regla práctica, conserva los atributos <code>private</code> cuando sea posible y utiliza
+          métodos para controlar el acceso a los datos.</div>
+      </section>
+
+      <section id="comparacion">
+        <h2>9. Sobrecarga vs. sobrescritura</h2>
+        <p>Los nombres son parecidos, pero representan conceptos diferentes.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Sobrecarga</th>
+              <th>Sobrescritura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mismo nombre de método.</td>
+              <td>Se redefine un método heredado.</td>
+            </tr>
+            <tr>
+              <td>La lista de parámetros debe ser diferente.</td>
+              <td>Mantiene la firma compatible del método.</td>
+            </tr>
+            <tr>
+              <td><code>sumar(int, int)</code><br><code>sumar(double, double)</code></td>
+              <td><code>@Override calcularPago()</code></td>
+            </tr>
+            <tr>
+              <td>No requiere herencia.</td>
+              <td>Está vinculada con la herencia.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="resumen">
+        <h2>10. En resumen</h2>
+        <ol class="steps">
+          <li><strong>Herencia:</strong> permite crear clases especializadas a partir de otras existentes.</li>
+          <li><strong>Superclase:</strong> clase general. <strong>Subclase:</strong> clase especializada.</li>
+          <li><code>extends</code> establece la herencia entre clases.</li>
+          <li><code>super(...)</code> permite invocar un constructor de la superclase.</li>
+          <li><code>@Override</code> se utiliza al sobrescribir un método heredado.</li>
+          <li><strong>Polimorfismo:</strong> permite tratar objetos de distintas subclases mediante un tipo común,
+            conservando su comportamiento particular.</li>
+        </ol>
+
+        <div class="card quiz">
+          <h3>Comprueba lo aprendido</h3>
+          <p>Analiza la siguiente instrucción:</p>
+          <pre><code class="language-java">Empleado empleado = new EmpleadoFijo(
+    "1-1111-1111", "Ana", 850000
+);</code></pre>
+          <details>
+            <summary>¿Cuál es la superclase?</summary>
+            <p><code>Empleado</code>.</p>
+          </details>
+          <details>
+            <summary>¿Cuál es la subclase?</summary>
+            <p><code>EmpleadoFijo</code>.</p>
+          </details>
+          <details>
+            <summary>¿Cuál es el tipo de la referencia?</summary>
+            <p><code>Empleado</code>.</p>
+          </details>
+          <details>
+            <summary>¿Cuál es el tipo real del objeto?</summary>
+            <p><code>EmpleadoFijo</code>.</p>
+          </details>
+          <details>
+            <summary>¿Dónde observamos polimorfismo?</summary>
+            <p>Una referencia de tipo <code>Empleado</code> apunta a un objeto de la subclase <code>EmpleadoFijo</code>.
+              Al invocar un método sobrescrito, se ejecutará la implementación correspondiente al objeto real.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    Universidad Nacional · EIF-201 Programación I · Material de apoyo
+  </footer>
+
+  <script>
+    hljs.highlightAll();
+    document.querySelectorAll('.copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const code = btn.parentElement.querySelector('code').innerText;
+        await navigator.clipboard.writeText(code);
+        const old = btn.textContent; btn.textContent = 'Copiado';
+        setTimeout(() => btn.textContent = old, 1200);
+      });
+    });
+  </script>
+</body>
+
+</html>
