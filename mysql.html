@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Introducción a las Bases de Datos | EIF206</title>
+  <style>
+    :root {
+      --bg: #071426;
+      --panel: #0d2038;
+      --panel2: #102945;
+      --text: #eaf2fb;
+      --muted: #a9bdd2;
+      --blue: #38bdf8;
+      --blue2: #0ea5e9;
+      --yellow: #fbbf24;
+      --red: #fb7185;
+      --green: #34d399;
+      --border: #21405f;
+      --code: #06111f;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .28)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #06111f, #0a1b30 45%, #071426);
+      color: var(--text);
+      line-height: 1.65
+    }
+
+    a {
+      color: inherit
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 285px 1fr;
+      min-height: 100vh
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px 18px;
+      background: rgba(6, 17, 31, .94);
+      border-right: 1px solid var(--border);
+      overflow: auto
+    }
+
+    .brand {
+      padding: 6px 8px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px
+    }
+
+    .brand small {
+      color: var(--blue);
+      font-weight: 800;
+      letter-spacing: .09em
+    }
+
+    .brand h2 {
+      font-size: 1.1rem;
+      margin: 6px 0
+    }
+
+    .brand p {
+      font-size: .82rem;
+      color: var(--muted);
+      margin: 0
+    }
+
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: var(--muted);
+      padding: 9px 10px;
+      border-radius: 9px;
+      margin: 2px 0;
+      font-size: .9rem
+    }
+
+    nav a:hover {
+      background: #102945;
+      color: white
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 46px 54px 80px;
+      margin: auto
+    }
+
+    .hero {
+      padding: 48px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: radial-gradient(circle at 90% 10%, rgba(56, 189, 248, .20), transparent 30%), linear-gradient(145deg, #0d2038, #09182a);
+      box-shadow: var(--shadow)
+    }
+
+    .kicker {
+      color: var(--blue);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .78rem
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 6vw, 4.8rem);
+      line-height: 1.02;
+      margin: .25em 0
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      color: #c9d8e7;
+      max-width: 760px
+    }
+
+    .author {
+      margin-top: 28px;
+      color: var(--yellow);
+      font-weight: 750
+    }
+
+    section {
+      padding-top: 60px
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin: 0 0 10px
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: 820px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px
+    }
+
+    .card {
+      background: linear-gradient(145deg, var(--panel), #0a1c31);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .12)
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #fff
+    }
+
+    .card p:last-child {
+      margin-bottom: 0
+    }
+
+    .accent {
+      color: var(--blue);
+      font-weight: 800
+    }
+
+    .note {
+      border-left: 4px solid var(--yellow);
+      background: rgba(251, 191, 36, .08);
+      padding: 15px 18px;
+      border-radius: 0 12px 12px 0;
+      margin: 18px 0;
+      color: #f8e9b0
+    }
+
+    .info {
+      border-left-color: var(--blue);
+      background: rgba(56, 189, 248, .08);
+      color: #cceeff
+    }
+
+    .diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 24px;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, .025);
+      border: 1px dashed #315679;
+      border-radius: 16px
+    }
+
+    .node {
+      padding: 12px 16px;
+      border: 1px solid #315679;
+      border-radius: 12px;
+      background: #102945;
+      font-weight: 700
+    }
+
+    .arrow {
+      color: var(--yellow);
+      font-size: 1.5rem;
+      font-weight: 900
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-top: 22px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+      background: var(--panel)
+    }
+
+    th,
+    td {
+      padding: 13px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border)
+    }
+
+    th {
+      background: #123253;
+      color: #dff4ff
+    }
+
+    tr:last-child td {
+      border-bottom: 0
+    }
+
+    pre {
+      position: relative;
+      background: var(--code);
+      border: 1px solid #173552;
+      border-radius: 14px;
+      padding: 20px;
+      overflow: auto;
+      color: #d7e7f5;
+      line-height: 1.55
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace
+    }
+
+    .kw {
+      color: #7dd3fc;
+      font-weight: 800
+    }
+
+    .str {
+      color: #fde68a
+    }
+
+    .com {
+      color: #7891aa;
+      font-style: italic
+    }
+
+    .num {
+      color: #86efac
+    }
+
+    .code-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 26px 0 8px
+    }
+
+    .code-head h3 {
+      margin: 0
+    }
+
+    .copy {
+      border: 1px solid #315679;
+      background: #102945;
+      color: #eaf2fb;
+      border-radius: 9px;
+      padding: 7px 10px;
+      cursor: pointer
+    }
+
+    .copy:hover {
+      background: #163858
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 22px
+    }
+
+    .badge {
+      border: 1px solid #315679;
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: #c9d8e7;
+      font-size: .88rem
+    }
+
+    .crud {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 24px
+    }
+
+    .crud div {
+      padding: 20px 12px;
+      text-align: center;
+      border-radius: 16px;
+      background: #102945;
+      border: 1px solid var(--border)
+    }
+
+    .crud b {
+      display: block;
+      font-size: 1.8rem;
+      color: var(--blue)
+    }
+
+    .crud span {
+      color: var(--muted)
+    }
+
+    footer {
+      margin-top: 70px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    @media(max-width:900px) {
+      .layout {
+        display: block
+      }
+
+      aside {
+        position: relative;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--border)
+      }
+
+      nav {
+        display: flex;
+        overflow: auto;
+        gap: 4px
+      }
+
+      nav a {
+        white-space: nowrap
+      }
+
+      main {
+        padding: 28px 20px 60px
+      }
+
+      .hero {
+        padding: 30px
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .crud {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <h2>Introducción a las Bases de Datos</h2>
+        <small>M.Sc. Olivier Blanco Sandí</small>
+      </div>
+      <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#conceptos">1. Conceptos fundamentales</a>
+        <a href="#estructura">2. Estructura relacional</a>
+        <a href="#relaciones">3. Relaciones entre tablas</a>
+        <a href="#sql">4. Introducción a SQL</a>
+        <a href="#tipos">5. Tipos de datos</a>
+        <a href="#db">6. Bases de datos y tablas</a>
+        <a href="#crud">7. Operaciones CRUD</a>
+        <a href="#resumen">8. Resumen</a>
+      </nav>
+    </aside>
+
+    <main>
+      <header id="inicio" class="hero">
+        <div class="kicker">MySQL</div>
+        <h1>Introducción a las<br><span style="color:var(--blue)">Bases de Datos</span></h1>
+        <p class="lead">Una guía para comprender dónde se guarda la información, cómo se organiza en una base de datos
+          relacional y cómo utilizar las operaciones fundamentales de SQL.</p>
+        <div class="badges"><span class="badge">Bases de datos</span><span class="badge">Modelo relacional</span><span
+            class="badge">SQL</span><span class="badge">CRUD</span></div>
+        <div class="author">M.Sc. Olivier Blanco Sandí</div>
+      </header>
+
+      <section id="conceptos">
+        <div class="kicker">01 · Fundamentos</div>
+        <h2 class="section-title">Conceptos fundamentales</h2>
+        <p class="section-intro">Antes de escribir SQL, conviene comprender qué almacenamos y qué software se encarga de
+          administrar esa información.</p>
+        <div class="grid">
+          <article class="card">
+            <h3>¿Qué es una base de datos?</h3>
+            <p>Es un conjunto de datos <span class="accent">organizados y estructurados</span> de forma ordenada.
+              También puede entenderse como un conjunto de archivos interrelacionados.</p>
+            <p>Su propósito es permitir que la información pueda consultarse, actualizarse y gestionarse fácilmente.</p>
+          </article>
+          <article class="card">
+            <h3>Sistema Gestor de Bases de Datos (SGBD)</h3>
+            <p>Es el software que permite <strong>crear, administrar y manipular</strong> bases de datos.</p>
+            <p>Ejemplos: MySQL, PostgreSQL, SQL Server y Oracle.</p>
+          </article>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Bases de datos relacionales</h3>
+            <p>Organizan la información principalmente mediante <strong>tablas, filas y columnas</strong>. Las tablas
+              pueden relacionarse entre sí.</p>
+          </article>
+          <article class="card">
+            <h3>Bases de datos no relacionales</h3>
+            <p>Pueden organizar los datos mediante documentos, grafos, pares clave-valor y otras estructuras.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="estructura">
+        <div class="kicker">02 · Modelo relacional</div>
+        <h2 class="section-title">Estructura básica de una base de datos relacional</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Tabla</h3>
+            <p>Estructura principal que almacena los datos. También puede verse como un <strong>archivo</strong>. Una
+              base de datos relacional está formada por tablas interrelacionadas.</p>
+          </article>
+          <article class="card">
+            <h3>Fila</h3>
+            <p>Una instancia o entrada que contiene los distintos atributos de un solo elemento. También se conoce como
+              <strong>registro</strong>.</p>
+          </article>
+          <article class="card">
+            <h3>Columna</h3>
+            <p>Representa un atributo o característica del registro. También se conoce como <strong>campo</strong> o
+              atributo.</p>
+          </article>
+          <article class="card">
+            <h3>Clave primaria (PK)</h3>
+            <p>Identifica de forma <strong>única</strong> cada registro y no puede repetirse. Es común utilizar números
+              autogenerados.</p>
+          </article>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>id_persona (PK)</th>
+                <th>nombre</th>
+                <th>f_nacimiento</th>
+                <th>género</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Ana Moraga</td>
+                <td>1995-02-25</td>
+                <td>F</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>María Mora</td>
+                <td>1995-08-12</td>
+                <td>F</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Javier Fuentes</td>
+                <td>2000-10-21</td>
+                <td>M</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note info"><strong>Clave foránea (FK):</strong> es el campo que permite conectar un registro de una
+          tabla con un registro relacionado de otra tabla. Su valor corresponde a una clave de la tabla referenciada.
+        </div>
+      </section>
+
+      <section id="relaciones">
+        <div class="kicker">03 · Conexiones</div>
+        <h2 class="section-title">Relaciones entre tablas</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Uno a uno (1:1)</h3>
+            <p>Una persona solo puede tener un pasaporte y un pasaporte solo pertenece a una persona. La FK puede
+              ubicarse en cualquiera de las dos tablas según el diseño.</p>
+            <div class="diagram"><span class="node">Persona</span><span class="arrow">↔</span><span
+                class="node">Pasaporte</span></div>
+          </article>
+          <article class="card">
+            <h3>Uno a muchos (1:N)</h3>
+            <p>Una persona puede realizar muchos pedidos, pero cada pedido pertenece a una sola persona. <strong>La FK
+                se almacena en los pedidos.</strong></p>
+            <div class="diagram"><span class="node">Persona</span><span class="arrow">→</span><span class="node">Pedido
+                1</span><span class="node">Pedido 2</span></div>
+          </article>
+        </div>
+        <article class="card" style="margin-top:18px">
+          <h3>Muchos a muchos (N:M)</h3>
+          <p>En un proyecto pueden participar muchas personas y una persona puede participar en muchos proyectos. En
+            este caso se crea una <strong>tabla intermedia</strong> que almacena las claves de las tablas involucradas.
+          </p>
+          <div class="diagram"><span class="node">Personas</span><span class="arrow">→</span><span
+              class="node">personas_proyectos</span><span class="arrow">←</span><span class="node">Proyectos</span>
+          </div>
+        </article>
+      </section>
+
+      <section id="sql">
+        <div class="kicker">04 · SQL</div>
+        <h2 class="section-title">Introducción a SQL</h2>
+        <p class="section-intro">Las operaciones básicas sobre los registros suelen resumirse mediante el acrónimo
+          <strong>CRUD</strong>.</p>
+        <div class="crud">
+          <div><b>C</b><span>Create · Crear</span></div>
+          <div><b>R</b><span>Read · Consultar</span></div>
+          <div><b>U</b><span>Update · Actualizar</span></div>
+          <div><b>D</b><span>Delete · Eliminar</span></div>
+        </div>
+      </section>
+
+      <section id="tipos">
+        <div class="kicker">05 · Datos</div>
+        <h2 class="section-title">Tipos de datos más utilizados</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Tipo</th>
+                <th>Uso típico</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Numérico</td>
+                <td><code>INT</code></td>
+                <td>Números enteros</td>
+                <td><code>edad = 25</code></td>
+              </tr>
+              <tr>
+                <td>Numérico</td>
+                <td><code>DECIMAL(10,2)</code></td>
+                <td>Decimales exactos</td>
+                <td><code>precio = 1250.75</code></td>
+              </tr>
+              <tr>
+                <td>Numérico</td>
+                <td><code>FLOAT</code></td>
+                <td>Decimales aproximados</td>
+                <td><code>temperatura = 23.5</code></td>
+              </tr>
+              <tr>
+                <td>Texto</td>
+                <td><code>VARCHAR(50)</code></td>
+                <td>Texto corto o mediano</td>
+                <td><code>'Ana López'</code></td>
+              </tr>
+              <tr>
+                <td>Texto</td>
+                <td><code>TEXT</code></td>
+                <td>Texto largo</td>
+                <td>Observaciones...</td>
+              </tr>
+              <tr>
+                <td>Fecha y hora</td>
+                <td><code>DATE</code></td>
+                <td>Solo fecha</td>
+                <td><code>2025-10-07</code></td>
+              </tr>
+              <tr>
+                <td>Fecha y hora</td>
+                <td><code>DATETIME</code></td>
+                <td>Fecha y hora</td>
+                <td><code>2025-10-07 14:30:00</code></td>
+              </tr>
+              <tr>
+                <td>Lógico</td>
+                <td><code>BOOLEAN</code></td>
+                <td>Verdadero/Falso (1 o 0)</td>
+                <td><code>activo = 1</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="db">
+        <div class="kicker">06 · Estructura SQL</div>
+        <h2 class="section-title">Creación de bases de datos y tablas</h2>
+        <div class="code-head">
+          <h3>Crear, seleccionar y eliminar una base de datos</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="com">-- Crear base de datos</span>
+<span class="kw">CREATE DATABASE</span> db_personas;
+
+<span class="com">-- Seleccionar la base de datos</span>
+<span class="kw">USE</span> db_personas;
+
+<span class="com">-- Eliminar base de datos</span>
+<span class="kw">DROP DATABASE</span> db_personas;</code></pre>
+        <div class="note">Los nombres no deben llevar espacios ni tildes. Por convención, se recomienda utilizar
+          minúsculas y guiones bajos.</div>
+
+        <div class="code-head">
+          <h3>Crear la tabla personas</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="kw">CREATE TABLE</span> personas (
+    id_persona <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span>,
+    nombre <span class="kw">VARCHAR</span>(50),
+    apellido <span class="kw">VARCHAR</span>(50),
+    edad <span class="kw">INT</span>
+);</code></pre>
+        <div class="grid">
+          <div class="card">
+            <h3>AUTO_INCREMENT</h3>
+            <p>Genera automáticamente el valor de <code>id_persona</code>.</p>
+          </div>
+          <div class="card">
+            <h3>PRIMARY KEY</h3>
+            <p>Define la clave que identifica de forma única cada registro.</p>
+          </div>
+        </div>
+
+        <div class="code-head">
+          <h3>Crear una tabla con clave foránea</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="kw">CREATE TABLE</span> telefonos (
+    id_telefono <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span>,
+    numero <span class="kw">VARCHAR</span>(20),
+    id_persona <span class="kw">INT</span>,
+    <span class="kw">FOREIGN KEY</span> (id_persona)
+        <span class="kw">REFERENCES</span> personas(id_persona)
+);</code></pre>
+        <div class="note info"><code>FOREIGN KEY (id_persona)</code> establece la relación y
+          <code>REFERENCES personas(id_persona)</code> indica el campo de la tabla padre al que apunta. Si existen
+          registros hijos asociados, el SGBD puede impedir eliminar el registro padre salvo que se defina un
+          comportamiento como <code>ON DELETE CASCADE</code>.</div>
+
+        <div class="code-head">
+          <h3>Eliminar tablas</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="com">-- Eliminar una tabla específica</span>
+<span class="kw">DROP TABLE</span> telefonos;
+
+<span class="com">-- Eliminar varias tablas respetando las relaciones</span>
+<span class="kw">DROP TABLE</span> telefonos, personas;</code></pre>
+        <p class="section-intro">Cuando existen claves foráneas, normalmente se eliminan primero las tablas hijas y
+          luego las tablas padre.</p>
+      </section>
+
+      <section id="crud">
+        <div class="kicker">07 · Operaciones</div>
+        <h2 class="section-title">CRUD con SQL</h2>
+
+        <div class="code-head">
+          <h3>CREATE · Insertar datos</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="kw">INSERT INTO</span> personas (nombre, apellido, edad) <span class="kw">VALUES</span>
+(<span class="str">'Ana'</span>, <span class="str">'López'</span>, <span class="num">28</span>),
+(<span class="str">'Carlos'</span>, <span class="str">'Soto'</span>, <span class="num">34</span>);</code></pre>
+        <p class="section-intro">No se indica <code>id_persona</code> porque es autogenerado. También es posible
+          insertar varios registros en una misma sentencia.</p>
+
+        <div class="code-head">
+          <h3>READ · Consultar datos</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="com">-- Todas las personas</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> personas;
+
+<span class="com">-- Filtrar por nombre</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> personas
+<span class="kw">WHERE</span> nombre = <span class="str">'Juan Mora'</span>;
+
+<span class="com">-- Ordenar por nombre</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> personas
+<span class="kw">ORDER BY</span> nombre;
+
+<span class="com">-- Combinar personas y teléfonos</span>
+<span class="kw">SELECT</span> p.nombre, p.apellido, t.numero
+<span class="kw">FROM</span> personas p
+<span class="kw">INNER JOIN</span> telefonos t
+    <span class="kw">ON</span> p.id_persona = t.id_persona;</code></pre>
+
+        <div class="code-head">
+          <h3>UPDATE · Actualizar datos</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="kw">UPDATE</span> personas
+<span class="kw">SET</span> edad = <span class="num">29</span>
+<span class="kw">WHERE</span> id_persona = <span class="num">1</span>;
+
+<span class="kw">UPDATE</span> telefonos
+<span class="kw">SET</span> numero = <span class="str">'8888-0000'</span>
+<span class="kw">WHERE</span> id_telefono = <span class="num">1</span>;</code></pre>
+
+        <div class="code-head">
+          <h3>DELETE · Eliminar datos</h3><button class="copy">Copiar</button>
+        </div>
+        <pre><code><span class="kw">DELETE FROM</span> telefonos
+<span class="kw">WHERE</span> id_telefono = <span class="num">3</span>;
+
+<span class="kw">DELETE FROM</span> personas
+<span class="kw">WHERE</span> id_persona = <span class="num">2</span>;</code></pre>
+        <div class="note"><strong>Importante:</strong> en <code>UPDATE</code> y <code>DELETE</code>, la cláusula
+          <code>WHERE</code> determina cuáles registros se modificarán o eliminarán.</div>
+      </section>
+
+      <section id="resumen">
+        <div class="kicker">08 · Cierre</div>
+        <h2 class="section-title">Resumen</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>1. Organizar</h3>
+            <p>La información relacional se estructura en tablas compuestas por filas y columnas.</p>
+          </article>
+          <article class="card">
+            <h3>2. Identificar</h3>
+            <p>La clave primaria identifica registros; la clave foránea permite relacionar tablas.</p>
+          </article>
+          <article class="card">
+            <h3>3. Relacionar</h3>
+            <p>Las relaciones más comunes son 1:1, 1:N y N:M.</p>
+          </article>
+          <article class="card">
+            <h3>4. Manipular</h3>
+            <p>SQL permite crear estructuras y ejecutar las operaciones CRUD sobre los datos.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <strong>Introducción a las Bases de Datos</strong><br>
+        Material académico preparado por <strong>M.Sc. Olivier Blanco Sandí</strong>
+      </footer>
+    </main>
+  </div>
+  <script>
+    document.querySelectorAll('.copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const pre = btn.closest('.code-head').nextElementSibling;
+        const text = pre.innerText;
+        try { await navigator.clipboard.writeText(text); btn.textContent = '¡Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 1200) }
+        catch (e) { btn.textContent = 'Selecciona y copia'; }
+      });
+    });
+  </script>
+</body>
+
+</html>
