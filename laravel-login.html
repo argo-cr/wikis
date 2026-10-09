@@ -1,0 +1,1591 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Guía práctica de autenticación local y Google OAuth con Laravel 12">
+    <title>Laravel · Autenticación local y Google | M.Sc. Olivier Blanco Sandí</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    <style>
+        :root {
+            --red: #ff2d20;
+            --red2: #dc2419;
+            --ink: #192130;
+            --muted: #677386;
+            --line: #e8eaf0;
+            --bg: #f6f7fa;
+            --paper: #fff;
+            --code: #101827;
+            --shadow: 0 14px 48px rgba(25, 33, 48, .06)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 85px
+        }
+
+        body {
+            margin: 0;
+            font: 15px/1.7 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink)
+        }
+
+        a {
+            color: var(--red2)
+        }
+
+        a:hover {
+            color: #a61a14
+        }
+
+        .top {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            gap: 20px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-weight: 800;
+            font-size: 17px;
+            white-space: nowrap
+        }
+
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            background: var(--red);
+            color: #fff;
+            border-radius: 11px;
+            width: 38px;
+            height: 38px;
+            font-size: 22px;
+            font-weight: 900
+        }
+
+        .brand small {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: .09em
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 9px;
+            align-items: center
+        }
+
+        .top button,
+        .copy {
+            cursor: pointer;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+            color: var(--ink);
+            font-weight: 650;
+            padding: 8px 12px
+        }
+
+        .top button:hover {
+            border-color: var(--red);
+            color: var(--red)
+        }
+
+        .layout {
+            max-width: 1500px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 274px minmax(0, 1fr);
+            gap: 30px;
+            padding: 26px 30px 70px
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 94px;
+            align-self: start;
+            height: calc(100vh - 120px);
+            overflow: auto;
+            padding: 20px 12px 20px 2px
+        }
+
+        .sidebar h4 {
+            font-size: 11px;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            color: #9aa2b1;
+            margin: 0 0 12px 12px
+        }
+
+        .sidebar input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #e1e5ec;
+            border-radius: 9px;
+            background: white;
+            margin-bottom: 18px;
+            outline: none
+        }
+
+        .sidebar input:focus {
+            border-color: var(--red)
+        }
+
+        .nav-link {
+            display: block;
+            text-decoration: none;
+            padding: 10px 13px;
+            border-radius: 9px;
+            color: #566174;
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 2px 0
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--red2);
+            background: #fff0ee
+        }
+
+        .sidebar-foot {
+            font-size: 11px;
+            color: #8b93a0;
+            border-top: 1px solid var(--line);
+            padding: 18px 12px;
+            margin-top: 20px
+        }
+
+        .main {
+            min-width: 0;
+            max-width: 1060px
+        }
+
+        .hero {
+            border-radius: 20px;
+            background: linear-gradient(125deg, #201b24 0%, #382025 62%, #611f1d 100%);
+            color: white;
+            padding: 47px 48px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px
+        }
+
+        .hero:after {
+            content:'{ }';
+            position: absolute;
+            right: 30px;
+            bottom: -55px;
+            font-weight: 900;
+            font-size: 220px;
+            line-height: 1;
+            color: rgba(255, 255, 255, .06)
+        }
+
+        .hero .pill {
+            display: inline-block;
+            background: #ff2d2030;
+            border: 1px solid #ff6a6050;
+            border-radius: 100px;
+            color: #ffb6b1;
+            font-size: 11px;
+            letter-spacing: .1em;
+            font-weight: 800;
+            padding: 6px 12px
+        }
+
+        .hero h1 {
+            font-size: clamp(29px, 4vw, 48px);
+            line-height: 1.15;
+            letter-spacing: -.045em;
+            margin: 20px 0 12px;
+            max-width: 650px
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: #e8dadd;
+            max-width: 670px
+        }
+
+        .hero .author {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #ffbab5;
+            font-weight: 700
+        }
+
+        .chapter {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            padding: 36px 42px;
+            margin-bottom: 23px;
+            box-shadow: var(--shadow)
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: .15em;
+            color: var(--red2);
+            font-weight: 850;
+            margin-bottom: 8px
+        }
+
+        .chapter h2 {
+            font-size: clamp(23px, 2.7vw, 33px);
+            letter-spacing: -.035em;
+            line-height: 1.25;
+            margin: 0 0 12px
+        }
+
+        .lead {
+            color: var(--muted);
+            font-size: 15px;
+            margin: 0 0 28px
+        }
+
+        .step {
+            display: flex;
+            gap: 17px;
+            border-top: 1px solid var(--line);
+            padding-top: 29px;
+            margin-top: 28px
+        }
+
+        .step-num {
+            flex: 0 0 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: #fff0ee;
+            color: var(--red2);
+            font-weight: 850;
+            display: grid;
+            place-items: center
+        }
+
+        .step-content {
+            min-width: 0;
+            flex: 1
+        }
+
+        .step h3 {
+            font-size: 20px;
+            letter-spacing: -.025em;
+            margin: 1px 0 11px
+        }
+
+        .step p {
+            margin: 10px 0 17px
+        }
+
+        .code-wrap {
+            border: 1px solid #253149;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 18px 0;
+            background: var(--code)
+        }
+
+        .code-head {
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 13px 0 17px;
+            background: #1c283b;
+            border-bottom: 1px solid #2c3950;
+            gap: 8px
+        }
+
+        .file-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #b4c4dd;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .copy {
+            font-size: 11px;
+            background: #26354b;
+            color: #dbe7f6;
+            border: 1px solid #394b64;
+            padding: 5px 9px;
+            white-space: nowrap
+        }
+
+        .copy:hover {
+            color: white;
+            border-color: #ff675e
+        }
+
+        .code-wrap pre {
+            margin: 0;
+            padding: 19px 20px;
+            overflow: auto;
+            font-size: 12.5px;
+            line-height: 1.75;
+            tab-size: 4
+        }
+
+        .code-wrap code {
+            font-family: 'Cascadia Code', Consolas, Menlo, monospace;
+            background: transparent;
+            padding: 0;
+            color: #d8e5f5
+        }
+
+        .code-wrap .hljs {
+            background: transparent;
+            color: #d8e5f5
+        }
+
+        .code-wrap .hljs-keyword,
+        .code-wrap .hljs-selector-tag {
+            color: #ff8f89
+        }
+
+        .code-wrap .hljs-string,
+        .code-wrap .hljs-attr {
+            color: #a7e7a6
+        }
+
+        .code-wrap .hljs-variable,
+        .code-wrap .hljs-template-variable {
+            color: #f6c177
+        }
+
+        .code-wrap .hljs-comment {
+            color: #7e91aa
+        }
+
+        .code-wrap .hljs-title,
+        .code-wrap .hljs-function {
+            color: #8bc8ff
+        }
+
+        .code-wrap .hljs-number {
+            color: #d7b4ff
+        }
+
+        p code,
+        td code,
+        .callout code,
+        .path {
+            background: #f2f4f7;
+            border-radius: 5px;
+            padding: 2px 5px;
+            color: #bc261d;
+            font-family: Consolas, monospace;
+            font-size: .89em;
+            overflow-wrap: anywhere
+        }
+
+        .path {
+            padding: 12px 15px;
+            display: block
+        }
+
+        .callout {
+            border-left: 4px solid #ff2d20;
+            background: #fff6f5;
+            padding: 14px 17px;
+            border-radius: 0 9px 9px 0;
+            margin: 17px 0
+        }
+
+        .callout p {
+            margin: 4px 0 0;
+            font-size: 13px
+        }
+
+        .callout.warn {
+            border-color: #ed9b36;
+            background: #fff8ec
+        }
+
+        .note {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .timeline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+            background: #fafbfc;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            flex-wrap: wrap
+        }
+
+        .timeline>div {
+            flex: 1;
+            min-width: 130px
+        }
+
+        .timeline b,
+        .timeline small {
+            display: block
+        }
+
+        .timeline b {
+            font-size: 13px
+        }
+
+        .timeline small {
+            color: var(--muted);
+            font-size: 11px
+        }
+
+        .timeline>span {
+            color: var(--red);
+            font-weight: 900
+        }
+
+        .table-scroll {
+            overflow: auto;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            margin: 20px 0
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 540px
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+            vertical-align: top
+        }
+
+        th {
+            background: #f8f9fb;
+            color: #485367;
+            font-size: 12px
+        }
+
+        tr:last-child td {
+            border: 0
+        }
+
+        .checklist {
+            display: grid;
+            gap: 9px
+        }
+
+        .checklist label {
+            display: flex;
+            gap: 11px;
+            align-items: flex-start;
+            background: #fafbfc;
+            border: 1px solid var(--line);
+            padding: 12px 14px;
+            border-radius: 9px;
+            cursor: pointer
+        }
+
+        .checklist input {
+            accent-color: var(--red);
+            width: 17px;
+            height: 17px;
+            margin-top: 3px
+        }
+
+        .checklist input:checked+span {
+            text-decoration: line-through;
+            color: #8b96a5
+        }
+
+        .link-grid {
+            display: grid;
+            gap: 10px
+        }
+
+        .link-grid>div {
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            padding: 14px 17px
+        }
+
+        .link-grid p {
+            margin: 5px 0 0
+        }
+
+        .settings {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        .settings>div {
+            padding: 11px 15px;
+            display: grid;
+            grid-template-columns: 190px 1fr;
+            gap: 15px;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px
+        }
+
+        .settings>div:last-child {
+            border: 0
+        }
+
+        .settings span {
+            color: var(--muted)
+        }
+
+        .settings b {
+            overflow-wrap: anywhere
+        }
+
+        .faq details {
+            border-bottom: 1px solid var(--line);
+            padding: 12px 0
+        }
+
+        .faq summary {
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .faq p {
+            color: var(--muted)
+        }
+
+        .endline {
+            font-weight: 700;
+            color: var(--red2)
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #9aa3b0;
+            font-size: 12px
+        }
+
+        .menu-toggle {
+            display: none
+        }
+
+        @media(max-width:920px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 14px
+            }
+
+            .sidebar {
+                display: none;
+                position: static;
+                height: auto;
+                padding: 12px;
+                background: #fff;
+                border-radius: 12px
+            }
+
+            .sidebar.open {
+                display: block
+            }
+
+            .menu-toggle {
+                display: block
+            }
+
+            .chapter {
+                padding: 25px 20px
+            }
+
+            .hero {
+                padding: 34px 25px
+            }
+
+            .top {
+                padding: 0 14px
+            }
+
+            .brand {
+                font-size: 14px
+            }
+
+            .top-actions button {
+                font-size: 12px
+            }
+        }
+
+        @media(max-width:550px) {
+            .top-actions button.print {
+                display: none
+            }
+
+            .step {
+                gap: 10px
+            }
+
+            .step-num {
+                flex-basis: 30px;
+                height: 30px
+            }
+
+            .step h3 {
+                font-size: 18px
+            }
+
+            .settings>div {
+                grid-template-columns: 1fr;
+                gap: 3px
+            }
+
+            .timeline>span {
+                display: none
+            }
+        }
+
+        @media print {
+            body {
+                background: white
+            }
+
+            .top,
+            .sidebar,
+            .copy,
+            .checklist input {
+                display: none !important
+            }
+
+            .layout {
+                display: block;
+                padding: 0
+            }
+
+            .main {
+                max-width: none
+            }
+
+            .hero {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact
+            }
+
+            .chapter {
+                box-shadow: none;
+                break-inside: auto;
+                border: 0;
+                border-bottom: 1px solid #ddd;
+                padding: 20px 0
+            }
+
+            .step,
+            .code-wrap {
+                break-inside: avoid
+            }
+
+            .code-wrap {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact
+            }
+
+            a {
+                color: #c21e16
+            }
+        }
+
+        /* Resaltado específico de fragmentos Blade (sin alterar otros lenguajes) */
+        .code-wrap .language-blade .hljs-name { color: #66d9ef; }
+        .code-wrap .language-blade .hljs-attr { color: #a9c7ff; }
+        .code-wrap .language-blade .hljs-string { color: #a7e7a6; }
+        .code-wrap .language-blade .hljs-comment { color: #7e91aa; }
+        .code-wrap .blade-directive { color: #ff8f89; font-weight: 650; }
+        .code-wrap .blade-expression { color: #f6c177; }
+        .code-wrap .blade-expression .blade-variable { color: #8bc8ff; }
+        .code-wrap .blade-expression .blade-string { color: #a7e7a6; }
+    </style>
+</head>
+
+<body>
+    <header class="top">
+        <div class="brand">
+            <div class="brand-mark">L</div>
+            <div>Laravel · Autenticación<small>M.Sc. Olivier Blanco Sandí</small></div>
+        </div>
+        <div class="top-actions"><button class="menu-toggle" id="toggle">☰ Índice</button><button class="print"
+                onclick="window.print()">⎙ Imprimir / PDF</button></div>
+    </header>
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <h4>Índice de contenidos</h4><input id="search" type="search" placeholder="Buscar un capítulo..."
+                aria-label="Buscar capítulo"><a class="nav-link" href="#inicio">Preparación del proyecto</a><a
+                class="nav-link" href="#tabla">¿Qué guarda la tabla usuarios?</a><a class="nav-link" href="#local">Login
+                y registro local</a><a class="nav-link" href="#pruebas-local">Pruebas del login local</a><a
+                class="nav-link" href="#google">Login y registro con Google</a><a class="nav-link"
+                href="#pruebas-google">Pruebas del acceso con Google</a><a class="nav-link" href="#errores">Errores
+                frecuentes</a><a class="nav-link" href="#resumen">¿Qué aprendimos?</a>
+            <div class="sidebar-foot">M.Sc. Olivier Blanco Sandí<br>Laravel · PHP · MySQL · Socialite</div>
+        </aside>
+        <main class="main">
+            <div class="hero"><span class="pill">LARAVEL · GUÍA PASO A PASO</span>
+                <h1>Autenticación local<br>y con Google</h1>
+                <p>Del proyecto base al login con usuario y contraseña, y finalmente a Google OAuth 2.0 con Socialite.
+                    Fragmentos puntuales, explicaciones claras y pruebas por módulo.</p>
+                <div class="author">M.Sc. Olivier Blanco Sandí</div>
+            </div>
+            <section class="chapter" id="inicio">
+                <div class="eyebrow">PUNTO DE PARTIDA</div>
+                <h2>Preparación del proyecto</h2>
+                <p class="lead">Trabajaremos sobre el proyecto base entregado por el docente. No crearemos un proyecto
+                    nuevo: agregaremos la autenticación en dos etapas, conservando el Dashboard y el CRUD de
+                    comentarios.</p>
+                <div class="timeline">
+                    <div><b>01 · Proyecto base</b><small>Laravel, vistas, Dashboard y comentarios</small></div>
+                    <span>→</span>
+                    <div><b>02 · Login local</b><small>Registro, sesión y rutas protegidas</small></div><span>→</span>
+                    <div><b>03 · Google</b><small>Socialite y OAuth 2.0</small></div>
+                </div>
+                <div class="step"><span class="step-num">A</span>
+                    <div class="step-content">
+                        <h3>Preparar el entorno</h3>
+                        <p>Descomprime el proyecto base, inicia MySQL en XAMPP y abre una terminal en la raíz del
+                            proyecto. Si ya recibiste la carpeta <code>vendor</code>, no necesitas reinstalar
+                            dependencias para esta primera etapa.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">Terminal · raíz del proyecto</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-bash">composer install
+php artisan serve --host=localhost</code></pre>
+                        </div>
+                        <p class="note">Ejecuta <code>composer install</code> solo si falta <code>vendor</code>. La URL
+                            utilizada será <code>http://localhost:8000</code>.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">B</span>
+                    <div class="step-content">
+                        <h3>Importar la base de datos</h3>
+                        <p>Importa en phpMyAdmin el archivo que ya está incluido en el proyecto:</p>
+                        <div class="path">public/sql/db_laravel_login.sql</div>
+                        <div class="callout warn"><strong>Atención: el SQL reinicia la base de datos</strong>
+                            <p>El archivo contiene <code>DROP DATABASE IF EXISTS db_laravel_login</code>. Úsalo en una
+                                base de datos de práctica; eliminará cualquier información previa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">C</span>
+                    <div class="step-content">
+                        <h3>Revisar la conexión de Laravel</h3>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">.env · ajustar a tu entorno</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-ini">DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_laravel_login
+DB_USERNAME=root
+DB_PASSWORD=</code></pre>
+                        </div>
+                        <p class="note">Los valores de usuario y contraseña deben corresponder a tu instalación de
+                            MySQL.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">Terminal</span><button class="copy"
+                                    type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-bash">php artisan config:clear
+php artisan serve --host=localhost</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="chapter" id="tabla">
+                <div class="eyebrow">BASE DE DATOS</div>
+                <h2>¿Qué guarda la tabla usuarios?</h2>
+                <p class="lead">La misma tabla permite trabajar con cuentas locales y cuentas de Google. La diferencia
+                    está en qué campos se utilizan para autenticar a cada persona.</p>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Autenticación local</th>
+                                <th>Autenticación Google</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id_usuario</code></td>
+                                <td>ID autoincremental</td>
+                                <td>ID autoincremental</td>
+                            </tr>
+                            <tr>
+                                <td><code>nombre</code></td>
+                                <td>Lo ingresa el usuario</td>
+                                <td>Lo devuelve Google</td>
+                            </tr>
+                            <tr>
+                                <td><code>correo</code></td>
+                                <td>Correo registrado (único)</td>
+                                <td>Correo devuelto por Google</td>
+                            </tr>
+                            <tr>
+                                <td><code>user</code></td>
+                                <td>Nombre para iniciar sesión</td>
+                                <td>Puede ser NULL</td>
+                            </tr>
+                            <tr>
+                                <td><code>password</code></td>
+                                <td>Hash de la contraseña</td>
+                                <td>Puede ser NULL</td>
+                            </tr>
+                            <tr>
+                                <td><code>imagen</code></td>
+                                <td>Puede ser NULL: imagen por defecto</td>
+                                <td>Avatar de Google</td>
+                            </tr>
+                            <tr>
+                                <td><code>google_id</code></td>
+                                <td>NULL inicialmente</td>
+                                <td>ID único de Google</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="callout info"><strong>Dos formas de autenticarse, una sola sesión</strong>
+                    <p>En el login local, Laravel verifica <code>user</code> y <code>password</code> con
+                        <code>Auth::attempt()</code>. Con Google, Socialite recupera la identidad y Laravel inicia la
+                        sesión mediante <code>Auth::login($user)</code>.</p>
+                </div>
+                <div class="code-wrap">
+                    <div class="code-head"><span class="file-label">public/sql/db_laravel_login.sql · estructura
+                            relevante</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                            Copiar</button></div>
+                    <pre><code class="language-sql">CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(150) NOT NULL UNIQUE,
+    user VARCHAR(50) UNIQUE,
+    password VARCHAR(255),
+    imagen VARCHAR(500),
+    google_id VARCHAR(255) UNIQUE
+);</code></pre>
+                </div>
+            </section>
+            <section class="chapter" id="local">
+                <div class="eyebrow">PARTE I · AUTENTICACIÓN LOCAL</div>
+                <h2>Login y registro local</h2>
+                <p class="lead">Primero implementaremos registro, inicio y cierre de sesión, rutas protegidas y
+                    asociación de comentarios.</p>
+                <div class="step"><span class="step-num">01</span>
+                    <div class="step-content">
+                        <h3>Adaptar el modelo User</h3>
+                        <p>El modelo original espera una tabla llamada <code>users</code>. Nuestra tabla se llama
+                            <code>usuarios</code> y su clave primaria es <code>id_usuario</code>. Dentro de la clase
+                            <code>User</code>, agrega estas propiedades y métodos:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">app/Models/User.php · dentro de class
+                                    User</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">protected $table = &#x27;usuarios&#x27;;
+protected $primaryKey = &#x27;id_usuario&#x27;;
+public $timestamps = false;
+
+public function comentarios()
+{
+    return $this-&gt;hasMany(Comentario::class, &#x27;id_usuario&#x27;);
+}
+
+public function imagen()
+{
+    return $this-&gt;imagen ?: asset(&#x27;theme/assets/img/user.png&#x27;);
+}</code></pre>
+                        </div>
+                        <p>Conserva la herencia <code>extends Authenticatable</code>. La relación
+                            <code>comentarios()</code> se utilizará más adelante.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">02</span>
+                    <div class="step-content">
+                        <h3>Crear el controlador de autenticación</h3>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">Terminal</span><button class="copy"
+                                    type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-bash">php artisan make:controller ControllerAuth</code></pre>
+                        </div>
+                        <p>Abre <code>app/Http/Controllers/ControllerAuth.php</code> e incorpora los imports necesarios:
+                        </p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · imports</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-php">use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">03</span>
+                    <div class="step-content">
+                        <h3>Implementar el registro local</h3>
+                        <p>Dentro de <code>ControllerAuth</code> agrega el método <code>register()</code>. Se mantiene
+                            el estilo del proyecto: crear un objeto, asignar propiedades y guardarlo.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · método
+                                    nuevo</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function register(Request $request)
+{
+    $request-&gt;validate([
+        &#x27;nombre&#x27; =&gt; &#x27;required&#x27;,
+        &#x27;correo&#x27; =&gt; &#x27;required|email|unique:usuarios,correo&#x27;,
+        &#x27;user&#x27; =&gt; &#x27;required|unique:usuarios,user&#x27;,
+        &#x27;password&#x27; =&gt; &#x27;required|confirmed&#x27;
+    ]);
+
+    $user = new User();
+    $user-&gt;nombre = $request-&gt;nombre;
+    $user-&gt;correo = $request-&gt;correo;
+    $user-&gt;user = $request-&gt;user;
+    $user-&gt;password = Hash::make($request-&gt;password);
+    $user-&gt;save();
+
+    return redirect()-&gt;route(&#x27;login&#x27;);
+}</code></pre>
+                        </div>
+                        <p><code>confirmed</code> requiere un input llamado <code>password_confirmation</code>. El
+                            correo también debe ser único porque la base de datos lo exige.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">04</span>
+                    <div class="step-content">
+                        <h3>Implementar el login</h3>
+                        <p>El usuario ingresa con su nombre de usuario, no con el correo electrónico.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · método
+                                    nuevo</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function login(Request $request)
+{
+    $datos = [
+        &#x27;user&#x27; =&gt; $request-&gt;user,
+        &#x27;password&#x27; =&gt; $request-&gt;password
+    ];
+
+    if (Auth::attempt($datos)) {
+        $request-&gt;session()-&gt;regenerate();
+        return redirect()-&gt;route(&#x27;dashboard&#x27;);
+    }
+
+    return back()-&gt;withErrors([
+        &#x27;login&#x27; =&gt; &#x27;Usuario o contraseña incorrectos&#x27;
+    ])-&gt;onlyInput(&#x27;user&#x27;);
+}</code></pre>
+                        </div>
+                        <p><code>Auth::attempt()</code> verifica el hash almacenado. Si las credenciales son válidas,
+                            Laravel crea la sesión y la regeneramos para reducir el riesgo de fijación de sesión.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">05</span>
+                    <div class="step-content">
+                        <h3>Implementar el logout</h3>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · método
+                                    nuevo</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function logout(Request $request)
+{
+    Auth::logout();
+    $request-&gt;session()-&gt;invalidate();
+    $request-&gt;session()-&gt;regenerateToken();
+
+    return redirect()-&gt;route(&#x27;login&#x27;);
+}</code></pre>
+                        </div>
+                        <p>El logout elimina la autenticación, invalida la sesión y renueva el token CSRF.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">06</span>
+                    <div class="step-content">
+                        <h3>Configurar rutas públicas y privadas</h3>
+                        <p>En el proyecto base, las rutas todavía son públicas. Reorganízalas así:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">routes/web.php · reemplazar rutas
+                                    anteriores</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">use App\Http\Controllers\ControllerAuth;
+use App\Http\Controllers\ControllerComentarios;
+use App\Http\Controllers\ControllerNavigation;
+use Illuminate\Support\Facades\Route;
+
+Route::middleware(&#x27;guest&#x27;)-&gt;group(function () {
+    Route::get(&#x27;/login&#x27;, [ControllerNavigation::class, &#x27;login&#x27;])-&gt;name(&#x27;login&#x27;);
+    Route::get(&#x27;/register&#x27;, [ControllerNavigation::class, &#x27;register&#x27;])-&gt;name(&#x27;register&#x27;);
+    Route::post(&#x27;/login&#x27;, [ControllerAuth::class, &#x27;login&#x27;]);
+    Route::post(&#x27;/register&#x27;, [ControllerAuth::class, &#x27;register&#x27;]);
+});
+
+Route::middleware(&#x27;auth&#x27;)-&gt;group(function () {
+    Route::get(&#x27;/&#x27;, [ControllerNavigation::class, &#x27;dashboard&#x27;])-&gt;name(&#x27;dashboard&#x27;);
+    Route::resource(&#x27;comentarios&#x27;, ControllerComentarios::class);
+    Route::post(&#x27;/logout&#x27;, [ControllerAuth::class, &#x27;logout&#x27;])-&gt;name(&#x27;logout&#x27;);
+});</code></pre>
+                        </div>
+                        <div class="callout info"><strong>Diferencia importante</strong>
+                            <p><code>guest</code> permite acceder solo a visitantes sin sesión; <code>auth</code> exige
+                                una sesión iniciada.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">07</span>
+                    <div class="step-content">
+                        <h3>Agregar las vistas de navegación al controlador</h3>
+                        <p>El controlador <code>ControllerNavigation</code> del proyecto base solo tiene
+                            <code>dashboard()</code>. Agrega estos métodos:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerNavigation.php · métodos
+                                    nuevos</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function login()
+{
+    return view(&#x27;modules.navigation.login&#x27;);
+}
+
+public function register()
+{
+    return view(&#x27;modules.navigation.register&#x27;);
+}</code></pre>
+                        </div>
+                        <p>El método <code>dashboard()</code> ya existe. Si deseas que sus estadísticas sean reales,
+                            cambia el arreglo de prueba por:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerNavigation.php · dentro de
+                                    dashboard()</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">$estadisticas = [
+    &#x27;usuarios&#x27; =&gt; User::count(),
+    &#x27;comentarios&#x27; =&gt; Comentario::count(),
+];</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">08</span>
+                    <div class="step-content">
+                        <h3>Conectar el formulario de registro</h3>
+                        <p>En la vista de registro, sustituye la apertura del formulario y los campos de nombre y
+                            correo; además, agrega el campo <code>user</code>.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span
+                                    class="file-label">resources/views/modules/navigation/register.blade.php ·
+                                    fragmentos</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-blade">&lt;form action=&quot;{{ route(&#x27;register&#x27;) }}&quot; method=&quot;POST&quot;&gt;
+    @csrf
+
+    &lt;input type=&quot;text&quot; name=&quot;nombre&quot; value=&quot;{{ old(&#x27;nombre&#x27;) }}&quot; class=&quot;form-control&quot; required&gt;
+    &lt;input type=&quot;email&quot; name=&quot;correo&quot; value=&quot;{{ old(&#x27;correo&#x27;) }}&quot; class=&quot;form-control&quot; required&gt;
+    &lt;input type=&quot;text&quot; name=&quot;user&quot; value=&quot;{{ old(&#x27;user&#x27;) }}&quot; class=&quot;form-control&quot; required&gt;
+
+    &lt;!-- Conservar los campos password y password_confirmation --&gt;
+&lt;/form&gt;</code></pre>
+                        </div>
+                        <p>Este es un esquema de los cambios, no un reemplazo del formulario completo: conserva las
+                            etiquetas, contenedores Bootstrap y el botón de envío existentes.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">09</span>
+                    <div class="step-content">
+                        <h3>Conectar el formulario de login</h3>
+                        <p>El proyecto base solicita correo, pero el controlador ahora autentica por <code>user</code>.
+                            Cambia el primer campo y agrega CSRF:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span
+                                    class="file-label">resources/views/modules/navigation/login.blade.php ·
+                                    fragmentos</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-blade">&lt;form action=&quot;{{ route(&#x27;login&#x27;) }}&quot; method=&quot;POST&quot;&gt;
+    @csrf
+
+    &lt;label class=&quot;form-label&quot;&gt;Usuario&lt;/label&gt;
+    &lt;input type=&quot;text&quot; name=&quot;user&quot; value=&quot;{{ old(&#x27;user&#x27;) }}&quot; class=&quot;form-control&quot; required&gt;
+
+    &lt;!-- Conservar contraseña y botón Ingresar --&gt;
+&lt;/form&gt;</code></pre>
+                        </div>
+                        <p>En ambas vistas, debajo del formulario, muestra los errores:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">login.blade.php y register.blade.php ·
+                                    bloque de errores</span><button class="copy" type="button"
+                                    aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-blade">@if ($errors-&gt;any())
+    &lt;div class=&quot;alert alert-danger mt-4&quot;&gt;
+        &lt;ul class=&quot;mb-0&quot;&gt;
+            @foreach ($errors-&gt;all() as $error)
+                &lt;li&gt;{{ $error }}&lt;/li&gt;
+            @endforeach
+        &lt;/ul&gt;
+    &lt;/div&gt;
+@endif</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">10</span>
+                    <div class="step-content">
+                        <h3>Mostrar el usuario y cerrar sesión desde el layout</h3>
+                        <p>Reemplaza el nombre fijo y la imagen de prueba. En el layout del sistema, cambia también el
+                            enlace de cierre de sesión por un formulario POST.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">resources/views/app.blade.php ·
+                                    navbar</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-blade">&lt;img src=&quot;{{ Auth::user()-&gt;imagen() }}&quot; class=&quot;rounded-circle me-2&quot; width=&quot;40&quot; height=&quot;40&quot;&gt;
+
+&lt;span class=&quot;text-white me-3&quot;&gt;{{ Auth::user()-&gt;nombre }}&lt;/span&gt;
+
+&lt;form action=&quot;{{ route(&#x27;logout&#x27;) }}&quot; method=&quot;POST&quot;&gt;
+    @csrf
+    &lt;button type=&quot;submit&quot; class=&quot;btn btn-outline-light btn-sm&quot;&gt;Cerrar sesión&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">11</span>
+                    <div class="step-content">
+                        <h3>Asociar comentarios al usuario autenticado</h3>
+                        <p>En el controlador de comentarios, agrega el import de Auth, filtra los comentarios por la
+                            relación y asigna el ID del usuario al crear un registro.</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerComentarios.php ·
+                                    import</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">use Illuminate\Support\Facades\Auth;</code></pre>
+                        </div>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerComentarios.php · dentro de
+                                    index()</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">$data = Auth::user()-&gt;comentarios()
+    -&gt;orderBy(&#x27;fecha&#x27;, &#x27;desc&#x27;)
+    -&gt;get();</code></pre>
+                        </div>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerComentarios.php · dentro de
+                                    store()</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">$comentario-&gt;id_usuario = Auth::id();</code></pre>
+                        </div>
+                        <p>Para mostrar el autor en el Dashboard, agrega la relación inversa al modelo de comentarios:
+                        </p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">app/Models/Comentario.php · dentro de class
+                                    Comentario</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function usuario()
+{
+    return $this-&gt;belongsTo(User::class, &#x27;id_usuario&#x27;);
+}</code></pre>
+                        </div>
+                        <p>Ahora puedes reemplazar el nombre e imagen ficticios en el listado reciente:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span
+                                    class="file-label">resources/views/modules/navigation/dashboard.blade.php</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-blade">&lt;img src=&quot;{{ $item-&gt;usuario-&gt;imagen() }}&quot; class=&quot;rounded-circle me-3&quot; width=&quot;50&quot; height=&quot;50&quot;&gt;
+&lt;strong&gt;{{ $item-&gt;usuario-&gt;nombre }}&lt;/strong&gt;</code></pre>
+                        </div>
+                        <div class="callout warn"><strong>Permisos de los comentarios</strong>
+                            <p>Filtrar el listado no impide editar o eliminar un comentario ajeno si se conoce su URL.
+                                Para un sistema real, agrega una verificación de propiedad en <code>edit()</code>,
+                                <code>update()</code> y <code>destroy()</code>, por ejemplo
+                                <code>abort_unless($comentario->id_usuario === Auth::id(), 403);</code>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="chapter" id="pruebas-local">
+                <div class="eyebrow">COMPROBACIÓN · PARTE I</div>
+                <h2>Pruebas del login local</h2>
+                <p class="lead">Antes de continuar con Google, verifica que el proyecto ya se comporte como una
+                    aplicación con autenticación.</p>
+                <div class="checklist"><label><input type="checkbox"><span>Al entrar a / sin sesión, Laravel me redirige
+                            a /login.</span></label><label><input type="checkbox"><span>Puedo registrar un usuario nuevo
+                            y sus datos aparecen en MySQL.</span></label><label><input type="checkbox"><span>Si repito
+                            el usuario o el correo, aparece un error de validación.</span></label><label><input
+                            type="checkbox"><span>Una contraseña incorrecta no permite iniciar
+                            sesión.</span></label><label><input type="checkbox"><span>Con credenciales correctas,
+                            ingreso al Dashboard.</span></label><label><input type="checkbox"><span>El nombre del
+                            usuario se muestra en la barra de navegación.</span></label><label><input
+                            type="checkbox"><span>Un comentario nuevo queda asociado a mi
+                            id_usuario.</span></label><label><input type="checkbox"><span>Al cerrar sesión, no puedo
+                            entrar a /comentarios sin autenticarme.</span></label></div>
+            </section>
+            <section class="chapter" id="google">
+                <div class="eyebrow">PARTE II · GOOGLE OAUTH</div>
+                <h2>Login y registro con Google</h2>
+                <p class="lead">Partimos del proyecto local ya funcional. Integraremos Google con Laravel Socialite,
+                    manteniendo el login por usuario y contraseña.</p>
+                <div class="step"><span class="step-num">12</span>
+                    <div class="step-content">
+                        <h3>Instalar Socialite</h3>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">Terminal · raíz del proyecto</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-bash">composer require laravel/socialite</code></pre>
+                        </div>
+                        <p>Socialite administra el proceso de redirección al proveedor y la recuperación de los datos
+                            del usuario autorizado.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">13</span>
+                    <div class="step-content">
+                        <h3>Abrir Google Cloud y elegir un proyecto</h3>
+                        <p>Entra a <a href="https://console.cloud.google.com/" target="_blank"
+                                rel="noopener noreferrer">Google Cloud Console ↗</a>. En el selector superior, crea un
+                            proyecto o utiliza uno existente. Ejemplo de nombre: <b>Laravel Login</b>.</p>
+                        <div class="callout info"><strong>¿Qué vamos a configurar?</strong>
+                            <p>No necesitamos una clave de API de Gemini. Necesitamos un <b>cliente OAuth 2.0 de tipo
+                                    Aplicación web</b> para permitir que Google devuelva al usuario a Laravel.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">14</span>
+                    <div class="step-content">
+                        <h3>Configurar Google Auth Platform</h3>
+                        <p>Abre <a href="https://console.cloud.google.com/auth/overview" target="_blank"
+                                rel="noopener noreferrer">Google Auth Platform → Vista general ↗</a>. Si aparece
+                            <b>Comenzar</b>, completa el asistente inicial. Los nombres pueden variar ligeramente según
+                            el idioma de la consola.</p>
+                        <div class="link-grid">
+                            <div><b>① Información de la aplicación</b>
+                                <p>En <a href="https://console.cloud.google.com/auth/branding" target="_blank"
+                                        rel="noopener noreferrer">Branding / Información de la marca ↗</a>, define
+                                    nombre «Laravel Login», correo de soporte y correo de contacto.</p>
+                            </div>
+                            <div><b>② Público</b>
+                                <p>En <a href="https://console.cloud.google.com/auth/audience" target="_blank"
+                                        rel="noopener noreferrer">Público / Audience ↗</a>, selecciona <b>Externo</b>.
+                                    Mantén el estado de prueba durante el laboratorio.</p>
+                            </div>
+                            <div><b>③ Usuarios de prueba</b>
+                                <p>En la misma pantalla <b>Público</b>, agrega las direcciones Gmail que utilizarán la
+                                    aplicación mientras esté en pruebas.</p>
+                            </div>
+                        </div>
+                        <div class="callout warn"><strong>Sobre el modo de prueba</strong>
+                            <p>En el estado de prueba, los usuarios no agregados a la lista pueden recibir un bloqueo de
+                                acceso. Si el grupo es grande, cada estudiante puede crear sus propias credenciales de
+                                laboratorio.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">15</span>
+                    <div class="step-content">
+                        <h3>Crear el cliente OAuth web</h3>
+                        <p>Entra a <a href="https://console.cloud.google.com/auth/clients" target="_blank"
+                                rel="noopener noreferrer">Google Auth Platform → Clientes ↗</a> y presiona <b>Crear
+                                cliente</b>.</p>
+                        <div class="settings">
+                            <div><span>Tipo de aplicación</span><b>Aplicación web</b></div>
+                            <div><span>Nombre</span><b>Laravel Local</b></div>
+                            <div><span>Orígenes JavaScript</span><b>Dejar vacío (no se requiere en este flujo)</b></div>
+                            <div><span>URI de redireccionamiento
+                                    autorizado</span><b>http://localhost:8000/auth/google/callback</b></div>
+                        </div>
+                        <p>Haz clic en <b>Agregar URI</b>, pega la dirección exacta y luego presiona <b>Crear</b>.
+                            Google mostrará el <b>Client ID</b> y el <b>Client Secret</b>.</p>
+                        <div class="callout warn"><strong>Coincidencia exacta</strong>
+                            <p>El callback debe coincidir exactamente con la URL autorizada, incluido protocolo, host,
+                                puerto y ruta. Si usas <code>localhost</code> en Google, abre Laravel también con
+                                <code>localhost</code>, no con <code>127.0.0.1</code>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">16</span>
+                    <div class="step-content">
+                        <h3>Guardar las credenciales en Laravel</h3>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">.env · agregar variables</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-ini">GOOGLE_CLIENT_ID=tu_client_id
+GOOGLE_CLIENT_SECRET=tu_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback</code></pre>
+                        </div>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">config/services.php · agregar dentro del
+                                    arreglo</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">&#x27;google&#x27; =&gt; [
+    &#x27;client_id&#x27; =&gt; env(&#x27;GOOGLE_CLIENT_ID&#x27;),
+    &#x27;client_secret&#x27; =&gt; env(&#x27;GOOGLE_CLIENT_SECRET&#x27;),
+    &#x27;redirect&#x27; =&gt; env(&#x27;GOOGLE_REDIRECT_URI&#x27;),
+],</code></pre>
+                        </div>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">Terminal</span><button class="copy"
+                                    type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-bash">php artisan config:clear</code></pre>
+                        </div>
+                        <div class="callout warn"><strong>Nunca publiques tus credenciales</strong>
+                            <p>No subas el archivo <code>.env</code> real a GitHub ni compartas el
+                                <code>Client Secret</code> con estudiantes. Cada instalación debe configurar sus propias
+                                credenciales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">17</span>
+                    <div class="step-content">
+                        <h3>Agregar los métodos de Google al controlador</h3>
+                        <p>El proyecto final utiliza <code>Laravel\Socialite\Socialite</code>. Conservaremos ese estilo.
+                            En <code>ControllerAuth</code> agrega:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · import</span><button
+                                    class="copy" type="button" aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-php">use Laravel\Socialite\Socialite;</code></pre>
+                        </div>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · método
+                                    nuevo</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function redirectGoogle()
+{
+    return Socialite::driver(&#x27;google&#x27;)-&gt;redirect();
+}</code></pre>
+                        </div>
+                        <p>En el callback obtenemos la cuenta autorizada, buscamos el usuario por <code>google_id</code>
+                            y creamos una cuenta si todavía no existe:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">ControllerAuth.php · método nuevo (flujo
+                                    recomendado)</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-php">public function callbackGoogle(Request $request)
+{
+    $googleUser = Socialite::driver(&#x27;google&#x27;)-&gt;user();
+
+    $user = User::where(&#x27;google_id&#x27;, $googleUser-&gt;getId())-&gt;first();
+
+    if (!$user) {
+        // Evitar vincular automáticamente una cuenta local por correo.
+        if (User::where(&#x27;correo&#x27;, $googleUser-&gt;getEmail())-&gt;exists()) {
+            return redirect()-&gt;route(&#x27;login&#x27;)-&gt;withErrors([
+                &#x27;google&#x27; =&gt; &#x27;Este correo ya tiene una cuenta local. Inicia sesión y vincula Google desde tu perfil.&#x27;
+            ]);
+        }
+
+        $user = new User();
+        $user-&gt;nombre = $googleUser-&gt;getName();
+        $user-&gt;correo = $googleUser-&gt;getEmail();
+        $user-&gt;imagen = $googleUser-&gt;getAvatar();
+        $user-&gt;google_id = $googleUser-&gt;getId();
+        $user-&gt;save();
+    }
+
+    Auth::login($user);
+    $request-&gt;session()-&gt;regenerate();
+
+    return redirect()-&gt;route(&#x27;dashboard&#x27;);
+}</code></pre>
+                        </div>
+                        <p>La versión de referencia final busca también por correo y vincula automáticamente la cuenta
+                            local. En esta wiki evitamos esa vinculación automática: si el correo ya existe, se pide
+                            iniciar sesión localmente. La vinculación verificada puede desarrollarse como una mejora
+                            posterior.</p>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">18</span>
+                    <div class="step-content">
+                        <h3>Agregar las rutas de Google</h3>
+                        <p>Dentro del grupo <code>guest</code> que ya existe en <code>routes/web.php</code>, incorpora
+                            solamente estas dos rutas:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">routes/web.php · dentro de
+                                    Route::middleware(&#x27;guest&#x27;)</span><button class="copy" type="button"
+                                    aria-label="Copiar código">⧉ Copiar</button></div>
+                            <pre><code class="language-php">Route::get(&#x27;/auth/google&#x27;, [ControllerAuth::class, &#x27;redirectGoogle&#x27;])
+    -&gt;name(&#x27;google&#x27;);
+
+Route::get(&#x27;/auth/google/callback&#x27;, [ControllerAuth::class, &#x27;callbackGoogle&#x27;]);</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="step"><span class="step-num">19</span>
+                    <div class="step-content">
+                        <h3>Conectar los botones de Google</h3>
+                        <p>El proyecto base ya tiene un botón «Continuar con Google» en ambas vistas. Solo cambia su
+                            <code>href</code>:</p>
+                        <div class="code-wrap">
+                            <div class="code-head"><span class="file-label">login.blade.php y register.blade.php ·
+                                    botón</span><button class="copy" type="button" aria-label="Copiar código">⧉
+                                    Copiar</button></div>
+                            <pre><code class="language-blade">&lt;a href=&quot;{{ route(&#x27;google&#x27;) }}&quot; class=&quot;btn btn-outline-danger w-100&quot;&gt;
+    Continuar con Google
+&lt;/a&gt;</code></pre>
+                        </div>
+                        <p>El usuario puede pulsarlo desde login o registro: Google devuelve su identidad y Laravel
+                            determina si corresponde iniciar sesión o crear una cuenta.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="chapter" id="pruebas-google">
+                <div class="eyebrow">COMPROBACIÓN · PARTE II</div>
+                <h2>Pruebas del acceso con Google</h2>
+                <p class="lead">Utiliza una cuenta de Google agregada como usuario de prueba y comprueba tanto la
+                    interfaz como la tabla MySQL.</p>
+                <div class="checklist"><label><input type="checkbox"><span>El botón «Continuar con Google» abre la
+                            pantalla de Google.</span></label><label><input type="checkbox"><span>Puedo elegir una
+                            cuenta autorizada y regresar al Dashboard.</span></label><label><input
+                            type="checkbox"><span>Una cuenta Google nueva se guarda con google_id y, si está disponible,
+                            imagen.</span></label><label><input type="checkbox"><span>La cuenta creada por Google puede
+                            tener user y password en NULL.</span></label><label><input type="checkbox"><span>Un segundo
+                            acceso con la misma cuenta Google no duplica el registro.</span></label><label><input
+                            type="checkbox"><span>Puedo cerrar sesión y seguir usando el login local
+                            normalmente.</span></label><label><input type="checkbox"><span>Un correo que ya pertenece a
+                            una cuenta local no se vincula automáticamente.</span></label></div>
+            </section>
+            <section class="chapter" id="errores">
+                <div class="eyebrow">AYUDA RÁPIDA</div>
+                <h2>Errores frecuentes</h2>
+                <p class="lead">Si Google no permite completar el acceso, revisa estas causas antes de modificar el
+                    código.</p>
+                <div class="faq">
+                    <details open>
+                        <summary>redirect_uri_mismatch</summary>
+                        <p>La URL configurada en Google Cloud no coincide con <code>GOOGLE_REDIRECT_URI</code>. Verifica
+                            protocolo, <code>localhost</code>, puerto <code>8000</code> y
+                            <code>/auth/google/callback</code>.</p>
+                    </details>
+                    <details>
+                        <summary>access_denied o aplicación en pruebas</summary>
+                        <p>Revisa <b>Público → Usuarios de prueba</b> en Google Auth Platform y confirma que la cuenta
+                            esté autorizada.</p>
+                    </details>
+                    <details>
+                        <summary>InvalidStateException</summary>
+                        <p>Verifica que la sesión de Laravel funcione, que las cookies estén habilitadas y que no
+                            cambies entre <code>localhost</code> y <code>127.0.0.1</code> durante el flujo.</p>
+                    </details>
+                    <details>
+                        <summary>Google no encuentra las credenciales</summary>
+                        <p>Revisa las tres variables de <code>.env</code>, el bloque <code>google</code> de
+                            <code>config/services.php</code> y ejecuta <code>php artisan config:clear</code>.</p>
+                    </details>
+                    <details>
+                        <summary>El usuario no puede iniciar sesión localmente después de registrarse con Google
+                        </summary>
+                        <p>Es normal: una cuenta creada solo mediante Google no tiene contraseña local. Para habilitar
+                            ambos métodos necesitarías un flujo adicional para establecer contraseña o vincular cuentas.
+                        </p>
+                    </details>
+                </div>
+            </section>
+            <section class="chapter" id="resumen">
+                <div class="eyebrow">CIERRE DEL LABORATORIO</div>
+                <h2>¿Qué aprendimos?</h2>
+                <p class="lead">Los dos métodos de acceso terminan utilizando la autenticación de Laravel, pero
+                    verifican la identidad de maneras diferentes.</p>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspecto</th>
+                                <th>Login local</th>
+                                <th>Google</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Identidad</td>
+                                <td>Usuario + contraseña</td>
+                                <td>Cuenta autorizada por Google</td>
+                            </tr>
+                            <tr>
+                                <td>Método principal</td>
+                                <td><code>Auth::attempt()</code></td>
+                                <td><code>Auth::login($user)</code></td>
+                            </tr>
+                            <tr>
+                                <td>Contraseña</td>
+                                <td><code>Hash::make()</code></td>
+                                <td>No se almacena una contraseña de Google</td>
+                            </tr>
+                            <tr>
+                                <td>Tabla</td>
+                                <td><code>usuarios</code></td>
+                                <td><code>usuarios</code></td>
+                            </tr>
+                            <tr>
+                                <td>Sesión y rutas</td>
+                                <td colspan="2">Se comparten <code>Auth</code>, <code>auth</code>, <code>guest</code> y
+                                    <code>logout</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="endline">La autenticación se integra sobre la misma aplicación. El Dashboard y los comentarios
+                    siguen funcionando sin importar el método de ingreso.</p>
+            </section>
+            <footer>Material didáctico · M.Sc. Olivier Blanco Sandí · Laravel 12</footer>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script>if (window.hljs) { document.querySelectorAll('pre code').forEach(e => { try { hljs.highlightElement(e) } catch (x) { } }) } document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', async () => { const s = b.closest('.code-wrap').querySelector('code').textContent; try { await navigator.clipboard.writeText(s); b.textContent = '✓ Copiado' } catch (e) { const a = document.createElement('textarea'); a.value = s; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); b.textContent = '✓ Copiado' } setTimeout(() => b.textContent = '⧉ Copiar', 1600) })); document.getElementById('search').addEventListener('input', e => { let q = e.target.value.toLowerCase().trim(); document.querySelectorAll('.nav-link').forEach(a => a.style.display = a.textContent.toLowerCase().includes(q) ? 'block' : 'none') }); document.getElementById('toggle').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open')); document.querySelectorAll('.nav-link').forEach(a => a.addEventListener('click', () => document.getElementById('sidebar').classList.remove('open'))); const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { document.querySelectorAll('.nav-link').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)) } }) }, { rootMargin: '-80px 0px -65% 0px' }); document.querySelectorAll('.chapter').forEach(s => obs.observe(s));</script>
+
+    <script>
+        // Blade: resaltar el HTML completo antes de insertar las expresiones/directivas.
+        // Los marcadores temporales evitan partir etiquetas y atributos a la mitad.
+        if (window.hljs) {
+            const escapeBlade = value => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            document.querySelectorAll('pre code.language-blade').forEach(code => {
+                const source = code.textContent;
+                const tokens = [];
+                const tokenPattern = /\{\{[\s\S]*?\}\}|@(?:if|elseif|else|endif|foreach|endforeach|csrf|method|error|enderror|auth|endauth|guest|endguest|isset|endisset|empty|endempty|unless|endunless|forelse|endforelse|php|endphp|include|extends|section|endsection|yield|push|endpush|stack|vite)\b(?:\s*\([^\n]*?\))?/g;
+                const marked = source.replace(tokenPattern, match => {
+                    const index = tokens.push(match) - 1;
+                    return 'BLADETOKEN' + index + 'END';
+                });
+                let html = hljs.highlight(marked, { language: 'xml', ignoreIllegals: true }).value;
+                // Un token puede quedar dentro de un atributo HTML coloreado; preservamos ese contexto.
+                html = html.replace(/BLADETOKEN(\d+)END/g, (_, number) => {
+                    const token = tokens[Number(number)];
+                    if (token.startsWith('{{')) {
+                        const expression = escapeBlade(token)
+                            .replace(/(\$[a-zA-Z_][\w]*)/g, '<span class="blade-variable">$1</span>')
+                            .replace(/(&#39;.*?&#39;|&quot;.*?&quot;)/g, '<span class="blade-string">$1</span>');
+                        return '<span class="blade-expression">' + expression + '</span>';
+                    }
+                    return '<span class="blade-directive">' + escapeBlade(token) + '</span>';
+                });
+                code.innerHTML = html;
+                code.classList.add('hljs');
+            });
+        }
+    </script>
+</body>
+
+</html>
