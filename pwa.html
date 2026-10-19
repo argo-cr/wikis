@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8" /><meta
+      content="width=device-width,initial-scale=1" name="viewport" /><meta
+      content="Guía práctica de Progressive Web Apps: IndexedDB, manifest, Service Worker, notificaciones y Cloudflare Tunnel."
+      name="description" /><title>Wiki PWA · Personas | M.Sc. Olivier Blanco
+      Sandí</title><style>
+:root{--bg:#f5f7fb;--paper:#fff;--ink:#18243a;--muted:#62738c;--line:#e1e7f0;--blue:#2563eb;--cyan:#06b6d4;--nav:#111c32;--code:#111827}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:35px}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}a{color:var(--blue)}.sidebar{position:fixed;inset:0 auto 0 0;width:278px;background:var(--nav);color:#eaf1ff;padding:28px 17px;overflow-y:auto;z-index:20}.brand{padding:5px 15px 25px;border-bottom:1px solid #34415b;margin-bottom:16px}.brand-mark{font-size:12px;letter-spacing:2px;color:#7dd3fc;font-weight:800}.brand h2{font-size:22px;line-height:1.2;margin:12px 0 6px;color:white}.brand p{font-size:12px;color:#9baac3;margin:0}.nav-caption{padding:8px 15px;color:#7e91b2;font-size:10px;letter-spacing:2px;font-weight:800}.sidebar nav a{display:flex;gap:12px;align-items:center;padding:9px 14px;border-radius:9px;color:#bac7dc;text-decoration:none;font-size:13px;line-height:1.4}.sidebar nav a span{font:700 11px ui-monospace,monospace;color:#6980a7}.sidebar nav a:hover,.sidebar nav a.active{background:#243650;color:white}.sidebar nav a.active span{color:#7dd3fc}.side-foot{margin:30px 14px 0;color:#8194b2;font-size:11px;border-top:1px solid #34415b;padding-top:18px}.main{margin-left:278px;min-width:0}.topbar{background:#fff;border-bottom:1px solid var(--line);padding:14px 5vw;display:flex;justify-content:space-between;gap:16px;align-items:center;color:#60718b;font-size:12px}.pill{border:1px solid #cde5f7;background:#f0f9ff;color:#0369a1;padding:3px 11px;border-radius:99px;font-weight:700}.content{max-width:1060px;margin:auto;padding:48px 5vw 110px}.hero{padding:42px 42px 40px;border-radius:20px;color:white;background:linear-gradient(118deg,#101b32 0%,#153c72 65%,#087ba4 100%);box-shadow:0 14px 36px #14294a1a}.kicker{font-size:11px;letter-spacing:2.5px;color:#9ee8ff;font-weight:800}.hero h1{font-size:clamp(32px,4vw,52px);line-height:1.1;letter-spacing:-1.5px;margin:14px 0}.hero p{font-size:16px;color:#d6e8fa;max-width:650px}.author{border-top:1px solid #ffffff35;padding-top:17px;margin-top:25px;color:#c7e7ff;font-size:13px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.chips span{border:1px solid #ffffff40;border-radius:7px;padding:3px 10px;color:#e6f6ff;font-size:12px}.section{margin-top:34px;background:var(--paper);padding:38px 42px;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 20px #12213a06;overflow:hidden}.eyebrow{font-size:11px;color:#0284c7;font-weight:800;letter-spacing:2px}.section h2{font-size:28px;letter-spacing:-.8px;line-height:1.25;margin:8px 0 10px}.section h3{font-size:19px;margin:34px 0 10px}.lead{font-size:16px;color:#536783;margin:0 0 25px}.section p{margin:15px 0}.section p code,.note code,.check code{font-size:.89em;color:#b42363;background:#f3f5f9;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0}.feature-grid div{background:#f4f8fe;border:1px solid #e4edf9;border-radius:10px;padding:16px}.feature-grid b{display:block;font-size:14px}.feature-grid span{display:block;color:#6b7b93;font-size:12px;margin-top:4px}.code-wrap{border-radius:12px;overflow:hidden;margin:20px 0 24px;border:1px solid #2a364a;background:var(--code)}.code-head{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#202c40;border-bottom:1px solid #354257;color:#b9c7dd;padding:9px 14px;font:600 12px ui-monospace,monospace}.copy{background:#34435b;color:#f4f7ff;border:1px solid #506079;border-radius:6px;padding:5px 10px;cursor:pointer;font:600 11px system-ui}.copy:hover{background:#465a78}pre{margin:0;padding:19px 20px;overflow:auto;max-height:600px;color:#dce7fb;font:13px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2}pre code{font:inherit!important;background:transparent!important;padding:0!important;white-space:pre}.note{background:#edf6ff;border-left:4px solid #3b82f6;border-radius:7px;padding:15px 18px;margin:22px 0;color:#284a74;font-size:13px}.note.warn{background:#fff8eb;border-color:#e7a63c;color:#81531c}.note.tip{background:#effaf5;border-color:#2ea47c;color:#2a6654}.check{display:flex;gap:13px;border-top:1px dashed var(--line);padding-top:20px;margin-top:26px}.checkicon{flex:0 0 26px;height:26px;background:#e4f8ef;color:#0f8b57;border-radius:50%;display:grid;place-items:center;font-weight:800}.check strong{font-size:13px}.check p{font-size:13px;color:#5e718b;margin:2px 0}.footer{color:#7b8ba2;text-align:center;margin-top:35px;font-size:12px}.menu-btn{display:none}.hljs-keyword,.hljs-selector-tag,.hljs-literal{color:#c792ea}.hljs-string,.hljs-attr{color:#c3e88d}.hljs-number{color:#f78c6c}.hljs-comment{color:#718096}.hljs-title,.hljs-title.function_{color:#82aaff}.hljs-built_in,.hljs-type{color:#89ddff}.hljs-variable,.hljs-params{color:#f07178}.hljs-tag{color:#f07178}.hljs-name{color:#82aaff}.hljs-attribute{color:#ffcb6b}@media(max-width:900px){.sidebar{transform:translateX(-100%);transition:transform .2s}.sidebar.open{transform:none}.main{margin-left:0}.menu-btn{display:inline-block;background:#1c3556;color:white;border:0;border-radius:7px;padding:7px 12px}.topbar{padding:12px 20px}.content{padding:24px 16px 80px}.section{padding:27px 22px}.hero{padding:32px 25px}}@media(max-width:520px){.feature-grid{grid-template-columns:1fr}.hero h1{font-size:34px}.section h2{font-size:25px}.topbar .pill{display:none}pre{font-size:12px}}
+
+.section ol{padding-left:1.5rem;line-height:1.8}.section h3{scroll-margin-top:90px}.section .note strong{font-weight:750}
+</style></head><body><aside class="sidebar" id="sidebar"><div class="brand"><div
+          class="brand-mark">DOCUMENTACIÓN / WEB</div><h2>Personas
+          PWA</h2><p>Laboratorio guiado · HTML + JavaScript</p></div><div
+        class="nav-caption">CONTENIDOS</div><nav><a
+          href="#introduccion"><span>01</span>Introducción</a><a
+          href="#preparacion"><span>02</span>Proyecto base</a><a
+          href="#indexeddb"><span>03</span>IndexedDB</a><a
+          href="#crud"><span>04</span>CRUD</a><a
+          href="#tabla"><span>05</span>Cargar tabla</a><a
+          href="#manifest"><span>06</span>Manifest</a><a
+          href="#registro"><span>07</span>Service Worker</a><a
+          href="#notificaciones"><span>08</span>Notificaciones</a><a
+          href="#conexion"><span>09</span>Conexión</a><a
+          href="#instalacion"><span>10</span>Instalación</a><a
+          href="#cloudflare"><span>11</span>Cloudflare Tunnel</a></nav><div
+        class="side-foot">M.Sc. Olivier Blanco Sandí<br />Material académico ·
+        2026</div></aside><div class="main"><div class="topbar"><button
+          class="menu-btn" id="menu-btn" type="button">☰
+          Contenido</button><span>Wiki de laboratorio / Progressive Web
+          Apps</span><span class="pill">M.Sc. Olivier Blanco Sandí</span></div><main class="content"><header class="hero"><div
+            class="kicker">GUÍA PRÁCTICA · DESARROLLO WEB</div><h1>Progressive
+            Web Apps<br />Personas PWA</h1><p>Completa paso a paso una
+            aplicación instalable con IndexedDB, Service Worker, notificaciones
+            y pruebas HTTPS desde dispositivos móviles.</p><div
+            class="chips"><span>HTML +
+              JavaScript</span><span>jQuery</span><span>IndexedDB</span><span>Service
+              Worker</span><span>Cloudflare</span></div><div
+            class="author">Elaborado por <strong>M.Sc. Olivier Blanco
+              Sandí</strong></div></header><section class="section"
+          id="introduccion"><div class="eyebrow">PASO 01</div><h2>¿Qué
+            construiremos?</h2><p class="lead">Una aplicación web instalable
+            para administrar personas, con persistencia local y
+            notificaciones.</p><p>Partimos de <code>pwa.zip</code> y completamos
+            únicamente los espacios que faltan, tomando como referencia
+            <code>pwa-demo(2).zip</code>. La interfaz, los estilos, los iconos y
+            los eventos principales ya están preparados.</p><div
+            class="feature-grid"><div><b>IndexedDB</b><span>Guardar y consultar
+                personas en el navegador</span></div><div><b>Web App
+                Manifest</b><span>Nombre, iconos y apariencia
+                instalable</span></div><div><b>Service Worker</b><span>Registro
+                y clic en notificaciones</span></div><div><b>Cloudflare
+                Tunnel</b><span>HTTPS temporal para pruebas
+                móviles</span></div></div><div class="note info">Este
+            laboratorio no implementa caché offline. IndexedDB sí conserva los
+            datos localmente, pero la interfaz depende de que el servidor esté
+            disponible.</div></section><section class="section"
+          id="preparacion"><div class="eyebrow">PASO 02</div><h2>Preparación del
+            proyecto</h2><p class="lead">Abre la carpeta del proyecto base en VS
+            Code y ejecuta Live Server.</p><p>La aplicación debe abrirse en
+            <code>http://127.0.0.1:5500</code> (o el puerto que asigne Live
+            Server). Comprueba la estructura siguiente:</p><div
+            class="code-wrap"><div
+              class="code-head"><span>ESTRUCTURA</span><button class="copy"
+                type="button">Copiar
+                código</button></div><pre><code class="language-plaintext">pwa/
+├── index.html
+├── manifest.json
+├── sw.js
+├── css/style.css
+├── js/app.js
+└── icons/
+    ├── icon512_rounded.png
+    └── icon512_maskable.png</code></pre></div><div class="note info">No
+            reemplaces los archivos completos: agrega cada fragmento en la
+            sección indicada del proyecto base.</div><div class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>La
+                página se abre con Live Server y se muestran el formulario y la
+                tabla de personas.</p></div></div></section><section
+          class="section" id="indexeddb"><div class="eyebrow">PASO
+            03</div><h2>Conexión con IndexedDB</h2><p class="lead">Creamos la
+            base de datos <code>db_personas</code> y el almacén
+            <code>personas</code>.</p><p>En <code>js/app.js</code>, ubica el
+            comentario <code>//--------- DB ---------</code> y agrega:</p><div
+            class="note info"><strong>¿Qué es IndexedDB y de dónde
+              viene?</strong> IndexedDB es una API estándar de los navegadores
+            web (Web API), accesible desde JavaScript mediante
+            <code>window.indexedDB</code>. No es una biblioteca externa, no se
+            instala con npm y no requiere MySQL ni un servidor de base de datos.
+            Guarda objetos estructurados en el almacenamiento del navegador,
+            asociados al origen (protocolo + dominio + puerto) de la
+            página.</div><h3>Conceptos antes de programar</h3><p><strong>Base de
+              datos:</strong> contenedor <code>db_personas</code>.
+            <strong>Object store:</strong> colección <code>personas</code>,
+            comparable a una tabla. <strong>Clave:</strong> identifica cada
+            registro. <strong>Transacción:</strong> agrupa operaciones sobre un
+            almacén; puede ser <code>readonly</code> o <code>readwrite</code>.
+            <strong>Solicitud:</strong> una operación asíncrona cuyo resultado
+            se obtiene mediante eventos como <code>onsuccess</code> y
+            <code>onerror</code>.</p><h3>Inspeccionar IndexedDB desde
+            Chrome</h3><ol><li>Abre la aplicación con Live Server y presiona
+              <code>F12</code>.</li><li>Entra en <strong>Application → Storage →
+                IndexedDB</strong> (puede aparecer simplemente como
+              <strong>IndexedDB</strong>).</li><li>Expande
+              <code>db_personas</code> y el almacén <code>personas</code>;
+              selecciona el almacén para revisar las filas y sus
+              claves.</li><li>Registra o elimina una persona y utiliza el botón
+              de actualizar del panel para observar los cambios.</li><li>Para
+              reiniciar la práctica, puedes eliminar la base desde el menú
+              contextual de <code>db_personas</code> o usar <strong>Application
+                → Storage → Clear site data</strong>. Esto elimina datos del
+              sitio; úsalo con cuidado.</li></ol><p>En la consola también puedes
+            ejecutar <code>indexedDB.databases()</code> en navegadores
+            compatibles para listar las bases del origen. El panel Application
+            es la forma más visual para la clase.</p><div class="code-wrap"><div
+              class="code-head"><span>js/app.js · DB</span><button class="copy"
+                type="button">Copiar
+                código</button></div><pre><code class="language-javascript">let db;
+conexion();
+
+function conexion() {
+  const solicitud = indexedDB.open("db_personas", 1);
+
+  solicitud.onupgradeneeded = function (event) {
+    db = event.target.result;
+
+    db.createObjectStore("personas", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+  };
+
+  solicitud.onsuccess = function (event) {
+    db = event.target.result;
+    loadTable();
+  };
+
+  solicitud.onerror = function () {
+    console.log("Error al abrir la base de datos");
+  };
+}</code></pre></div><p><code>indexedDB.open()</code> abre o crea la base.
+            <code>onupgradeneeded</code> define el almacén;
+            <code>onsuccess</code> conserva la conexión y carga la tabla. La
+            clave <code>id</code> se genera automáticamente.</p><div
+            class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>Abre
+                DevTools → Application → IndexedDB. Debe aparecer
+                <code>db_personas</code> con el almacén
+                <code>personas</code>.</p></div></div></section><section
+          class="section" id="crud"><div class="eyebrow">PASO
+            04</div><h2>Implementación del CRUD</h2><p class="lead">Completa las
+            cinco funciones vacías del archivo
+            <code>js/app.js</code>.</p><h3><code>store()</code></h3><p>Agrega
+            una persona usando una transacción de lectura y
+            escritura.</p><h3>¿Por qué las operaciones son
+            asíncronas?</h3><p>IndexedDB no devuelve los datos inmediatamente:
+            inicia una solicitud y comunica su resultado más tarde, sin bloquear
+            la interfaz. Por eso el código utiliza eventos como
+            <code>tx.oncomplete</code> y, para las consultas,
+            <strong>promesas</strong>.</p><div class="note info"><strong>Promesa
+              (Promise):</strong> objeto que representa un resultado futuro.
+            Puede estar <em>pendiente</em>, <em>resuelta</em> (con un valor) o
+            <em>rechazada</em> (con un error). <code>resolve(valor)</code>
+            entrega el resultado y <code>reject(error)</code> informa del fallo.
+            <code>.then()</code> y <code>.catch()</code> permiten
+            procesarlos.</div><p><strong><code>async</code></strong> se coloca
+            delante de una función para que devuelva una promesa.
+            <strong><code>await</code></strong> se usa dentro de una función
+            <code>async</code> para esperar el resultado de otra promesa, sin
+            congelar el navegador. No convierte automáticamente las solicitudes
+            de IndexedDB en promesas: para ello el proyecto las envuelve con
+            <code>new Promise(...)</code>.</p><div class="code-wrap"><div
+              class="code-head"><span>Ejemplo didáctico · async y await (no
+                agregar al proyecto)</span><button class="copy"
+                type="button">Copiar
+                código</button></div><pre><code class="language-javascript">function obtenerNombre() {
+  return Promise.resolve("Ana");
+}
+
+async function mostrarNombre() {
+  const nombre = await obtenerNombre();
+  console.log(nombre); // Ana
+}
+
+mostrarNombre();</code></pre></div><p>En las funciones de consulta del proyecto,
+            observa cómo <code>request.onsuccess</code> llama a
+            <code>resolve(request.result)</code>. Cuando se ejecuta <code>await
+              all()</code> o <code>await find(id)</code>, JavaScript espera esa
+            resolución. En cambio, <code>tx.oncomplete</code> se usa para
+            actualizar la interfaz solo después de finalizar la
+            escritura.</p><div class="code-wrap"><div
+              class="code-head"><span>js/app.js · store()</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">function store(item) {
+  const tx = db.transaction("personas", "readwrite");
+  const personas = tx.objectStore("personas");
+  personas.add(item);
+
+  tx.oncomplete = function () {
+    clearForm();
+    loadTable();
+    notificar("Registrado: " + item.nombre);
+  };
+}</code></pre></div><h3><code>update()</code></h3><p>Actualiza un registro
+            existente mediante <code>put()</code>.</p><div
+            class="code-wrap"><div class="code-head"><span>js/app.js ·
+                update()</span><button class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">function update(item) {
+  const tx = db.transaction("personas", "readwrite");
+  const personas = tx.objectStore("personas");
+
+  personas.put(item);
+
+  tx.oncomplete = function () {
+    clearForm();
+    loadTable();
+    notificar("Actualizado: " + item.nombre);
+  };
+}</code></pre></div><h3><code>destroy()</code></h3><p>Confirma la eliminación y
+            borra el registro por su identificador.</p><div
+            class="code-wrap"><div class="code-head"><span>js/app.js ·
+                destroy()</span><button class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">function destroy(id) {
+  if (!confirm("¿Desea eliminar este registro?")) {
+    return;
+  }
+
+  const tx = db.transaction("personas", "readwrite");
+  const personas = tx.objectStore("personas");
+
+  personas.delete(id);
+
+  tx.oncomplete = function () {
+    loadTable();
+    notificar("Registro Eliminado: ");
+  };
+}</code></pre></div><h3><code>all()</code></h3><p>Obtiene todos los registros y
+            devuelve una promesa.</p><div class="code-wrap"><div
+              class="code-head"><span>js/app.js · all()</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">function all() {
+  return new Promise(function (resolve, reject) {
+    const tx = db.transaction("personas", "readonly");
+    const personas = tx.objectStore("personas");
+
+    const solicitud = personas.getAll();
+
+    solicitud.onsuccess = function () {
+      resolve(solicitud.result);
+    };
+
+    solicitud.onerror = function () {
+      reject(solicitud.error);
+    };
+  });
+}</code></pre></div><h3><code>find()</code></h3><p>Consulta una persona por su
+            identificador y devuelve una promesa.</p><div class="code-wrap"><div
+              class="code-head"><span>js/app.js · find()</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">function find(id) {
+  return new Promise(function (resolve, reject) {
+    const tx = db.transaction("personas", "readonly");
+    const personas = tx.objectStore("personas");
+
+    const solicitud = personas.get(id);
+
+    solicitud.onsuccess = function () {
+      resolve(solicitud.result);
+    };
+
+    solicitud.onerror = function () {
+      reject(solicitud.error);
+    };
+  });
+}</code></pre></div><div class="note tip">En el proyecto final,
+            <code>find()</code> queda disponible aunque no se invoque desde los
+            eventos actuales. El mensaje de eliminación es genérico, tal como
+            está en el demo.</div><div class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>Registra,
+                edita y elimina personas. Revisa en DevTools que los cambios
+                persistan al recargar.</p></div></div></section><section
+          class="section" id="tabla"><div class="eyebrow">PASO
+            05</div><h2>Mostrar los registros</h2><p class="lead">Conecta la
+            tabla HTML con los datos reales de IndexedDB.</p><p>En la función
+            <code>loadTable()</code>, reemplaza la línea provisional <code>const
+              data = [];</code> por la línea exacta del demo:</p><h3>¿Qué hace
+            exactamente <code>await all()</code>?</h3><p><code>all()</code>
+            inicia una consulta a IndexedDB y devuelve una
+            <strong>promesa</strong> con los registros. <code>await</code>
+            espera a que esa promesa se resuelva y asigna el arreglo resultante
+            a <code>data</code>. La función que contiene esa línea debe estar
+            declarada como <code>async</code>. Si se omite <code>await</code>,
+            <code>data</code> contendrá la promesa, no la lista de
+            personas.</p><div class="code-wrap"><div
+              class="code-head"><span>js/app.js · loadTable()</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">const data = await all();</code></pre></div><p>La
+            función <code>loadTable()</code> ya está declarada con
+            <code>async</code> y el resto de su contenido permanece en el
+            proyecto base. No es necesario reescribirla.</p><div
+            class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>La
+                tabla se vacía y se vuelve a dibujar con los registros
+                recuperados de IndexedDB.</p></div></div></section><section
+          class="section" id="manifest"><div class="eyebrow">PASO
+            06</div><h2>Configurar el manifest</h2><p class="lead">El manifiesto
+            proporciona los metadatos de instalación de la aplicación.</p><p>El
+            archivo <code>manifest.json</code> está vacío en el proyecto base.
+            Coloca exactamente el siguiente contenido:</p><div
+            class="code-wrap"><div
+              class="code-head"><span>manifest.json</span><button class="copy"
+                type="button">Copiar
+                código</button></div><pre><code class="language-json">{
+    "name": "Personas PWA",
+    "short_name": "Personas PWA",
+    "description": "Aplicación para gestionar personas",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "any",
+    "theme_color": "#f2c750",
+    "background_color": "#027eac",
+    "lang": "es-CR",
+    "icons": [
+        {
+            "src": "icons/icon512_rounded.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/icon512_maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}</code></pre></div><p>Los campos <code>name</code> y <code>short_name</code>
+            identifican la aplicación; <code>display: standalone</code> permite
+            abrirla sin la interfaz habitual del navegador. Los iconos ya están
+            incluidos en el proyecto.</p><p>En el <code>&lt;head&gt;</code> de
+            <code>index.html</code>, sustituye el comentario <code>AGREGAR TAGS
+              PWA</code> por:</p><div class="code-wrap"><div
+              class="code-head"><span>index.html · head</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-html">&lt;link rel="manifest" href="manifest.json"&gt;
+    &lt;meta name="theme-color" content="#0d6efd"&gt;</code></pre></div><div
+            class="note tip">El color de <code>theme-color</code> del HTML es
+            <code>#0d6efd</code> en el demo, mientras que el manifest usa
+            <code>#f2c750</code>. Se conservan ambos valores para reproducir
+            exactamente el proyecto final.</div><div class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>En
+                DevTools → Application → Manifest se muestran el nombre, los
+                colores y los iconos.</p></div></div></section><section
+          class="section" id="registro"><div class="eyebrow">PASO
+            07</div><h2>Registrar el Service Worker</h2><p class="lead">El
+            navegador registra <code>sw.js</code> desde la raíz de la
+            aplicación.</p><p>Al final de <code>index.html</code>, dentro del
+            bloque <code>&lt;script&gt;</code> que contiene <code>//---------
+              PWA CONFIG ---------</code>, agrega:</p><div
+            class="note info"><strong>¿Qué es un Service Worker?</strong> Es un
+            script JavaScript que el navegador ejecuta en un contexto separado
+            de la página. Se registra mediante la API
+            <code>navigator.serviceWorker</code>, que forma parte de la
+            plataforma web. No puede manipular directamente el DOM ni acceder a
+            variables de <code>app.js</code>. Puede responder a eventos como
+            <code>notificationclick</code> y, si se implementan,
+            <code>fetch</code>, <code>install</code> o
+            <code>activate</code>.</div><p><strong><code>register('/sw.js')</code>:</strong>
+            solicita al navegador registrar el script.
+            <strong><code>navigator.serviceWorker.ready</code>:</strong>
+            devuelve una promesa que se resuelve cuando hay un registro activo
+            que cubre la página. <strong>Scope (alcance):</strong> determina qué
+            URLs controla; al ubicar <code>sw.js</code> en la raíz, su alcance
+            predeterminado es <code>/</code>.</p><h3>Inspeccionar, actualizar y
+            desinstalar el Service Worker</h3><ol><li>En Chrome abre <strong>F12
+                → Application → Service Workers</strong>.</li><li>Comprueba el
+              estado del registro, el archivo <code>sw.js</code> y su
+              <em>scope</em>.</li><li>Usa <strong>Update</strong> para buscar
+              una versión nueva o <strong>Unregister</strong> para
+              desregistrarlo durante las pruebas.</li><li>Después de
+              desregistrarlo, recarga la página. Si tu código todavía contiene
+              <code>register('/sw.js')</code>, se registrará de nuevo; quita esa
+              llamada si deseas retirarlo definitivamente.</li></ol><div
+            class="code-wrap"><div class="code-head"><span>Consola ·
+                desregistrar Service Workers del origen (solo
+                diagnóstico)</span><button class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">const registros = await navigator.serviceWorker.getRegistrations();
+await Promise.all(registros.map(registro =&gt; registro.unregister()));
+console.log("Registros desinstalados");</code></pre></div><p>Este comando afecta
+            los registros del <strong>origen actual</strong>, no los de otros
+            dominios. Desregistrar el Service Worker no borra automáticamente
+            los datos de IndexedDB. Si quieres reiniciar por completo el sitio,
+            utiliza <strong>Application → Storage → Clear site data</strong> y
+            revisa las opciones seleccionadas.</p><div class="code-wrap"><div
+              class="code-head"><span>index.html · PWA CONFIG</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () =&gt; {
+          initServiceWorker();
+        });
+      }
+
+      function initServiceWorker() {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then(() =&gt; console.log("Service worker is registered successfully"))
+          .catch((error) =&gt;
+            console.error(`failed to register service worker, error: ${error}`),
+          );
+      }</code></pre></div><p>La ruta <code>/sw.js</code> le permite al Service
+            Worker tener alcance sobre la raíz. No se agregan eventos
+            <code>fetch</code> ni mecanismos de caché.</p><div
+            class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>En
+                DevTools → Application → Service Workers aparece el registro
+                activo de <code>/sw.js</code>.</p></div></div></section><section
+          class="section" id="notificaciones"><div class="eyebrow">PASO
+            08</div><h2>Notificaciones y clic</h2><p class="lead">El Service
+            Worker atiende el clic; la página solicita mostrar la
+            notificación.</p><p>En <code>sw.js</code>, que está prácticamente
+            vacío en el proyecto base, agrega:</p><h3>Entender los métodos de
+            notificaciones</h3><p><strong><code>Notification.requestPermission()</code>:</strong>
+            solicita autorización, preferiblemente a partir de un clic del
+            usuario.
+            <strong><code>navigator.serviceWorker.ready</code>:</strong> espera
+            un registro activo. <strong><code>registro.showNotification(titulo,
+                opciones)</code>:</strong> pide al sistema mostrar una
+            notificación. <strong><code>notificationclick</code>:</strong> se
+            ejecuta en el Service Worker cuando el usuario hace clic en ella.
+            <strong><code>event.waitUntil(...)</code>:</strong> indica al
+            navegador que debe permitir completar la operación asíncrona
+            asociada al evento.</p><p>En este laboratorio se muestran
+            <strong>notificaciones locales</strong> mientras se utiliza la
+            aplicación; no se implementan suscripciones Push API ni un servidor
+            para enviar notificaciones remotas. En iPhone, las notificaciones
+            web tienen restricciones adicionales y no se garantiza el mismo
+            comportamiento que en Windows.</p><div class="code-wrap"><div
+              class="code-head"><span>sw.js</span><button class="copy"
+                type="button">Copiar
+                código</button></div><pre><code class="language-javascript">self.addEventListener("notificationclick", function (event) {
+    event.notification.close();
+    event.waitUntil(
+        clients.openWindow("/")
+    );
+});</code></pre></div><p>En <code>js/app.js</code>, bajo <code>//---------
+              NOTIFICACIONES ---------</code>, agrega la función:</p><div
+            class="code-wrap"><div class="code-head"><span>js/app.js ·
+                notificar()</span><button class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">async function notificar(mensaje) {
+    try {
+        if (Notification.permission !== "granted") return;
+
+        const registro = await navigator.serviceWorker.ready;
+
+        await registro.showNotification("Personas PWA", {
+            body: mensaje,
+            icon: "/icons/icon512_rounded.png"
+        });
+
+    } catch (error) {
+        console.error("Error al notificar:", error);
+    }
+}</code></pre></div><p>Finalmente, completa el evento ya existente del botón de
+            prueba con la llamada siguiente:</p><div class="code-wrap"><div
+              class="code-head"><span>js/app.js ·
+                #btn-test-notification</span><button class="copy"
+                type="button">Copiar
+                código</button></div><pre><code class="language-javascript">notificar("Esta es una notificación de prueba");</code></pre></div><div
+            class="note warn"><strong>Permisos:</strong> el demo únicamente
+            muestra notificaciones cuando <code>Notification.permission ===
+              "granted"</code>. Debes conceder el permiso al sitio previamente;
+            esta guía no añade un flujo de solicitud de permiso porque no forma
+            parte de las diferencias entre los ZIP. En iPhone, las
+            notificaciones web tienen restricciones adicionales y no son un
+            requisito de esta práctica.</div><div class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>Con
+                permiso concedido, pulsa «Prueba Notificación». Comprueba que
+                aparece una notificación y que al pulsarla intenta abrir la
+                aplicación.</p></div></div></section><section class="section"
+          id="conexion"><div class="eyebrow">PASO 09</div><h2>Estado de
+            conexión</h2><p class="lead">Mostrar si el navegador detecta
+            conexión mediante <code>navigator.onLine</code>.</p><p>En
+            <code>js/app.js</code>, debajo de <code>//--------- STATUS CONEXION
+              ---------</code>,
+            agrega:</p><p><strong><code>navigator.onLine</code></strong> es una
+            propiedad booleana que refleja la conectividad estimada del
+            navegador. Los eventos <code>online</code> y <code>offline</code>
+            notifican cambios en esa estimación. No comprueban que el servidor
+            Live Server o Cloudflare esté disponible y <strong>no activan por sí
+              solos el funcionamiento offline</strong>.</p><div
+            class="code-wrap"><div class="code-head"><span>js/app.js ·
+                conexión</span><button class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-javascript">$(document).ready(function () {
+  showConnectivityStatus();
+});
+
+function showConnectivityStatus() {
+  let isOnline = navigator.onLine;
+  let status = $("#onlineStatus");
+
+  if (!isOnline) {
+    status.html("Offline");
+  }
+
+  window.addEventListener("online", () =&gt; {
+    status.html("Online.");
+    isOnline = true;
+  });
+
+  window.addEventListener("offline", () =&gt; {
+    status.html("Offline.");
+    isOnline = false;
+  });
+}</code></pre></div><div class="note tip"><code>navigator.onLine</code> es una
+            señal orientativa de conectividad: no confirma que Live Server o
+            Cloudflare estén disponibles. El demo no permite navegar offline si
+            el HTML no está disponible.</div><div class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>Prueba
+                el estado de conexión desactivando temporalmente la red. La
+                indicación puede variar según el navegador y el
+                sistema.</p></div></div></section><section class="section"
+          id="instalacion"><div class="eyebrow">PASO 10</div><h2>Instalar y
+            probar la PWA</h2><p class="lead">Con el manifest y el Service
+            Worker registrados, comprueba la experiencia de
+            instalación.</p><p>En Chrome de escritorio, abre el menú del
+            navegador y busca la opción de instalar la página como aplicación.
+            La ubicación del comando depende de la versión. En móviles, abre la
+            dirección HTTPS y utiliza la opción de agregar a pantalla de inicio
+            disponible en el navegador.</p><div class="note warn">La instalación
+            no implica que la aplicación funcione sin conexión. En esta práctica
+            se ha excluido intencionalmente el almacenamiento en caché de
+            recursos.</div><div class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>La
+                aplicación se puede abrir desde su icono cuando el servidor y la
+                URL utilizada siguen
+                disponibles.</p></div></div></section><section class="section"
+          id="cloudflare"><div class="eyebrow">PASO 11</div><h2>Cloudflare
+            Tunnel para móviles</h2><p class="lead">Publica temporalmente Live
+            Server mediante una URL HTTPS sin configurar un dominio
+            propio.</p><p><strong>1.</strong> En Windows, abre PowerShell e
+            instala <code>cloudflared</code>:</p><div class="code-wrap"><div
+              class="code-head"><span>PowerShell · instalación</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-powershell">winget install --id Cloudflare.cloudflared -e</code></pre></div><p><strong>2.</strong>
+            Reinicia la terminal y verifica:</p><div class="code-wrap"><div
+              class="code-head"><span>PowerShell · comprobación</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-powershell">cloudflared --version</code></pre></div><p><strong>3.</strong>
+            Con Live Server ejecutándose en el puerto 5500, abre otra
+            terminal:</p><div class="code-wrap"><div
+              class="code-head"><span>PowerShell · túnel temporal</span><button
+                class="copy" type="button">Copiar
+                código</button></div><pre><code class="language-powershell">cloudflared tunnel --url http://localhost:5500</code></pre></div><p><strong>4.</strong>
+            Copia la dirección <code>https://...trycloudflare.com</code> que
+            aparezca en la terminal y ábrela en el teléfono. Prueba el
+            formulario y la instalación de la PWA.</p><div
+            class="note warn"><strong>Importante:</strong> conserva abiertas las
+            terminales de Live Server y Cloudflare. La URL del túnel temporal
+            cambia al reiniciarlo; IndexedDB y los permisos de notificaciones
+            están asociados al origen, por lo que una URL nueva tiene
+            almacenamiento y permisos independientes.</div><div
+            class="check"><span
+              class="checkicon">✓</span><div><strong>Comprobación</strong><p>Abre
+                la aplicación desde otro dispositivo mediante HTTPS. Registra
+                una persona y comprueba el funcionamiento del
+                CRUD.</p></div></div></section><div class="footer">Personas PWA
+          · Wiki didáctica · M.Sc. Olivier Blanco Sandí ·
+          2026</div></main></div><script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>
+if(window.hljs)document.querySelectorAll('pre code').forEach(el=>hljs.highlightElement(el));
+document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{let t=btn.closest('.code-wrap').querySelector('code').textContent;try{await navigator.clipboard.writeText(t);btn.textContent='¡Copiado!';setTimeout(()=>btn.textContent='Copiar código',1500)}catch(e){const range=document.createRange();range.selectNodeContents(btn.closest('.code-wrap').querySelector('code'));getSelection().removeAllRanges();getSelection().addRange(range);btn.textContent='Seleccionado'}}));
+document.getElementById('menu-btn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+document.querySelectorAll('.sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.sidebar nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-15% 0px -70% 0px'});document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+</script></body></html>
