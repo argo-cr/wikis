@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8" /><meta
+            content="width=device-width,initial-scale=1"
+            name="viewport" /><title>Guía rápida · Cómo cobrar un proyecto de
+            software</title><link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet" /><style>:root{--ink:#17283b;--accent:#1766a3}body{background:#f5f7fb;color:var(--ink)}.hero{background:linear-gradient(115deg,#102d4b,#1766a3);color:white;padding:4rem 0 3rem}.hero p{max-width:750px}.section-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:1.4rem;margin-bottom:1.2rem;box-shadow:0 3px 15px #122b4210}.step{display:inline-grid;place-items:center;background:#e8f2fa;color:#15598d;border-radius:9px;width:34px;height:34px;font-weight:800;margin-right:.5rem}.nav-pills .nav-link{color:#245779}.nav-pills .nav-link:hover{background:#e8f2fa}.mini{font-size:.89rem;color:#596a7a}.result{background:#eef6fc;border-radius:12px;padding:1rem}.result strong{font-size:1.2rem}.tag{font-size:.78rem;color:#1766a3;background:#e8f2fa;padding:.25rem .6rem;border-radius:99px}h2{font-size:1.35rem;font-weight:750}h3{font-size:1.05rem;font-weight:700}.form-label{font-size:.86rem;font-weight:600}.table{font-size:.91rem}input{min-width:0}.sticky-nav{position:sticky;top:1rem}.notice{border-left:4px solid #e0a436;background:#fff9ea;padding:.8rem 1rem;border-radius:6px}footer{color:#6a7787}.btn-primary{background:#1766a3;border-color:#1766a3}@media print{.sticky-nav,.btn,.no-print{display:none!important}.section-card{break-inside:avoid;box-shadow:none}.hero{padding:1rem;background:white;color:black}}</style></head><body>
+        <header class="hero"><div class="container"><span
+                    class="badge bg-light text-primary mb-3">Guía práctica ·
+                    Costa Rica</span><h1 class="fw-bold display-6">Cómo cobrar
+                    un proyecto de software</h1><p class="lead mb-2">Una
+                    metodología empírica para desarrolladores independientes y
+                    pequeños negocios. Aprende a estimar, negociar y formalizar
+                    sin complicarte.</p><div class="small opacity-75">M.Sc.
+                    Olivier Blanco Sandí · Material
+                    educativo</div></div></header>
+        <div class="container my-4"><div class="row g-4"><aside
+                    class="col-lg-3 no-print"><nav
+                        class="sticky-nav section-card p-3"><div
+                            class="fw-bold mb-2">Contenido</div><div
+                            class="nav nav-pills flex-column small"><a
+                                class="nav-link" href="#factibilidad">1. Antes
+                                de cotizar</a><a class="nav-link"
+                                href="#valor">2. Valor de tu trabajo</a><a
+                                class="nav-link" href="#modalidades">3.
+                                Modalidades</a><a class="nav-link"
+                                href="#costos">4. Costos y negociación</a><a
+                                class="nav-link" href="#pagos">5. Forma de
+                                pago</a><a class="nav-link"
+                                href="#formalizacion">6.
+                                Formalización</a><a class="nav-link"
+                                href="#calculadoras">7. Calculadoras</a><a
+                                class="nav-link" href="#caso">8. Caso
+                                práctico</a><a class="nav-link"
+                                href="#contrato">9. Contrato
+                                modelo</a></div></nav></aside><main
+                    class="col-lg-9">
+                    <section class="section-card" id="factibilidad"><h2><span
+                                class="step">1</span> Antes de dar un
+                            precio</h2><p>Reúnete con el cliente y define
+                            <strong>qué necesita</strong>, no solo qué pantallas
+                            quiere.</p><div class="row g-2"><div
+                                class="col-md-6"><ul class="mb-0"><li>Datos que
+                                        se almacenarán.</li><li>Operaciones y
+                                        reglas del negocio.</li><li>Pantallas,
+                                        reportes e
+                                        integraciones.</li></ul></div><div
+                                class="col-md-6"><ul class="mb-0"><li>Usuarios y
+                                        volumen esperado.</li><li>Fecha de
+                                        entrega y presupuesto
+                                        orientativo.</li><li>Qué está incluido y
+                                        qué queda
+                                        fuera.</li></ul></div></div><div
+                            class="notice mt-3"><strong>Regla:</strong> no
+                            prometas un precio definitivo durante la primera
+                            conversación. Reserva tiempo para analizar alcance,
+                            viabilidad y riesgos.</div></section>
+                    <section class="section-card" id="valor"><h2><span
+                                class="step">2</span> ¿Cuánto vale tu
+                            trabajo?</h2><p>Primero define el <strong>mínimo que
+                                aceptarías</strong> por el proyecto. Luego
+                            contrástalo con una estimación simple: <strong>horas
+                                × valor por hora</strong>, más gastos e
+                            imprevistos. Es una referencia, no una tarifa
+                            obligatoria.</p><p class="mb-0">Considera análisis,
+                            desarrollo, pruebas, instalación, capacitación y
+                            reuniones. No regales trabajo por olvidar
+                            actividades que no son programación.</p>
+
+                        <div class="border rounded-3 p-3 mt-4 mb-2"><h3>Valor
+                                estimado del trabajo</h3><div
+                                class="row g-2"><div class="col-sm-4"><label
+                                        class="form-label">Horas
+                                        estimadas</label><input id="horas"
+                                        type="number" min="0"
+                                        class="form-control"
+                                        value="60"></div><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Valor por hora
+                                        (₡)</label><input id="tarifa"
+                                        type="number" min="0"
+                                        class="form-control"
+                                        value="5000"></div><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Imprevistos
+                                        (%)</label><input id="imprevistos"
+                                        type="number" min="0" max="100"
+                                        class="form-control"
+                                        value="10"></div></div><div
+                                class="result mt-3"><div
+                                    class="d-flex justify-content-between border-bottom py-1"><span>Base
+                                        (horas × valor por hora)</span><strong
+                                        id="baseHoras">—</strong></div><div
+                                    class="d-flex justify-content-between border-bottom py-1"><span>Imprevistos
+                                        (+)</span><strong
+                                        id="reservaHoras">—</strong></div><div
+                                    class="d-flex justify-content-between py-1"><span>Referencia
+                                        por trabajo</span><strong
+                                        id="valorTrabajo">—</strong></div></div></div>
+
+                    </section>
+                    <section class="section-card" id="modalidades"><h2><span
+                                class="step">3</span> Elige cómo
+                            comercializarlo</h2><div
+                            class="table-responsive"><table
+                                class="table align-middle"><thead><tr><th>Modalidad</th><th>Qué
+                                            se cobra</th><th>Qué debe
+                                            aclararse</th></tr></thead><tbody><tr><td><strong>Desarrollo
+                                                por
+                                                encargo</strong></td><td>Implementación
+                                            y entregables
+                                            acordados.</td><td>Propiedad
+                                            intelectual, código, accesos y
+                                            soporte
+                                            posterior.</td></tr><tr><td><strong>Software
+                                                administrado</strong></td><td>Implementación
+                                            + cuota periódica.</td><td>Hosting,
+                                            mantenimiento, tiempos de respuesta
+                                            y
+                                            límites.</td></tr><tr><td><strong>Suscripción</strong></td><td>Cuota
+                                            periódica por uso del
+                                            sistema.</td><td>Acceso, datos,
+                                            suspensión y salida del
+                                            servicio.</td></tr></tbody></table></div><p
+                            class="mini mb-0">Entregar el código fuente no
+                            transfiere automáticamente todos los derechos. Debe
+                            pactarse expresamente. Ninguna cuota implica soporte
+                            ilimitado por defecto.</p></section>
+                    <section class="section-card" id="costos"><h2><span
+                                class="step">4</span> Costos, negociación e
+                            impuestos</h2><p>Separa siempre
+                            <strong>honorarios</strong>, <strong>gastos
+                                propios</strong> y <strong>servicios de
+                                terceros</strong> (hosting, dominio, API,
+                            correo, etc.). Los servicios externos se
+                            presupuestan con sus precios reales y su responsable
+                            de pago.</p><p>Una estrategia empírica es agregar un
+                            <strong>margen de negociación</strong> a tus
+                            honorarios (por ejemplo, 20%). Si el cliente
+                            necesita un precio menor, intenta <strong>reducir el
+                                alcance</strong> antes que trabajar por debajo
+                            de tu mínimo.</p><div
+                            class="notice"><strong>IVA:</strong> verifica el
+                            tratamiento aplicable según actividad, régimen y
+                            normativa vigente. Las calculadoras permiten usar
+                            una tasa configurable; 13% es solo el valor inicial
+                            ilustrativo. Si el precio ya incluye IVA, la base es
+                            <strong>total ÷ (1 + tasa)</strong>. Evita sumar
+                            automáticamente impuestos a gastos de terceros sin
+                            revisar cómo se facturan.</div></section>
+                    <section class="section-card" id="pagos"><h2><span
+                                class="step">5</span> Forma de pago:
+                            tractos</h2><p>Divide el precio del desarrollo en
+                            <strong>tractos</strong> acordados por escrito,
+                            asociados al inicio o a entregables verificables.
+                            Esto protege el flujo de efectivo y evita trabajar
+                            durante meses sin recibir ingresos.</p><div
+                            class="table-responsive"><table
+                                class="table table-sm"><thead><tr><th>Ejemplo</th><th>Distribución</th></tr></thead><tbody><tr><td>Dos
+                                            tractos</td><td>50% al iniciar y 50%
+                                            al entregar.</td></tr><tr><td>Tres
+                                            tractos</td><td>40% al iniciar, 30%
+                                            con avance aprobado y 30% contra
+                                            entrega.</td></tr><tr><td>Cuatro
+                                            tractos</td><td>25% al iniciar y 25%
+                                            en cada uno de tres hitos
+                                            pactados.</td></tr></tbody></table></div><div
+                            class="notice"><strong>Recomendación
+                                principal:</strong> nunca inicies el desarrollo
+                            sin haber recibido el primer tracto acordado. Firma
+                            el contrato, confirma el pago y entonces comienza.
+                            Si el cliente tiene políticas especiales de pago,
+                            evalúa garantías y condiciones por escrito antes de
+                            aceptar.</div><p class="mini mt-2 mb-0">Define para
+                            cada tracto: porcentaje, monto, fecha o hito,
+                            criterio de aprobación y consecuencias de retrasos.
+                            Los gastos de hosting y dominio pueden pagarse por
+                            separado.</p></section><section class="section-card"
+                        id="formalizacion"><h2><span
+                                class="step">5</span> Formaliza antes de
+                            empezar</h2><p>Presenta una cotización con alcance,
+                            exclusiones, precio, vigencia, entregables y fechas.
+                            Acuerda por escrito los cambios adicionales y las
+                            condiciones de aceptación.</p><p
+                            class="mb-0"><strong>Recomendación:</strong>
+                            solicita anticipo cuando sea posible (por ejemplo,
+                            50% al iniciar y 50% contra entrega, o pagos por
+                            hitos). La ausencia de anticipo no prueba mala fe:
+                            evalúa el riesgo y establece garantías
+                            apropiadas.</p></section>
+                    <section class="section-card" id="calculadoras"><h2><span
+                                class="step">6</span> Calculadoras
+                            rápidas</h2><p class="mini">Introduce tus propios
+                            datos. Son simuladores didácticos; no sustituyen una
+                            cotización técnica, asesoría tributaria o
+                            jurídica.</p>
+
+                        <div class="border rounded-3 p-3 mb-3"><h3>① Precio de
+                                propuesta</h3><div class="row g-2"><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Mínimo por honorarios
+                                        (₡)</label><input class="form-control"
+                                        id="minimo" min="0" type="number"
+                                        value="300000" /></div><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Gastos propios
+                                        (₡)</label><input class="form-control"
+                                        id="gastos" min="0" type="number"
+                                        value="15000" /></div><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Margen negociación
+                                        (%)</label><input class="form-control"
+                                        id="margen" max="100" min="0"
+                                        type="number"
+                                        value="20" /></div></div><div
+                                class="row g-2 mt-1"><div
+                                    class="col-sm-6"><label
+                                        class="form-label">Descuento sobre
+                                        honorarios (%)</label><input
+                                        class="form-control" id="descuento"
+                                        max="100" min="0" type="number"
+                                        value="0" /></div><div
+                                    class="col-sm-6"><label
+                                        class="form-label">Servicios externos a
+                                        pagar (₡)</label><input
+                                        class="form-control" id="externos"
+                                        min="0" type="number"
+                                        value="60000" /></div></div><div
+                                class="result mt-3"><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Honorarios
+                                        mínimos</span><strong
+                                        id="minimoVista">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Margen
+                                        de negociación (+)</span><strong
+                                        id="margenMonto">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Honorarios
+                                        propuestos</span><strong
+                                        id="honorarios">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Descuento
+                                        aplicado (−)</span><strong
+                                        id="descuentoMonto">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Honorarios
+                                        negociados</span><strong
+                                        id="negociado">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Gastos
+                                        propios (+)</span><strong
+                                        id="gastosVista">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Subtotal
+                                        por trabajo y gastos</span><strong
+                                        id="subtotalTrabajo">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Servicios
+                                        externos (+)</span><strong
+                                        id="externosVista">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Total
+                                        inicial estimado (sin IVA)</span><strong
+                                        id="subtotal">—</strong></div><div
+                                    class="small mt-2"
+                                    id="alerta"></div></div><div
+                                class="mt-3 small"><strong>¿Qué significa cada
+                                    rubro?</strong><ul
+                                    class="mb-0"><li><b>Mínimo por
+                                            honorarios:</b> monto mínimo que
+                                        aceptarías por desarrollar el
+                                        sistema.</li><li><b>Gastos propios:</b>
+                                        traslados, reuniones y otros desembolsos
+                                        del trabajo.</li><li><b>Margen de
+                                            negociación:</b> porcentaje
+                                        adicional sobre los honorarios mínimos
+                                        para proponer un
+                                        precio.</li><li><b>Descuento:</b> rebaja
+                                        aplicada a los honorarios propuestos, no
+                                        a los servicios
+                                        externos.</li><li><b>Servicios
+                                            externos:</b> hosting, dominio u
+                                        otros pagos a proveedores, separados de
+                                        tus honorarios.</li></ul></div></div>
+                        <div class="border rounded-3 p-3 mb-3"><h3>② Servicio
+                                administrado y renovación</h3><div
+                                class="row g-2"><div class="col-sm-4"><label
+                                        class="form-label">Mantenimiento anual
+                                        (₡)</label><input class="form-control"
+                                        id="mantenimiento" min="0" type="number"
+                                        value="120000" /></div><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Hosting y servicios
+                                        anuales (₡)</label><input
+                                        class="form-control" id="anuales"
+                                        min="0" type="number"
+                                        value="65000" /></div><div
+                                    class="col-sm-4"><label
+                                        class="form-label">Otros cargos anuales
+                                        (₡)</label><input class="form-control"
+                                        id="otros" min="0" type="number"
+                                        value="0" /></div></div>
+
+                            <div class="result mt-3">
+                                <div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Total
+                                        inicial (calculadora
+                                        anterior)</span><strong
+                                        id="inicialVista">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Mantenimiento
+                                        anual</span><strong
+                                        id="mantenimientoVista">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Hosting,
+                                        dominio y servicios
+                                        anuales</span><strong
+                                        id="anualesVista">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Otros
+                                        cargos anuales</span><strong
+                                        id="otrosVista">—</strong></div>
+
+                            </div>
+
+                            <hr>
+                            
+                            <div class="result mt-3">
+
+                                <div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Total
+                                        recurrente anual</span><strong
+                                        id="renovacion">—</strong></div><div
+                                    class="d-flex justify-content-between gap-3 py-1 border-bottom"><span>Total
+                                        estimado del primer año (sin
+                                        IVA)</span><strong
+                                        id="primerAnio">—</strong></div>
+                            </div>
+
+                            <p
+                                class="mini mt-2 mb-0">Estimación sin IVA. Si un
+                                servicio externo ya está incluido en el costo
+                                inicial, no lo vuelvas a sumar en los cargos del
+                                primer año.</p><div
+                                class="mt-3 small"><strong>¿Qué significa cada
+                                    rubro?</strong><ul
+                                    class="mb-0"><li><b>Mantenimiento anual:</b>
+                                        importe por soporte y actividades
+                                        periódicas expresamente acordadas; no
+                                        implica cambios
+                                        ilimitados.</li><li><b>Hosting y
+                                            servicios anuales:</b> alojamiento y
+                                        servicios necesarios para operar el
+                                        sistema. <b>Recuerda incluir también el
+                                            costo del dominio en el presupuesto
+                                            de hosting.</b></li><li><b>Otros
+                                            cargos anuales:</b> licencias, APIs
+                                        u otros servicios periódicos no
+                                        contemplados arriba.</li><li><b>Primer
+                                            año:</b> suma del cobro inicial y
+                                        los cargos anuales. Evita registrar dos
+                                        veces un mismo
+                                        servicio.</li></ul></div></div>
+
+                        <button class="btn btn-outline-primary"
+                            onclick="window.print()">Imprimir / guardar guía en
+                            PDF</button></section>
+                    <section class="section-card" id="caso"><h2><span
+                                class="step">7</span> Caso práctico: sistema
+                            para una tienda</h2><p>Una tienda solicita
+                            inventario, registro de ventas y reportes básicos.
+                            Tras entrevistar al cliente, estimas 60 horas. Si
+                            usas ₡5.000/h y 10% para imprevistos, la referencia
+                            sería <strong>₡330.000</strong>. Compara esa cifra
+                            con tu mínimo personal, agrega gastos reales y
+                            decide el precio propuesto.</p><p
+                            class="mb-0"><strong>Negociación:</strong> si el
+                            cliente no puede pagar, ofrece una primera etapa con
+                            inventario y ventas, dejando reportes avanzados para
+                            una fase posterior. Documenta exactamente qué
+                            incluye cada etapa.</p></section>
+                    <section class="section-card" id="contrato"><h2><span
+                                class="step">8</span> Machote de contrato de
+                            software</h2><p>Descarga un modelo editable en
+                            formato HTML: puedes abrirlo en Word, modificar sus
+                            campos y guardarlo como DOCX o PDF. Incluye objeto,
+                            alcance, precio, pagos, cambios, entrega, soporte,
+                            propiedad intelectual, confidencialidad, datos y
+                            terminación.</p><button class="btn btn-primary"
+                            id="descargarContrato">Descargar machote de
+                            contrato</button><p class="mini mt-3 mb-0">Es un
+                            ejemplo educativo, no asesoría legal. Debe adaptarse
+                            al caso y revisarse por un profesional del derecho
+                            antes de utilizarse comercialmente.</p></section>
+                    <footer class="py-3 small text-center">M.Sc. Olivier Blanco
+                        Sandí · Guía de orientación práctica para desarrollo
+                        independiente · Costa Rica</footer></main></div></div>
+        <script>const ids=['horas','tarifa','imprevistos','minimo','gastos','margen','descuento','externos','mantenimiento','anuales','otros'];
+const n=id=>Math.max(0,Number(document.getElementById(id).value)||0);
+const money=x=>'₡'+Math.round(x).toLocaleString('es-CR');
+const put=(id,x)=>document.getElementById(id).textContent=money(x);
+function calc(){
+ const baseHoras=n('horas')*n('tarifa');
+ const reservaHoras=baseHoras*Math.min(n('imprevistos'),100)/100;
+ put('baseHoras',baseHoras);
+ put('reservaHoras',reservaHoras);
+ put('valorTrabajo',baseHoras+reservaHoras);
+ const minimo=n('minimo'), gastos=n('gastos'), externos=n('externos');
+ const margenMonto=minimo*n('margen')/100, honorarios=minimo+margenMonto;
+ const descuentoMonto=honorarios*Math.min(n('descuento'),100)/100;
+ const negociado=honorarios-descuentoMonto, subtotalTrabajo=negociado+gastos, subtotal=subtotalTrabajo+externos;
+ Object.entries({minimoVista:minimo,margenMonto,honorarios,descuentoMonto,negociado,gastosVista:gastos,subtotalTrabajo,externosVista:externos,subtotal,inicialVista:subtotal,mantenimientoVista:n('mantenimiento'),anualesVista:n('anuales'),otrosVista:n('otros')}).forEach(([id,v])=>put(id,v));
+ const alerta=document.getElementById('alerta');
+ alerta.textContent=negociado<minimo?'⚠ Los honorarios negociados están por debajo de tu mínimo. Ajusta el alcance o el descuento.':'✓ Los honorarios negociados respetan tu mínimo.';
+ alerta.className='small mt-2 '+(negociado<minimo?'text-danger':'text-success');
+ const anual=n('mantenimiento')+n('anuales')+n('otros');
+ const mantenimiento = n('mantenimiento');
+ put('renovacion',anual);put('primerAnio',(subtotal-mantenimiento)+anual);
+}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',calc));calc();
+const contrato=`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Modelo de contrato de desarrollo de software</title><style>body{font:12pt/1.5 Arial,sans-serif;max-width:800px;margin:40px auto;color:#222}h1{text-align:center;font-size:18pt}h2{font-size:12pt;margin-top:22px}p{margin:10px 0}.nota{background:#fff2d6;padding:12px}</style></head><body><h1>CONTRATO DE DESARROLLO DE SOFTWARE</h1><p class="nota"><b>Modelo educativo.</b> Adaptar al proyecto y solicitar revisión jurídica antes de firmar.</p><p>En [LUGAR], Costa Rica, a [FECHA], comparecen <b>[NOMBRE / IDENTIFICACIÓN DEL CLIENTE]</b>, en adelante EL CLIENTE, y <b>[NOMBRE / IDENTIFICACIÓN DEL DESARROLLADOR]</b>, en adelante EL DESARROLLADOR, quienes acuerdan:</p><h2>1. Objeto y alcance</h2><p>EL DESARROLLADOR realizará [DESCRIPCIÓN DEL SISTEMA]. Las funcionalidades, exclusiones, tecnologías y entregables se detallan en el Anexo A, que forma parte del contrato.</p><h2>2. Plazo y colaboración</h2><p>Inicio: [FECHA]. Entrega estimada: [FECHA]. EL CLIENTE facilitará información, accesos y aprobaciones oportunamente. Retrasos atribuibles a estas dependencias podrán modificar el cronograma mediante acuerdo escrito.</p><h2>3. Precio y forma de pago</h2><p>Honorarios: ₡[MONTO], [INDICAR SI INCLUYE IMPUESTOS]. Anticipo: [PORCENTAJE Y FECHA]. Pagos restantes: [HITOS, PORCENTAJES Y FECHAS]. Los servicios externos [DETALLAR] serán pagados por [PARTE RESPONSABLE]. Se emitirá la documentación tributaria que corresponda.</p><h2>4. Cambios de alcance</h2><p>Las solicitudes no incluidas en el Anexo A se cotizarán y aprobarán por escrito antes de ejecutarse, incluyendo efectos sobre precio y plazo.</p><h2>5. Entrega, pruebas y aceptación</h2><p>La entrega comprenderá [ENTREGABLES]. EL CLIENTE tendrá [NÚMERO] días hábiles para verificar requisitos y comunicar por escrito defectos reproducibles. La aceptación se documentará por [MEDIO]. Las correcciones de incumplimientos del alcance acordado no se considerarán nuevas funcionalidades.</p><h2>6. Garantía, mantenimiento y soporte</h2><p>Se atenderán defectos atribuibles al desarrollo durante [PLAZO] bajo [CONDICIONES]. El soporte posterior, hosting, copias de seguridad, actualizaciones y nuevas funciones se regirán por [ANEXO O CONTRATO SEPARADO]. No se presume mantenimiento ilimitado.</p><h2>7. Propiedad intelectual y licencias</h2><p>Las partes acuerdan que [DEFINIR TITULARIDAD, LICENCIA DE USO, ENTREGA O NO DE CÓDIGO FUENTE, REUTILIZACIÓN DE COMPONENTES PREEXISTENTES Y TRATAMIENTO DE LIBRERÍAS DE TERCEROS]. Ninguna transferencia de derechos se presume por la sola entrega de archivos.</p><h2>8. Confidencialidad y datos</h2><p>Ambas partes protegerán información confidencial. EL CLIENTE y EL DESARROLLADOR definirán sus responsabilidades sobre datos personales, acceso, seguridad, respaldos, devolución o eliminación de datos, conforme a la normativa aplicable.</p><h2>9. Incumplimiento y terminación</h2><p>Ante incumplimiento, la parte afectada notificará por escrito y concederá [PLAZO] para subsanar, salvo casos que justifiquen otra medida. En caso de terminación, se liquidará el trabajo efectivamente realizado y se acordará la entrega de materiales y datos según los pagos y derechos pactados.</p><h2>10. Comunicaciones y controversias</h2><p>Notificaciones a: [CORREOS]. Las partes procurarán resolver diferencias mediante negociación y, de ser necesario, acudirán a los mecanismos legales competentes en Costa Rica.</p><h2>ANEXO A. ALCANCE DEL PROYECTO</h2><p>Funcionalidades incluidas: [LISTA]. Excluidas: [LISTA]. Entregables: [LISTA]. Requisitos de infraestructura: [LISTA]. Criterios de aceptación: [LISTA].</p><br><p>__________________________ &nbsp;&nbsp;&nbsp;&nbsp; __________________________</p><p>EL CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EL DESARROLLADOR</p></body></html>`;document.getElementById('descargarContrato').addEventListener('click',()=>{const blob=new Blob([contrato],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='machote_contrato_software.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+</script></body></html>
