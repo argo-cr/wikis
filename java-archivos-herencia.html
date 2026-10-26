@@ -1,0 +1,916 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport"
+            content="width=device-width,initial-scale=1"><meta
+            name="description"
+            content="Wiki de Programación I: Java, herencia, ArrayList, archivos de texto y MVC con el proyecto Animales."><title>Java:
+            Herencia, ArrayList y Archivos | Wiki Programación I</title><style>
+:root{--bg:#0b1220;--panel:#111e30;--panel2:#16263b;--ink:#edf4ff;--muted:#9bb0c9;--line:#2a3b51;--accent:#69d4e8;--gold:#f6c76e}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.72 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1600px;margin:auto}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--line);padding:28px 18px;background:#0d1929}.brand{font-weight:800;font-size:18px;line-height:1.35;margin-bottom:8px}.brand small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:7px}.sidebar nav{display:grid;gap:3px;margin-top:26px}.sidebar nav a{display:block;color:#b8c9db;padding:8px 10px;border-radius:9px;font-size:13px}.sidebar nav a:hover{background:#1a2b42;color:white;text-decoration:none}.main{min-width:0;padding:0 5vw 90px;max-width:1100px}.hero{padding:72px 0 46px;border-bottom:1px solid var(--line)}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-weight:700;color:var(--accent);font-size:12px}h1{font-size:clamp(34px,5vw,58px);line-height:1.1;letter-spacing:-.04em;margin:16px 0}h2{font-size:clamp(25px,3vw,33px);line-height:1.25;letter-spacing:-.025em;margin:0 0 22px}h3{font-size:19px;margin:30px 0 12px}p{color:#cbd7e6;margin:12px 0 20px}section{padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}.subtitle{font-size:19px;max-width:760px}.author{color:var(--muted);font-size:13px;margin-top:28px}.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:25px 0}.tiles>div,.node,.exercise{background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:14px}.tiles strong,.tiles small{display:block}.tiles small,.node small{color:var(--muted);font-size:12px}.note{padding:15px 19px;background:#102e37;border-left:3px solid var(--accent);border-radius:8px;margin:24px 0;color:#d7f5fa}.note.warn{background:#342919;border-left-color:var(--gold);color:#fce8bf}.note code,p code,td code,li code{background:#23364b;color:#d9e8ff;border-radius:4px;padding:1px 5px;font-size:.88em}.codehead{display:flex;justify-content:space-between;align-items:center;background:#202c3a;padding:7px 14px;border-radius:12px 12px 0 0;color:#b9cde1;font-size:12px;font-weight:700;margin-top:18px}.codehead button{background:#35485c;border:0;color:white;border-radius:6px;padding:5px 10px;cursor:pointer}.codehead button:hover{background:#446a82}.code{background:#101820;color:#f8f8f2;padding:19px;border-radius:0 0 12px 12px;overflow:auto;font:13px/1.65 Consolas,Monaco,monospace;margin:0 0 22px;tab-size:4}.plain,.tree{background:#132338;border:1px solid var(--line);border-radius:12px;padding:20px;overflow:auto;font:14px/1.9 Consolas,monospace}.tree span{color:#83a4c0}.diagram{text-align:center;margin:25px auto;max-width:550px}.node{display:inline-block;min-width:170px;font-weight:700}.fork{font-size:25px;color:var(--accent)}.nodes{display:flex;justify-content:space-around;gap:15px}.nodes .node{flex:1}.steps{display:grid;gap:10px;margin:20px 0}.steps>div{display:flex;gap:14px;align-items:start;padding:10px 12px;background:var(--panel);border-radius:8px}.steps b{display:grid;place-items:center;flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#23566a;color:#d9f8ff}.steps span{padding-top:2px}table{border-collapse:collapse;width:100%;margin:25px 0;font-size:14px}td,th{padding:11px 13px;border-bottom:1px solid var(--line);text-align:left}th{color:#b7dff0;background:#16283c}.flow{display:flex;gap:10px;align-items:center;justify-content:center;margin:25px 0}.flow>div{background:var(--panel);border:1px solid var(--line);border-radius:10px;text-align:center;padding:12px;flex:1}.flow small{display:block;color:var(--muted);font-size:11px}.flow>span{color:var(--accent);font-size:23px}.exercise{margin:12px 0}.exercise h3{margin:0 0 5px}.exercise p{margin:0}details{border:1px solid var(--line);border-radius:10px;margin:10px 0;padding:13px 17px;background:var(--panel)}summary{cursor:pointer;font-weight:650}details p{margin-bottom:0}footer{color:var(--muted);font-size:13px;margin-top:40px}@media(max-width:900px){.layout{display:block}.sidebar{position:relative;height:auto;padding:18px;border-right:0;border-bottom:1px solid var(--line)}.sidebar nav{display:flex;overflow:auto;white-space:nowrap;margin-top:12px}.main{padding:0 20px 60px}.hero{padding:44px 0}.flow{flex-wrap:wrap}.flow>div{min-width:130px}}@media(max-width:550px){.tiles{grid-template-columns:1fr}.nodes .node{min-width:0}.code{font-size:12px}.flow>span{display:none}}@media print{body{background:white;color:#111}.sidebar,.codehead button{display:none}.layout{display:block}.main{max-width:none}.code,.plain,.tree{white-space:pre-wrap;overflow-wrap:anywhere}.note,.exercise,.tiles>div{break-inside:avoid}section{break-before:auto}}
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #49483e }
+.code { background: #272822; color: #F8F8F2 }
+.code .c { color: #959077 } /* Comment */
+.code .err { color: #ED007E; background-color: #1E0010 } /* Error */
+.code .esc { color: #F8F8F2 } /* Escape */
+.code .g { color: #F8F8F2 } /* Generic */
+.code .k { color: #66D9EF } /* Keyword */
+.code .l { color: #AE81FF } /* Literal */
+.code .n { color: #F8F8F2 } /* Name */
+.code .o { color: #FF4689 } /* Operator */
+.code .x { color: #F8F8F2 } /* Other */
+.code .p { color: #F8F8F2 } /* Punctuation */
+.code .ch { color: #959077 } /* Comment.Hashbang */
+.code .cm { color: #959077 } /* Comment.Multiline */
+.code .cp { color: #959077 } /* Comment.Preproc */
+.code .cpf { color: #959077 } /* Comment.PreprocFile */
+.code .c1 { color: #959077 } /* Comment.Single */
+.code .cs { color: #959077 } /* Comment.Special */
+.code .gd { color: #FF4689 } /* Generic.Deleted */
+.code .ge { color: #F8F8F2; font-style: italic } /* Generic.Emph */
+.code .ges { color: #F8F8F2; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F8F8F2 } /* Generic.Error */
+.code .gh { color: #F8F8F2 } /* Generic.Heading */
+.code .gi { color: #A6E22E } /* Generic.Inserted */
+.code .go { color: #66D9EF } /* Generic.Output */
+.code .gp { color: #FF4689; font-weight: bold } /* Generic.Prompt */
+.code .gs { color: #F8F8F2; font-weight: bold } /* Generic.Strong */
+.code .gu { color: #959077 } /* Generic.Subheading */
+.code .gt { color: #F8F8F2 } /* Generic.Traceback */
+.code .kc { color: #66D9EF } /* Keyword.Constant */
+.code .kd { color: #66D9EF } /* Keyword.Declaration */
+.code .kn { color: #FF4689 } /* Keyword.Namespace */
+.code .kp { color: #66D9EF } /* Keyword.Pseudo */
+.code .kr { color: #66D9EF } /* Keyword.Reserved */
+.code .kt { color: #66D9EF } /* Keyword.Type */
+.code .ld { color: #E6DB74 } /* Literal.Date */
+.code .m { color: #AE81FF } /* Literal.Number */
+.code .s { color: #E6DB74 } /* Literal.String */
+.code .na { color: #A6E22E } /* Name.Attribute */
+.code .nb { color: #F8F8F2 } /* Name.Builtin */
+.code .nc { color: #A6E22E } /* Name.Class */
+.code .no { color: #66D9EF } /* Name.Constant */
+.code .nd { color: #A6E22E } /* Name.Decorator */
+.code .ni { color: #F8F8F2 } /* Name.Entity */
+.code .ne { color: #A6E22E } /* Name.Exception */
+.code .nf { color: #A6E22E } /* Name.Function */
+.code .nl { color: #F8F8F2 } /* Name.Label */
+.code .nn { color: #F8F8F2 } /* Name.Namespace */
+.code .nx { color: #A6E22E } /* Name.Other */
+.code .py { color: #F8F8F2 } /* Name.Property */
+.code .nt { color: #FF4689 } /* Name.Tag */
+.code .nv { color: #F8F8F2 } /* Name.Variable */
+.code .ow { color: #FF4689 } /* Operator.Word */
+.code .pm { color: #F8F8F2 } /* Punctuation.Marker */
+.code .w { color: #F8F8F2 } /* Text.Whitespace */
+.code .mb { color: #AE81FF } /* Literal.Number.Bin */
+.code .mf { color: #AE81FF } /* Literal.Number.Float */
+.code .mh { color: #AE81FF } /* Literal.Number.Hex */
+.code .mi { color: #AE81FF } /* Literal.Number.Integer */
+.code .mo { color: #AE81FF } /* Literal.Number.Oct */
+.code .sa { color: #E6DB74 } /* Literal.String.Affix */
+.code .sb { color: #E6DB74 } /* Literal.String.Backtick */
+.code .sc { color: #E6DB74 } /* Literal.String.Char */
+.code .dl { color: #E6DB74 } /* Literal.String.Delimiter */
+.code .sd { color: #E6DB74 } /* Literal.String.Doc */
+.code .s2 { color: #E6DB74 } /* Literal.String.Double */
+.code .se { color: #AE81FF } /* Literal.String.Escape */
+.code .sh { color: #E6DB74 } /* Literal.String.Heredoc */
+.code .si { color: #E6DB74 } /* Literal.String.Interpol */
+.code .sx { color: #E6DB74 } /* Literal.String.Other */
+.code .sr { color: #E6DB74 } /* Literal.String.Regex */
+.code .s1 { color: #E6DB74 } /* Literal.String.Single */
+.code .ss { color: #E6DB74 } /* Literal.String.Symbol */
+.code .bp { color: #F8F8F2 } /* Name.Builtin.Pseudo */
+.code .fm { color: #A6E22E } /* Name.Function.Magic */
+.code .vc { color: #F8F8F2 } /* Name.Variable.Class */
+.code .vg { color: #F8F8F2 } /* Name.Variable.Global */
+.code .vi { color: #F8F8F2 } /* Name.Variable.Instance */
+.code .vm { color: #F8F8F2 } /* Name.Variable.Magic */
+.code .il { color: #AE81FF } /* Literal.Number.Integer.Long */</style></head><body><div
+            class="layout"><aside class="sidebar"><div class="brand">MVC en Java · Archivos y Herencia con ArrayList
+                <small>M.Sc. Olivier Blanco Sandí</small></div><nav><a href="#inicio">01 ·
+                        Objetivos</a><a href="#estructura">02 · Estructura</a><a
+                        href="#herencia">03 · Herencia</a><a
+                        href="#arraylist">04 · ArrayList</a><a href="#lista">05
+                        · Constructor</a><a href="#archivo">06 · Formato
+                        TXT</a><a href="#cargar">07 · Cargar</a><a
+                        href="#guardar">08 · Guardar</a><a href="#crud">09 ·
+                        CRUD</a><a href="#filtros">10 · Filtrar</a><a
+                        href="#mvc">11 · MVC</a><a href="#practica">12 ·
+                        Práctica</a></nav></aside><main class="main"><header
+                    class="hero"><div class="eyebrow">Guía paso a paso · Eclipse
+                        · Java</div><h1>Herencia, ArrayList y archivos de
+                        texto</h1><p class="subtitle">Aprende cómo un mismo
+                        sistema registra mamíferos y reptiles, guarda sus datos
+                        en <strong>animales.txt</strong> y los recupera al
+                        iniciar.</p><div class="author">M.Sc. Olivier Blanco
+                        Sandí · Docente UCR y UNA · Material académico de
+                        apoyo</div></header><section id="inicio"><h2>01 · ¿Qué
+                        vamos a aprender?</h2><p>Esta wiki explica el proyecto
+                        real <strong>Archivos-Herencia-MVC-Java</strong>,
+                        elaborado en Eclipse, paso a paso. No necesitas conocer
+                        ArrayList de antemano.</p><div
+                        class="tiles"><div><strong>Herencia</strong><small>Animal
+                                → Mamifero /
+                                Reptil</small></div><div><strong>ArrayList</strong><small>Una
+                                colección de
+                                objetos</small></div><div><strong>Persistencia</strong><small>Un
+                                solo
+                                animales.txt</small></div><div><strong>MVC</strong><small>Modelo,
+                                vista y controlador</small></div></div><div
+                        class="note tip">Idea principal: los objetos viven en un
+                        <code>ArrayList&lt;Animal&gt;</code> mientras el
+                        programa está abierto; <code>animales.txt</code> permite
+                        recuperarlos después.</div></section><section
+                    id="estructura"><h2>02 · Organización del proyecto</h2><div
+                        class="tree">src/app/<br>├── Animal.java <span>clase
+                            padre</span><br>├── Mamifero.java
+                        <span>subclase</span><br>├── Reptil.java
+                        <span>subclase</span><br>├── ListaAnimales.java
+                        <span>lista + archivo + CRUD</span><br>├── Vista.java
+                        <span>entrada/salida</span><br>├── Controlador.java
+                        <span>menú y coordinación</span><br>└── Main.java
+                        <span>punto de entrada</span><br><br>animales.txt
+                        <span>datos persistentes</span></div><p>En este proyecto
+                        <strong>no existe una lista por cada subclase</strong>.
+                        La misma lista contiene mamíferos y
+                        reptiles.</p></section><section id="herencia"><h2>03 ·
+                        Herencia: Animal, Mamifero y Reptil</h2><div
+                        class="diagram"><div class="node">Animal<br><small>id ·
+                                nombre · especie · peso</small></div><div
+                            class="fork">↙
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            ↘</div><div class="nodes"><div
+                                class="node">Mamifero<br><small>habitat</small></div><div
+                                class="node">Reptil<br><small>venenoso</small></div></div></div><p>La
+                        palabra <code>extends</code> significa que la subclase
+                        hereda los atributos y métodos públicos de la clase
+                        padre. Los atributos privados se utilizan mediante los
+                        métodos heredados (getters/setters).</p><h3>Clase padre:
+                        Animal.java</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">package</span><span class="w"> </span><span class="nn">app</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">	</span>
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">;</span>
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="p">;</span>
+<span class="w">	</span>
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="nf">Animal</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">especie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">especie</span><span class="p">;</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">peso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">peso</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setId</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getNombre</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setNombre</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getEspecie</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">especie</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEspecie</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">especie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">especie</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getPeso</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">peso</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setPeso</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">peso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">peso</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="nd">@Override</span>
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="s">&quot;#&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; / &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; / &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">especie</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; / &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">peso</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;kg&quot;</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span>
+<span class="w">	</span>
+<span class="w">	</span>
+
+<span class="p">}</span>
+</code></pre><h3>Subclase: Mamifero.java</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">package</span><span class="w"> </span><span class="nn">app</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Mamifero</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="p">{</span>
+<span class="w">	</span>
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">habitat</span><span class="p">;</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="nf">Mamifero</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">habitat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="kd">super</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">);</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">habitat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">habitat</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getHabitat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">habitat</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setHabitat</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">habitat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">habitat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">habitat</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="nd">@Override</span>
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; - Mamifero / Vive en: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">habitat</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span>
+
+<span class="p">}</span>
+</code></pre><div class="note tip"><strong>¿Qué hace super(...) ?</strong> Llama
+                        al constructor de <code>Animal</code> para inicializar
+                        ID, nombre, especie y peso. Después el constructor de
+                        <code>Mamifero</code> inicializa su propio atributo
+                        <code>habitat</code>.</div><h3>Subclase:
+                        Reptil.java</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">package</span><span class="w"> </span><span class="nn">app</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Reptil</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="p">{</span>
+
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">venenoso</span><span class="p">;</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="nf">Reptil</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">venenoso</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="kd">super</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">);</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">venenoso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">venenoso</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isVenenoso</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">venenoso</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setVenenoso</span><span class="p">(</span><span class="kt">boolean</span><span class="w"> </span><span class="n">venenoso</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="na">venenoso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">venenoso</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span>
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">showVenenoso</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">venenoso</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;Venenoso&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No venenoso&quot;</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="nd">@Override</span>
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; - Reptil / &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">showVenenoso</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span>
+<span class="w">	</span>
+
+<span class="p">}</span>
+</code></pre><div class="note tip"><strong>@Override y
+                            super.toString():</strong> cada subclase modifica la
+                        forma de mostrarse. <code>super.toString()</code>
+                        reutiliza el texto común generado por
+                        <code>Animal</code>.</div></section><section
+                    id="arraylist"><h2>04 · ArrayList desde cero</h2><p>Hasta
+                        ahora quizás usabas <code>Animal[] lista = new
+                            Animal[100]</code>. Un arreglo tradicional tiene
+                        capacidad fija. <code>ArrayList</code> es una lista que
+                        puede crecer y disminuir al agregar o eliminar
+                        elementos.</p><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
+
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Animal</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="n">lista</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Luna&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gato&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Casa&quot;</span><span class="p">));</span>
+<span class="n">lista</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Reptil</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cobra&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Serpiente&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">));</span>
+
+<span class="n">Animal</span><span class="w"> </span><span class="n">primero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">cantidad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span>
+<span class="n">lista</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Nico&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Perro&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hogar&quot;</span><span class="p">));</span>
+<span class="n">lista</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</code></pre><table><thead><tr><th>Arreglo
+                                    tradicional</th><th>ArrayList</th><th>¿Para
+                                    qué
+                                    sirve?</th></tr></thead><tbody><tr><td><code>lista[i]</code></td><td><code>lista.get(i)</code></td><td>Obtener
+                                    elemento</td></tr><tr><td><code>lista.length</code></td><td><code>lista.size()</code></td><td>Consultar
+                                    cantidad</td></tr><tr><td><em>Control
+                                        manual</em></td><td><code>lista.add(a)</code></td><td>Agregar</td></tr><tr><td><code>lista[i]
+                                        = a</code></td><td><code>lista.set(i,
+                                        a)</code></td><td>Reemplazar</td></tr><tr><td><em>Desplazar
+                                        manualmente</em></td><td><code>lista.remove(i)</code></td><td>Eliminar
+                                    por posición</td></tr></tbody></table><div
+                        class="note tip"><strong>Ojo:</strong>
+                        <code>lista.remove(1)</code> elimina la posición 1
+                        (segundo elemento), <em>no</em> el animal cuyo ID es 1.
+                        Para eliminar por ID primero se busca el
+                        objeto.</div><h3>¿Por qué ArrayList&lt;Animal&gt; acepta
+                        Mamifero y Reptil?</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Animal</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">lista</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Luna&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gato&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Casa&quot;</span><span class="p">));</span>
+<span class="n">lista</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Reptil</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cobra&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Serpiente&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">));</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"> </span><span class="c1">// Ejecuta el toString() de su tipo real</span>
+<span class="p">}</span>
+</code></pre><p>Esto es <strong>polimorfismo</strong>: una variable de tipo
+                        <code>Animal</code> puede referirse a objetos de sus
+                        subclases. Java ejecuta el <code>toString()</code> que
+                        corresponda a cada objeto.</p></section><section
+                    id="lista"><h2>05 · Constructor de ListaAnimales</h2><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="nf">ListaAnimales</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">archivo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;animales.txt&quot;</span><span class="p">;</span>
+<span class="w">		</span><span class="n">lista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">		</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="n">cargar</span><span class="p">();</span><span class="w"> </span><span class="c1">// CARGAR LA LISTA DESDE EL PRINCIPIO</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><p><code>lista = new ArrayList&lt;&gt;()</code> crea la colección
+                        vacía. <code>id = 1</code> define el primer
+                        identificador. <code>cargar()</code> recupera los
+                        animales del archivo al iniciar. El constructor se
+                        ejecuta una sola vez cuando el controlador crea
+                        <code>new ListaAnimales()</code>.</p></section><section
+                    id="archivo"><h2>06 · Formato de animales.txt</h2><p>Cada
+                        línea representa <strong>un objeto completo</strong>.
+                        Los valores se separan con punto y coma. El primer dato
+                        es el tipo de objeto, necesario para saber qué
+                        constructor utilizar al cargar.</p><pre
+                        class="plain">MAMIFERO;1;Luna;Gato;4;Casa
+REPTIL;2;Cobra;Serpiente;3;true
+ANIMAL;3;Piolín;Ave;1
+REPTIL;4;Tortuga;Tortuga;8;false</pre><table><thead><tr><th>Posición</th><th>Dato</th><th>Ejemplo</th></tr></thead><tbody><tr><td>0</td><td>Tipo</td><td>MAMIFERO</td></tr><tr><td>1</td><td>ID</td><td>1</td></tr><tr><td>2</td><td>Nombre</td><td>Luna</td></tr><tr><td>3</td><td>Especie</td><td>Gato</td></tr><tr><td>4</td><td>Peso</td><td>4</td></tr><tr><td>5</td><td>Atributo
+                                    exclusivo</td><td>Casa /
+                                    true</td></tr></tbody></table><div
+                        class="note tip">El atributo de la posición 5 cambia
+                        según el tipo. En <code>ANIMAL</code> no existe esa
+                        posición. Los valores <code>true</code> y
+                        <code>false</code> representan un
+                        booleano.</div></section><section id="cargar"><h2>07 ·
+                        Cargar: del archivo a los objetos</h2><p>Este método lee
+                        <code>animales.txt</code> línea por línea, separa los
+                        datos, decide qué clase instanciar y agrega el objeto a
+                        la lista.</p><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">cargar</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">			</span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="n">archivo</span><span class="p">);</span>
+
+<span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="na">exists</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">				</span><span class="n">Scanner</span><span class="w"> </span><span class="n">lector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+
+<span class="w">				</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">lector</span><span class="p">.</span><span class="na">hasNextLine</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">					</span><span class="n">String</span><span class="w"> </span><span class="n">linea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lector</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">					</span><span class="c1">// DIVIDIR LA LÍNEA POR ;</span>
+<span class="w">					</span><span class="n">String</span><span class="w"> </span><span class="n">partes</span><span class="o">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linea</span><span class="p">.</span><span class="na">split</span><span class="p">(</span><span class="s">&quot;;&quot;</span><span class="p">);</span>
+
+<span class="w">					</span><span class="c1">// CREAR Y REGISTRAR EL OBJETO EN LA LISTA</span>
+
+<span class="w">					</span><span class="n">String</span><span class="w"> </span><span class="n">TIPO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partes</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+
+<span class="w">					</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">partes</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">);</span>
+<span class="w">					</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partes</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">;</span>
+<span class="w">					</span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partes</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="p">;</span>
+<span class="w">					</span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">partes</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span><span class="p">);</span>
+
+<span class="w">					</span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+
+<span class="w">					</span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">TIPO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">					</span><span class="k">case</span><span class="w"> </span><span class="s">&quot;MAMIFERO&quot;</span><span class="p">:</span>
+<span class="w">						</span><span class="n">String</span><span class="w"> </span><span class="n">habitat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partes</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="p">;</span>
+<span class="w">						</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">,</span><span class="w"> </span><span class="n">habitat</span><span class="p">);</span>
+<span class="w">						</span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">					</span><span class="k">case</span><span class="w"> </span><span class="s">&quot;REPTIL&quot;</span><span class="p">:</span>
+<span class="w">						</span><span class="kt">boolean</span><span class="w"> </span><span class="n">venenoso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Boolean</span><span class="p">.</span><span class="na">parseBoolean</span><span class="p">(</span><span class="n">partes</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="p">);</span>
+<span class="w">						</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Reptil</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">,</span><span class="w"> </span><span class="n">venenoso</span><span class="p">);</span>
+<span class="w">						</span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">					</span><span class="k">default</span><span class="p">:</span>
+<span class="w">						</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Animal</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">);</span>
+<span class="w">						</span><span class="k">break</span><span class="p">;</span>
+<span class="w">					</span><span class="p">}</span>
+
+<span class="w">					</span><span class="c1">// AGREGAMOS A LA LISTA</span>
+<span class="w">					</span><span class="n">lista</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+
+<span class="w">					</span><span class="c1">// SE TOMA EL ÚLTIMO ID REGISTRADO EN EL ARCHIVO</span>
+<span class="w">					</span><span class="c1">// PARA CONTINUAR DESDE AHÍ</span>
+<span class="w">					</span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">				</span><span class="p">}</span>
+
+<span class="w">				</span><span class="n">lector</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+
+<span class="w">			</span><span class="p">}</span>
+
+<span class="w">		</span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">		</span><span class="p">}</span>
+
+<span class="w">	</span><span class="p">}</span>
+</code></pre><div class="steps"><div><b>1</b><span><code>new
+                                    File(archivo)</code> representa la ruta del
+                                archivo.</span></div><div><b>2</b><span><code>f.exists()</code>
+                                verifica que
+                                exista.</span></div><div><b>3</b><span><code>Scanner</code>
+                                y <code>hasNextLine()</code> leen una línea por
+                                vez.</span></div><div><b>4</b><span><code>split(";")</code>
+                                divide el texto en un arreglo de
+                                cadenas.</span></div><div><b>5</b><span><code>parseInt</code>
+                                y <code>parseBoolean</code> convierten texto a
+                                números o
+                                booleanos.</span></div><div><b>6</b><span><code>switch
+                                    (TIPO)</code> elige <code>new
+                                    Mamifero(...)</code>, <code>new
+                                    Reptil(...)</code> o <code>new
+                                    Animal(...)</code>.</span></div><div><b>7</b><span><code>lista.add(a)</code>
+                                conserva el objeto en
+                                memoria.</span></div></div><div
+                        class="note tip"><strong>Ejemplo concreto:</strong> al
+                        leer <code>REPTIL;2;Cobra;Serpiente;3;true</code>, el
+                        programa crea <code>new Reptil(2, "Cobra", "Serpiente",
+                            3, true)</code>. No crea primero un Animal y después
+                        un Reptil.</div></section><section
+                    id="guardar"><h2>08 · Guardar: de los objetos al
+                        archivo</h2><p>Este método realiza el proceso inverso:
+                        recorre el <code>ArrayList</code>, identifica el tipo
+                        real de cada objeto y escribe una línea completa en el
+                        archivo.</p><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">guardar</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">			</span><span class="n">PrintWriter</span><span class="w"> </span><span class="n">escritor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrintWriter</span><span class="p">(</span><span class="n">archivo</span><span class="p">);</span>
+
+<span class="w">			</span><span class="c1">// SEGUIMOS EL FORMATO atributo1;atributo2;atributoN</span>
+<span class="w">			</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">				</span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">				</span>
+<span class="w">				</span><span class="n">String</span><span class="w"> </span><span class="n">linea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getEspecie</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getPeso</span><span class="p">();</span>
+<span class="w">				</span>
+<span class="w">				</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">					</span><span class="n">Mamifero</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Mamifero</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">					</span><span class="n">linea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;MAMIFERO&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">linea</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="na">getHabitat</span><span class="p">();</span>
+<span class="w">				</span>
+<span class="w">				</span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Reptil</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">					</span><span class="n">Reptil</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Reptil</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">					</span><span class="n">linea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;REPTIL&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">linea</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="na">isVenenoso</span><span class="p">();</span>
+<span class="w">				</span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">					</span><span class="n">linea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ANIMAL&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">linea</span><span class="p">;</span>
+<span class="w">				</span><span class="p">}</span>
+<span class="w">				</span>
+<span class="w">				</span><span class="n">escritor</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">linea</span><span class="p">);</span>
+<span class="w">			</span><span class="p">}</span>
+
+<span class="w">			</span><span class="n">escritor</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+
+<span class="w">		</span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">		</span><span class="p">}</span>
+
+<span class="w">	</span><span class="p">}</span>
+</code></pre><h3>¿Qué significa instanceof?</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Mamifero</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Mamifero</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="na">getHabitat</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre><p><code>instanceof</code> pregunta si el objeto es un
+                        <code>Mamifero</code>. El <strong>casting</strong>
+                        <code>(Mamifero) a</code> permite acceder al método
+                        <code>getHabitat()</code>, que no existe en la clase
+                        padre.</p><h3>¿Por qué se escribe el tipo al
+                        principio?</h3><p>Al guardar se antepone
+                        <code>MAMIFERO</code>, <code>REPTIL</code> o
+                        <code>ANIMAL</code>. Gracias a esa palabra, cuando el
+                        programa se abre de nuevo, <code>cargar()</code> sabe
+                        qué subclase construir.</p><div
+                        class="note tip"><strong>Importante:</strong> <code>new
+                            PrintWriter(archivo)</code> sobrescribe el archivo
+                        completo. Por eso primero se actualiza la lista en
+                        memoria y después se llama a <code>guardar()</code>. No
+                        se guardan objetos Java directamente: se guardan sus
+                        atributos como texto.</div></section><section
+                    id="crud"><h2>09 · CRUD sobre ArrayList</h2><p>El proyecto
+                        implementa las operaciones en
+                        <code>ListaAnimales</code>. La lista es la fuente de
+                        datos mientras se ejecuta el programa; después de
+                        registrar, actualizar o eliminar, se vuelve a guardar el
+                        archivo.</p><h3>Registrar</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">registrar</span><span class="p">(</span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">a</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="n">id</span><span class="o">++</span><span class="p">);</span>
+<span class="w">		</span><span class="n">lista</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+
+<span class="w">		</span><span class="n">guardar</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><p><code>a.setId(id++)</code> asigna el siguiente ID y aumenta el
+                        contador; <code>lista.add(a)</code> agrega el objeto;
+                        <code>guardar()</code> actualiza el
+                        archivo.</p><h3>Buscar por ID</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="nf">buscar</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+
+<span class="w">		</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">				</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+
+<span class="w">	</span><span class="p">}</span>
+</code></pre><p>Recorre la lista y compara <code>getId()</code>. Si no encuentra
+                        coincidencia, devuelve
+                        <code>null</code>.</p><h3>Eliminar</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">eliminar</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">Animal</span><span class="w"> </span><span class="n">encontrado</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buscar</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">		</span><span class="n">lista</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">encontrado</span><span class="p">);</span>
+
+<span class="w">		</span><span class="n">guardar</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><p>Busca el objeto, lo elimina de la lista y guarda el resultado.
+                        Si no existe, <code>remove(null)</code> no elimina nada
+                        en este caso, aunque es más claro validar el resultado
+                        antes de guardar.</p><h3>Actualizar: comportamiento del
+                        proyecto</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">actualizar</span><span class="p">(</span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="n">Animal</span><span class="w"> </span><span class="n">encontrado</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buscar</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+
+<span class="w">		</span><span class="n">encontrado</span><span class="p">.</span><span class="na">setNombre</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">getNombre</span><span class="p">());</span>
+<span class="w">		</span><span class="n">encontrado</span><span class="p">.</span><span class="na">setEspecie</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">getEspecie</span><span class="p">());</span>
+<span class="w">		</span><span class="n">encontrado</span><span class="p">.</span><span class="na">setPeso</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">getPeso</span><span class="p">());</span>
+
+<span class="w">		</span><span class="n">guardar</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><div class="note warn"><strong>Limitación del código
+                            original:</strong> este método actualiza solo
+                        nombre, especie y peso; no cambia <code>habitat</code>
+                        ni <code>venenoso</code>. Además, si no encuentra el ID,
+                        <code>encontrado</code> será <code>null</code> y
+                        producirá un error.</div><h3>Alternativa sencilla para
+                        actualizar todo el objeto</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">actualizar</span><span class="p">(</span><span class="n">Animal</span><span class="w"> </span><span class="n">nuevo</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">nuevo</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">            </span><span class="n">lista</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">nuevo</span><span class="p">);</span>
+<span class="w">            </span><span class="n">guardar</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre><p>Con <code>lista.set(i, nuevo)</code> reemplazamos el objeto
+                        completo y conservamos su ID. Es útil cuando se quieren
+                        actualizar también los atributos de una
+                        subclase.</p></section><section id="filtros"><h2>10 ·
+                        Mostrar todos y filtrar por tipo</h2><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getMamiferos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">				</span><span class="n">data</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><div class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getReptiles</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Reptil</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">				</span><span class="n">data</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><p>Ambos métodos recorren <strong>la misma lista</strong>. El
+                        filtro con <code>instanceof</code> selecciona solo los
+                        objetos del tipo solicitado. No se crean dos listas
+                        independientes.</p><h3>Mostrar todos</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+
+<span class="w">		</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span><span class="n">Animal</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">			</span><span class="n">data</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+</code></pre><div class="note tip">Al concatenar <code>data += a</code>, Java
+                        utiliza automáticamente el método
+                        <code>toString()</code> del objeto real. Por eso un
+                        mamífero muestra su hábitat y un reptil muestra si es
+                        venenoso.</div></section><section id="mvc"><h2>11 · Cómo
+                        se conectan Vista, Controlador y Modelo</h2><div
+                        class="flow"><div><b>Vista</b><small>Pregunta datos y
+                                muestra
+                                mensajes</small></div><span>→</span><div><b>Controlador</b><small>Decide
+                                qué operación
+                                ejecutar</small></div><span>→</span><div><b>ListaAnimales</b><small>Gestiona
+                                objetos y
+                                archivo</small></div></div><h3>Main.java</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">package</span><span class="w"> </span><span class="nn">app</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span>
+<span class="w">		</span><span class="n">Controlador</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Controlador</span><span class="p">();</span>
+<span class="w">		</span><span class="n">app</span><span class="p">.</span><span class="na">iniciar</span><span class="p">();</span>
+
+<span class="w">	</span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre><h3>Controlador.java</h3><div
+                        class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">package</span><span class="w"> </span><span class="nn">app</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Controlador</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="n">ListaAnimales</span><span class="w"> </span><span class="n">animales</span><span class="p">;</span>
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="n">Vista</span><span class="w"> </span><span class="n">vista</span><span class="p">;</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="nf">Controlador</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">animales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListaAnimales</span><span class="p">();</span>
+<span class="w">		</span><span class="n">vista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Vista</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">iniciar</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">opcion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">		</span><span class="k">do</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span>
+<span class="w">			</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarTitulo</span><span class="p">(</span><span class="s">&quot;Gestión de Animales&quot;</span><span class="p">);</span>
+<span class="w">			</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMenuPrincipal</span><span class="p">();</span>
+<span class="w">			</span>
+<span class="w">			</span><span class="n">opcion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vista</span><span class="p">.</span><span class="na">pedirOpcion</span><span class="p">();</span>
+<span class="w">			</span>
+<span class="w">			</span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">opcion</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">			</span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span>
+<span class="w">				</span><span class="n">registrarMamifero</span><span class="p">();</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">				</span>
+<span class="w">			</span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span>
+<span class="w">				</span><span class="n">registrarReptil</span><span class="p">();</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">				</span>
+<span class="w">			</span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span>
+<span class="w">				</span><span class="n">verMamiferos</span><span class="p">();</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">				</span>
+<span class="w">			</span><span class="k">case</span><span class="w"> </span><span class="mi">4</span><span class="p">:</span>
+<span class="w">				</span><span class="n">verReptiles</span><span class="p">();</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">				</span>
+<span class="w">			</span><span class="k">case</span><span class="w"> </span><span class="mi">5</span><span class="p">:</span>
+<span class="w">				</span><span class="n">verTodos</span><span class="p">();</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">				</span>
+<span class="w">			</span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">				</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="s">&quot;Saliendo...&quot;</span><span class="p">);</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">			</span><span class="k">default</span><span class="p">:</span>
+<span class="w">				</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="s">&quot;Opción incorrecta&quot;</span><span class="p">);</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">			</span>
+
+<span class="w">		</span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">opcion</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">registrarMamifero</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarTitulo</span><span class="p">(</span><span class="s">&quot;REGISTRAR MAMÍFERO&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">Mamifero</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vista</span><span class="p">.</span><span class="na">crearMamifero</span><span class="p">();</span>
+<span class="w">		</span><span class="n">animales</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="s">&quot;Mamífero registrado...&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">registrarReptil</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarTitulo</span><span class="p">(</span><span class="s">&quot;REGISTRAR REPTIL&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">Reptil</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vista</span><span class="p">.</span><span class="na">crearReptil</span><span class="p">();</span>
+<span class="w">		</span><span class="n">animales</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="s">&quot;Reptil registrado...&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">verMamiferos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarTitulo</span><span class="p">(</span><span class="s">&quot;VER MAMÍFEROS&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">lista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">animales</span><span class="p">.</span><span class="na">getMamiferos</span><span class="p">();</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="n">lista</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">verReptiles</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarTitulo</span><span class="p">(</span><span class="s">&quot;VER REPTILES&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">lista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">animales</span><span class="p">.</span><span class="na">getReptiles</span><span class="p">();</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="n">lista</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span>
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">verTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarTitulo</span><span class="p">(</span><span class="s">&quot;VER TODOS&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">lista</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">animales</span><span class="p">.</span><span class="na">toString</span><span class="p">();</span>
+<span class="w">		</span><span class="n">vista</span><span class="p">.</span><span class="na">mostrarMensaje</span><span class="p">(</span><span class="n">lista</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre><h3>Vista.java</h3><div class="codehead"><span>Java</span><button
+                            onclick="copyCode(this)">Copiar
+                            código</button></div><pre
+                        class="code"><code><span class="kn">package</span><span class="w"> </span><span class="nn">app</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Scanner</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Vista</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">	</span><span class="kd">private</span><span class="w"> </span><span class="n">Scanner</span><span class="w"> </span><span class="n">entrada</span><span class="p">;</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="nf">Vista</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">entrada</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">mostrarTitulo</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">titulo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;\n===== &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">titulo</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; =====&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">mostrarMensaje</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">texto</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">texto</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">mostrarMenuPrincipal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;1. Registrar Mamífero&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;2. Registrar Reptil&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;3. Ver Mamíferos&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;4. Ver Reptiles&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;5. Ver Todos&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;0. Salir&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">pedirOpcion</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Opción: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">opcion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span>
+<span class="w">		</span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">opcion</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">pedirId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;ID: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span>
+<span class="w">		</span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">Mamifero</span><span class="w"> </span><span class="nf">crearMamifero</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Nombre: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Especie: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Peso: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span>
+<span class="w">		</span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Hábitat: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">habitat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Mamifero</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">,</span><span class="w"> </span><span class="n">habitat</span><span class="p">);</span>
+
+<span class="w">	</span><span class="p">}</span>
+
+<span class="w">	</span><span class="kd">public</span><span class="w"> </span><span class="n">Reptil</span><span class="w"> </span><span class="nf">crearReptil</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Nombre: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Especie: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="n">String</span><span class="w"> </span><span class="n">especie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Peso: &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">peso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span>
+<span class="w">		</span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">&quot;Venenoso (true/false): &quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">boolean</span><span class="w"> </span><span class="n">venenoso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entrada</span><span class="p">.</span><span class="na">nextBoolean</span><span class="p">();</span>
+<span class="w">		</span><span class="n">entrada</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Reptil</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">especie</span><span class="p">,</span><span class="w"> </span><span class="n">peso</span><span class="p">,</span><span class="w"> </span><span class="n">venenoso</span><span class="p">);</span>
+
+<span class="w">	</span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre><div class="note tip">En el proyecto original el menú permite
+                        registrar y listar, pero <strong>buscar, actualizar y
+                            eliminar aún no tienen opciones en el
+                            controlador</strong>, aunque existen sus métodos en
+                        ListaAnimales.</div></section><section
+                    id="practica"><h2>12 · Actividades de práctica</h2><div
+                        class="exercise"><h3>Actividad 1 ·
+                            Comprensión</h3><p>¿Por qué una variable de tipo
+                            <code>Animal</code> puede guardar un
+                            <code>Reptil</code>? ¿Qué ocurre si invocas
+                            <code>toString()</code>?</p></div><div
+                        class="exercise"><h3>Actividad 2 ·
+                            ArrayList</h3><p>Agrega tres animales. Muestra
+                            <code>size()</code>, recupera el segundo con
+                            <code>get(1)</code> y elimínalo por su ID usando
+                            <code>buscar()</code>.</p></div><div
+                        class="exercise"><h3>Actividad 3 ·
+                            Persistencia</h3><p>Registra un mamífero, cierra el
+                            programa y vuelve a ejecutarlo. Explica cómo
+                            <code>guardar()</code> y <code>cargar()</code>
+                            permiten recuperar su hábitat.</p></div><div
+                        class="exercise"><h3>Actividad 4 ·
+                            Extensión</h3><p>Agrega al menú una opción para
+                            buscar por ID. Después, si hay tiempo, agrega la
+                            opción de eliminar.</p></div><h3>Preguntas de
+                        autoevaluación</h3><details><summary>¿Por qué no se
+                            necesita ListaMamiferos?</summary><p>Porque
+                            <code>ArrayList&lt;Animal&gt;</code> acepta objetos
+                            de ambas subclases y podemos filtrarlos con
+                            <code>instanceof</code>.</p></details><details><summary>¿Qué
+                            diferencia existe entre get(i) y
+                            getId()?</summary><p><code>get(i)</code> obtiene un
+                            objeto por su posición en el ArrayList;
+                            <code>getId()</code> devuelve el identificador
+                            propio de ese
+                            objeto.</p></details><details><summary>¿Qué pasaría
+                            si no guardamos el tipo en
+                            animales.txt?</summary><p>Al cargar no sabríamos si
+                            debemos construir un <code>Animal</code>,
+                            <code>Mamifero</code> o
+                            <code>Reptil</code>.</p></details><details><summary>¿Qué
+                            pasa si modificamos la lista y no ejecutamos
+                            guardar()?</summary><p>El cambio permanece solo en
+                            memoria y se pierde cuando termina el
+                            programa.</p></details></section><footer>Material didáctico · M.Sc. Olivier Blanco Sandí · MVC en Java · Archivos y Herencia con ArrayList</footer></main></div><script>function copyCode(btn){const t=btn.parentElement.nextElementSibling.innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent='¡Copiado!';setTimeout(()=>btn.textContent='Copiar código',1400)}).catch(()=>{btn.textContent='Selecciona el código';});}</script></body></html>
