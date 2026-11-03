@@ -1,0 +1,861 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport"
+            content="width=device-width,initial-scale=1"><meta
+            name="description"
+            content="Guía paso a paso para implementar roles de usuario y MiddlewareRol en Laravel 12. M.Sc. Olivier Blanco."><title>Roles
+            y Middleware en Laravel | M.Sc. Olivier Blanco</title><style>
+:root{--bg:#f5f7fb;--paper:#fff;--ink:#15243a;--muted:#617187;--line:#e2e8f1;--blue:#2563eb;--navy:#101e33;--green:#0f766e}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:25px}body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.75 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}.sidebar{position:fixed;inset:0 auto 0 0;width:278px;background:#fff;border-right:1px solid var(--line);padding:30px 17px;overflow:auto;z-index:3}.brand{padding:0 14px 24px;border-bottom:1px solid var(--line)}.brandmark{display:inline-flex;background:#e9f0ff;color:#1d4ed8;padding:8px 11px;border-radius:12px;font-weight:800}.brand h2{font-size:16px;line-height:1.35;margin:12px 0 5px}.brand p{font-size:12px;color:var(--muted);margin:0}.navcaption{margin:24px 14px 10px;color:#8b98aa;font-size:10px;letter-spacing:.14em;font-weight:800}.navlink{display:flex;gap:11px;align-items:center;padding:10px 12px;border-radius:9px;font-size:12.5px;color:#4b5b72;line-height:1.35;margin-bottom:3px}.navlink span{font-size:11px;font-weight:800;color:#9aa8b9}.navlink:hover,.navlink.active{background:#eaf1ff;color:#1d4ed8}.navlink.active span{color:#1d4ed8}.sidefoot{font-size:11px;color:#8b98aa;padding:24px 13px}.main{margin-left:278px;min-width:0}.hero{background:linear-gradient(120deg,#101e33,#183b68 68%,#176c88);color:white;padding:74px clamp(28px,6vw,100px) 70px}.hero-inner{max-width:950px;margin:auto}.tag{display:inline-block;border:1px solid #6084a9;color:#d9edff;border-radius:30px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:.09em}.hero h1{font-size:clamp(35px,4.4vw,61px);line-height:1.12;letter-spacing:-.045em;margin:25px 0 18px;max-width:850px}.hero p{max-width:700px;color:#c7d9ee;font-size:17px}.byline{margin-top:36px;border-top:1px solid #52718d;padding-top:20px;font-size:13px;color:#dbeafe}.byline strong{color:white}.content{max-width:1050px;padding:22px clamp(24px,5vw,76px) 90px;margin:auto}.section{padding:48px 0 44px;border-bottom:1px solid var(--line)}.eyebrow{color:#2563eb;text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800}.section h2{font-size:clamp(27px,3vw,37px);line-height:1.2;letter-spacing:-.03em;margin:9px 0 13px}.lead{font-size:16px;color:#607189;margin:0 0 30px}.section p{max-width:850px}.step{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:26px;margin:18px 0;box-shadow:0 4px 18px #172b4b08}.step-title{display:flex;align-items:center;gap:12px}.step-title h3{font-size:18px;line-height:1.3;margin:0}.num{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:9px;background:#e9f0ff;color:#2458c9;font-weight:800;font-size:13px}.step>p{color:#596b82;margin:12px 0 17px}.codewrap{border-radius:12px;overflow:hidden;background:#101827;margin:18px 0 7px;border:1px solid #25354c}.codehead{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #2d3b50;background:#1a2638;color:#a9bed6;font-size:11px;gap:10px;overflow-wrap:anywhere}.copy{background:#2b3c54;color:#e7efff;border:1px solid #40536c;border-radius:6px;padding:4px 10px;font-size:11px}.copy:hover{background:#375173}.codewrap pre{margin:0;padding:18px 19px 21px;overflow:auto;line-height:1.65;font:12.6px/1.65 ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;color:#e7edf7;tab-size:4}.raw{display:none}.codewrap .k,.codewrap .kd,.codewrap .kn{color:#c792ea}.codewrap .s,.codewrap .s1,.codewrap .s2{color:#a6e3a1}.codewrap .nf,.codewrap .fm,.codewrap .nb{color:#82aaff}.codewrap .nc,.codewrap .nn{color:#f5c97d}.codewrap .nv{color:#f0c674}.codewrap .c,.codewrap .c1,.codewrap .cm{color:#8293a8}.codewrap .o{color:#89ddff}.codewrap .mi,.codewrap .m{color:#f7a972}.codewrap .p{color:#dce5f3}.note{border-left:4px solid #3b82f6;background:#eaf2ff;border-radius:0 9px 9px 0;padding:15px 19px;margin:22px 0;color:#29466b}.note.warn{border-color:#e3a13c;background:#fff6e7;color:#79521d}.note strong{font-size:13px}.note p{font-size:13px;margin:4px 0}.cards{display:grid;grid-template-columns:1fr 1fr;gap:15px}.mini{background:white;border:1px solid var(--line);padding:22px;border-radius:13px}.mini h3{margin:6px 0}.mini p{margin:0;color:var(--muted);font-size:14px}.mini-icon{font-size:24px}.diagram{display:flex;align-items:center;flex-direction:column;margin:24px auto;gap:6px;max-width:470px}.diagram div{background:#fff;border:1px solid #d7e2f0;border-radius:9px;text-align:center;width:100%;padding:12px;font-weight:650}.diagram span{color:#7d91a9}.explain{margin:20px 0;background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px 21px}.explain h4{margin:0 0 10px;font-size:15px}.explain>div{display:grid;grid-template-columns:minmax(130px,190px) 1fr;gap:14px;border-top:1px solid var(--line);padding:11px 0;font-size:13px}.explain>div span{color:#5c6e83}.section code:not(pre code){font: .88em ui-monospace,Consolas,monospace;background:#eaf0f7;border-radius:4px;padding:2px 5px;color:#2859a0;overflow-wrap:anywhere}.tablebox{overflow:auto;background:white;border:1px solid var(--line);border-radius:12px;margin:20px 0}table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}th,td{padding:12px 16px;border-bottom:1px solid var(--line)}th{background:#f0f5fc;font-size:11px;text-transform:uppercase;letter-spacing:.07em}tr:last-child td{border-bottom:0}.testlist{display:grid;gap:8px}.test{display:flex;gap:13px;align-items:flex-start;background:white;padding:12px 16px;border:1px solid var(--line);border-radius:9px;font-size:14px;cursor:pointer}.test input{accent-color:#2563eb;width:17px;height:17px;margin-top:5px}.test:has(input:checked){background:#ecfdf5;border-color:#b8e6d0}.test:has(input:checked) span{text-decoration:line-through;color:#568272}.progressline{height:8px;border-radius:8px;background:#dce6f1;margin-top:20px;overflow:hidden}.progressfill{width:0;height:100%;background:#1d9a80;transition:width .25s}.muted{color:var(--muted);font-size:13px}.endcard{display:flex;gap:18px;align-items:center;padding:23px;background:#e8f8f1;border:1px solid #b8e5cf;border-radius:13px}.endcard>span{font-size:28px;color:#16845e}.endcard p{margin:2px 0;color:#4b7464}.mobilebar{display:none}.footer{text-align:center;font-size:12px;color:#8290a1;padding:30px}@media(max-width:900px){.sidebar{transform:translateX(-100%);transition:transform .2s;width:min(290px,88vw);box-shadow:10px 0 25px #10223b14}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobilebar{display:flex;position:sticky;top:0;z-index:4;background:#fff;border-bottom:1px solid var(--line);padding:10px 18px;align-items:center;justify-content:space-between}.mobilebar button{background:#eaf1ff;border:0;padding:8px 12px;border-radius:8px}.hero{padding:48px 24px}.content{padding:10px 20px 60px}}@media(max-width:600px){.cards{grid-template-columns:1fr}.step{padding:17px}.explain>div{grid-template-columns:1fr;gap:3px}.hero h1{font-size:36px}.section{padding-top:35px}.codewrap pre{font-size:11px}}
+</style></head><body><header class="mobilebar"><strong>Laravel · Roles y
+                Middleware</strong><button id="menuBtn"
+                aria-label="Abrir menú">☰ Índice</button></header><aside
+            class="sidebar"><div class="brand"><span class="brandmark">Laravel</span><h2>Manejo de roles y middleware personalizado</h2>
+                <p>M.Sc. Olivier Blanco</p></div><div
+                class="navcaption">CONTENIDO</div><nav><a href="#inicio"
+                    class="navlink"><span>01</span>¿Qué vamos a construir?</a><a
+                    href="#bd" class="navlink"><span>02</span>Agregar roles a
+                    los usuarios</a><a href="#modelo"
+                    class="navlink"><span>03</span>Revisar el modelo User</a><a
+                    href="#middleware" class="navlink"><span>04</span>Crear
+                    MiddlewareRol</a><a href="#rutas"
+                    class="navlink"><span>05</span>Separar las rutas por nivel
+                    de acceso</a><a href="#controlador"
+                    class="navlink"><span>06</span>Administrar usuarios desde un
+                    controlador</a><a href="#vista"
+                    class="navlink"><span>07</span>Crear la vista y adaptar el
+                    menú</a><a href="#comentarios"
+                    class="navlink"><span>08</span>Proteger los comentarios
+                    propios</a><a href="#pruebas"
+                    class="navlink"><span>09</span>Comprobar que todo
+                    funciona</a><a href="#cierre"
+                    class="navlink"><span>✓</span>Archivos creados y
+                    modificados</a></nav><div class="sidefoot">Guía de
+                ampliación · Proyecto de clase</div></aside><div
+            class="main"><header class="hero"><div class="hero-inner"><span
+                        class="tag">LARAVEL 12 · GUÍA PASO A
+                        PASO</span><h1>Roles de usuario y middleware
+                        personalizado</h1><p>Amplía el proyecto de autenticación
+                        local y Google con permisos por rol, rutas protegidas y
+                        administración de perfiles.</p><div
+                        class="byline">Elaborado por <strong>M.Sc. Olivier
+                            Blanco</strong><br>Material de apoyo para
+                        estudiantes · Desarrollo web con
+                        Laravel</div></div></header><main
+                class="content"><section id="inicio" class="section"><div
+                        class="eyebrow">01 · Punto de partida</div><h2>¿Qué
+                        vamos a construir?</h2><p class="lead">Continuaremos
+                        sobre el proyecto de autenticación local y Google
+                        desarrollado en clase. No instalaremos Laravel ni
+                        reharemos el login.</p><div class="cards"><div
+                            class="mini"><span
+                                class="mini-icon">👤</span><h3>Perfil</h3><p>Conserva
+                                su CRUD de comentarios y solamente puede
+                                gestionar los suyos.</p></div><div
+                            class="mini"><span
+                                class="mini-icon">🛡️</span><h3>Administrador</h3><p>Consulta
+                                perfiles, ve la cantidad de comentarios de cada
+                                uno y puede eliminarlos.</p></div></div><div
+                        class="diagram"><div>Solicitud
+                            HTTP</div><span>↓</span><div>Autenticación
+                            <code>auth</code></div><span>↓</span><div>Autorización
+                            <code>rol:perfil</code> /
+                            <code>rol:admin</code></div><span>↓</span><div>Controlador
+                            → Vista / Base de
+                            datos</div></div><p><strong>Autenticación</strong>
+                        identifica a la persona que inició sesión.
+                        <strong>Autorización</strong> decide a qué recursos
+                        puede acceder. El middleware de rol se encargará de la
+                        segunda tarea.</p><div
+                        class="note tip"><strong>Comprueba /
+                            comprende</strong><p>Antes de empezar, trabaja sobre
+                            tu copia funcional del proyecto y realiza un
+                            respaldo de la base de
+                            datos.</p></div></section><section id="bd"
+                    class="section"><div class="eyebrow">02 ·
+                        MySQL</div><h2>Agregar roles a los usuarios</h2><p
+                        class="lead">La base de datos debe conocer el tipo de
+                        cada usuario para que Laravel pueda comprobar sus
+                        permisos.</p><article class="step"><div
+                            class="step-title"><span
+                                class="num">1</span><h3>Agregar la columna
+                                <code>rol</code></h3></div><p>El valor
+                            predeterminado <code>perfil</code> evita que los
+                            nuevos registros obtengan privilegios
+                            administrativos.</p><div class="codewrap"><div
+                                class="codehead"><span>MySQL · tabla
+                                    usuarios</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">usuarios</span>
+<span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">rol</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;perfil&#39;</span><span class="p">;</span>
+</code></pre><textarea class="raw" aria-hidden="true">ALTER TABLE usuarios
+ADD COLUMN rol VARCHAR(20) NOT NULL DEFAULT &#x27;perfil&#x27;;</textarea></div></article><article
+                        class="step"><div class="step-title"><span
+                                class="num">2</span><h3>Convertir el primer
+                                registro en administrador</h3></div><p>Usaremos
+                            el usuario con <code>id_usuario = 1</code> como
+                            administrador de esta práctica.</p><div
+                            class="codewrap"><div class="codehead"><span>MySQL ·
+                                    actualización del
+                                    administrador</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">UPDATE</span><span class="w"> </span><span class="n">usuarios</span>
+<span class="k">SET</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Administrador&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="k">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">correo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin@gmail.com&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">id_usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre><textarea class="raw" aria-hidden="true">UPDATE usuarios
+SET nombre = &#x27;Administrador&#x27;,
+    user = &#x27;admin&#x27;,
+    correo = &#x27;admin@gmail.com&#x27;,
+    rol = &#x27;admin&#x27;
+WHERE id_usuario = 1;</textarea></div></article><article class="step"><div
+                            class="step-title"><span
+                                class="num">3</span><h3>Comprobar los
+                                datos</h3></div><p>Confirma que solo el usuario
+                            indicado tenga el rol <code>admin</code> y que el
+                            resto tenga <code>perfil</code>.</p><div
+                            class="codewrap"><div class="codehead"><span>MySQL ·
+                                    verificación</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">SELECT</span><span class="w"> </span><span class="n">id_usuario</span><span class="p">,</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="k">user</span><span class="p">,</span><span class="w"> </span><span class="n">correo</span><span class="p">,</span><span class="w"> </span><span class="n">rol</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id_usuario</span><span class="p">;</span>
+</code></pre><textarea class="raw"
+                                aria-hidden="true">SELECT id_usuario, nombre, user, correo, rol
+FROM usuarios
+ORDER BY id_usuario;</textarea></div></article><div
+                        class="note warn"><strong>Importante</strong><p>La
+                            consulta UPDATE no cambia la contraseña. Utiliza la
+                            contraseña que ya tenía el registro 1. Si ese
+                            registro estaba vinculado a Google, cambiar el
+                            correo no borra su identificador de
+                            Google.</p></div></section><section id="modelo"
+                    class="section"><div class="eyebrow">03 ·
+                        Eloquent</div><h2>Revisar el modelo User</h2><p
+                        class="lead">El modelo conecta la tabla personalizada
+                        <code>usuarios</code> con Laravel Auth y permite
+                        consultar los comentarios de cada persona.</p><article
+                        class="step"><div class="step-title"><span
+                                class="num">1</span><h3>Revisar la configuración
+                                existente</h3></div><p>En
+                            <code>app/Models/User.php</code> verifica que estén
+                            estas propiedades y la relación. No hace falta crear
+                            otro modelo.</p><div class="codewrap"><div
+                                class="codehead"><span>app/Models/User.php ·
+                                    fragmento</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">protected</span> <span class="nv">$table</span> <span class="o">=</span> <span class="s1">&#39;usuarios&#39;</span><span class="p">;</span>
+<span class="k">protected</span> <span class="nv">$primaryKey</span> <span class="o">=</span> <span class="s1">&#39;id_usuario&#39;</span><span class="p">;</span>
+<span class="k">public</span> <span class="nv">$timestamps</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">comentarios</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasMany</span><span class="p">(</span><span class="nx">Comentario</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;id_usuario&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre><textarea class="raw"
+                                aria-hidden="true">protected $table = &#x27;usuarios&#x27;;
+protected $primaryKey = &#x27;id_usuario&#x27;;
+public $timestamps = false;
+
+public function comentarios()
+{
+    return $this-&gt;hasMany(Comentario::class, &#x27;id_usuario&#x27;);
+}</textarea></div></article><div class="note tip"><strong>Comprueba /
+                            comprende</strong><p>El campo <code>rol</code> se
+                            lee directamente desde el modelo. No es necesario
+                            añadirlo a <code>$fillable</code> para esta
+                            práctica: el rol se asigna mediante SQL y no debe
+                            aceptarse desde el registro
+                            público.</p></div></section><section id="middleware"
+                    class="section"><div class="eyebrow">04 · Concepto
+                        central</div><h2>Crear MiddlewareRol</h2><p
+                        class="lead">El middleware intercepta la solicitud antes
+                        de ejecutar el controlador. Si el rol no coincide,
+                        detiene el proceso con un error 403.</p><article
+                        class="step"><div class="step-title"><span
+                                class="num">1</span><h3>Generar la clase con
+                                Artisan</h3></div><p>Artisan crea el archivo con
+                            la estructura básica de un middleware.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>Terminal</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code>php<span class="w"> </span>artisan<span class="w"> </span>make:middleware<span class="w"> </span>MiddlewareRol
+</code></pre><textarea class="raw"
+                                aria-hidden="true">php artisan make:middleware MiddlewareRol</textarea></div></article><article
+                        class="step"><div class="step-title"><span
+                                class="num">2</span><h3>Implementar el método
+                                handle()</h3></div><p>El parámetro
+                            <code>$rol</code> permite usar el mismo middleware
+                            para distintas secciones de la aplicación.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>app/Http/Middleware/MiddlewareRol.php</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">App\Http\Middleware</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Closure</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MiddlewareRol</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Handle an incoming request.</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param  Closure(Request): (Response)  $next</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">handle</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">Closure</span> <span class="nv">$next</span><span class="p">,</span> <span class="nx">string</span> <span class="nv">$rol</span><span class="p">)</span><span class="o">:</span> <span class="nx">Response</span> <span class="p">{</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">rol</span> <span class="o">!==</span> <span class="nv">$rol</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$next</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><textarea class="raw" aria-hidden="true">&lt;?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class MiddlewareRol
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  Closure(Request): (Response)  $next
+     */
+    public function handle(Request $request, Closure $next, string $rol): Response {
+
+        if ($request-&gt;user()-&gt;rol !== $rol) {
+            abort(403);
+        }
+
+        return $next($request);
+    }
+}</textarea></div></article><div class="explain"><h4>Lectura guiada del
+                            código</h4><div><b><code>$request</code></b><span>Contiene
+                                la solicitud HTTP y permite obtener el usuario
+                                autenticado mediante
+                                <code>user()</code>.</span></div><div><b><code>$rol</code></b><span>Recibe
+                                el valor enviado desde la ruta:
+                                <code>perfil</code> o
+                                <code>admin</code>.</span></div><div><b><code>!==</code></b><span>Compara
+                                estrictamente el rol del usuario con el rol
+                                requerido.</span></div><div><b><code>abort(403)</code></b><span>Detiene
+                                la solicitud por falta de permisos
+                                (Forbidden).</span></div><div><b><code>$next($request)</code></b><span>Permite
+                                que la solicitud continúe hacia el controlador
+                                cuando la validación se
+                                cumple.</span></div></div><article
+                        class="step"><div class="step-title"><span
+                                class="num">3</span><h3>Registrar el alias en
+                                Laravel 12</h3></div><p>El alias
+                            <code>rol</code> permite invocar la clase desde las
+                            rutas sin escribir su nombre completo.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>bootstrap/app.php ·
+                                    fragmento</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">use</span> <span class="nx">App\Http\Middleware\MiddlewareRol</span><span class="p">;</span>
+
+<span class="c1">// Dentro de -&gt;withMiddleware(function (Middleware $middleware) { ... })</span>
+<span class="nv">$middleware</span><span class="o">-&gt;</span><span class="na">alias</span><span class="p">([</span>
+    <span class="s1">&#39;rol&#39;</span> <span class="o">=&gt;</span> <span class="nx">MiddlewareRol</span><span class="o">::</span><span class="na">class</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre><textarea class="raw"
+                                aria-hidden="true">use App\Http\Middleware\MiddlewareRol;
+
+// Dentro de -&gt;withMiddleware(function (Middleware $middleware) { ... })
+$middleware-&gt;alias([
+    &#x27;rol&#x27; =&gt; MiddlewareRol::class,
+]);</textarea></div></article><div
+                        class="note warn"><strong>Importante</strong><p>En
+                            Laravel 12 este alias se configura en
+                            <code>bootstrap/app.php</code>. </div><div
+                        class="note tip"><strong>Comprueba /
+                            comprende</strong><p>El middleware usa
+                            <code>$request->user()->rol</code> porque las rutas
+                            protegidas ejecutan primero <code>auth</code>. Sin
+                            autenticación previa, podría no existir un
+                            usuario.</p></div></section><section id="rutas"
+                    class="section"><div class="eyebrow">05 ·
+                        Organización</div><h2>Separar las rutas por nivel de
+                        acceso</h2><p class="lead">Las rutas compartidas
+                        requieren sesión iniciada. Las exclusivas añaden el
+                        middleware parametrizado con el rol
+                        correspondiente.</p><article class="step"><div
+                            class="step-title"><span
+                                class="num">1</span><h3>Actualizar
+                                routes/web.php</h3></div><p>Conserva las rutas
+                            de invitado del login y Google; reorganiza las rutas
+                            autenticadas en tres grupos.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>routes/web.php ·
+                                    configuración completa</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ControllerAuth</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ControllerComentarios</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ControllerNavigation</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ControllerUsuarios</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="c1">// RUTAS INVITADO</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">middleware</span><span class="p">(</span><span class="s1">&#39;guest&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerNavigation</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;login&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerNavigation</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;register&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;register&#39;</span><span class="p">);</span>
+
+    <span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerAuth</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;login&#39;</span><span class="p">]);</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerAuth</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;register&#39;</span><span class="p">]);</span>
+
+    <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/auth/google&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerAuth</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;redirectGoogle&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;google&#39;</span><span class="p">);</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/auth/google/callback&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerAuth</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;callbackGoogle&#39;</span><span class="p">]);</span>
+<span class="p">});</span>
+
+
+<span class="c1">// RUTAS COMPARTIDAS</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">middleware</span><span class="p">(</span><span class="s1">&#39;auth&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerNavigation</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;dashboard&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">);</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ControllerAuth</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;logout&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;logout&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+
+<span class="c1">// RUTAS EXCLUSIVAS DEL PERFIL</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">middleware</span><span class="p">([</span><span class="s1">&#39;auth&#39;</span><span class="p">,</span> <span class="s1">&#39;rol:perfil&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">resource</span><span class="p">(</span><span class="s1">&#39;comentarios&#39;</span><span class="p">,</span> <span class="nx">ControllerComentarios</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+<span class="p">});</span>
+
+
+<span class="c1">// RUTAS EXCLUSIVAS DEL ADMINISTRADOR</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">middleware</span><span class="p">([</span><span class="s1">&#39;auth&#39;</span><span class="p">,</span> <span class="s1">&#39;rol:admin&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">prefix</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;admin.&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">Route</span><span class="o">::</span><span class="na">resource</span><span class="p">(</span><span class="s1">&#39;usuarios&#39;</span><span class="p">,</span> <span class="nx">ControllerUsuarios</span><span class="o">::</span><span class="na">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">only</span><span class="p">([</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;destroy&#39;</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre><textarea class="raw" aria-hidden="true">&lt;?php
+
+use App\Http\Controllers\ControllerAuth;
+use App\Http\Controllers\ControllerComentarios;
+use App\Http\Controllers\ControllerNavigation;
+use App\Http\Controllers\ControllerUsuarios;
+use Illuminate\Support\Facades\Route;
+
+// RUTAS INVITADO
+Route::middleware(&#x27;guest&#x27;)-&gt;group(function () {
+
+    Route::get(&#x27;/login&#x27;, [ControllerNavigation::class, &#x27;login&#x27;])-&gt;name(&#x27;login&#x27;);
+    Route::get(&#x27;/register&#x27;, [ControllerNavigation::class, &#x27;register&#x27;])-&gt;name(&#x27;register&#x27;);
+
+    Route::post(&#x27;/login&#x27;, [ControllerAuth::class, &#x27;login&#x27;]);
+    Route::post(&#x27;/register&#x27;, [ControllerAuth::class, &#x27;register&#x27;]);
+
+    Route::get(&#x27;/auth/google&#x27;, [ControllerAuth::class, &#x27;redirectGoogle&#x27;])-&gt;name(&#x27;google&#x27;);
+    Route::get(&#x27;/auth/google/callback&#x27;, [ControllerAuth::class, &#x27;callbackGoogle&#x27;]);
+});
+
+
+// RUTAS COMPARTIDAS
+Route::middleware(&#x27;auth&#x27;)-&gt;group(function () {
+    Route::get(&#x27;/&#x27;, [ControllerNavigation::class, &#x27;dashboard&#x27;])-&gt;name(&#x27;dashboard&#x27;);
+    Route::post(&#x27;/logout&#x27;, [ControllerAuth::class, &#x27;logout&#x27;])-&gt;name(&#x27;logout&#x27;);
+});
+
+
+// RUTAS EXCLUSIVAS DEL PERFIL
+Route::middleware([&#x27;auth&#x27;, &#x27;rol:perfil&#x27;])-&gt;group(function () {
+    Route::resource(&#x27;comentarios&#x27;, ControllerComentarios::class);
+});
+
+
+// RUTAS EXCLUSIVAS DEL ADMINISTRADOR
+Route::middleware([&#x27;auth&#x27;, &#x27;rol:admin&#x27;])-&gt;prefix(&#x27;admin&#x27;)-&gt;name(&#x27;admin.&#x27;)-&gt;group(function () {
+    Route::resource(&#x27;usuarios&#x27;, ControllerUsuarios::class)-&gt;only([&#x27;index&#x27;, &#x27;destroy&#x27;]);
+});</textarea></div></article><div class="explain"><h4>¿Por qué está escrito
+                            así?</h4><div><b><code>guest</code></b><span>Restringe
+                                login y registro a visitantes que aún no
+                                iniciaron
+                                sesión.</span></div><div><b><code>auth</code></b><span>Exige
+                                una sesión autenticada; lo usan ambos roles para
+                                dashboard y
+                                logout.</span></div><div><b><code>rol:perfil</code></b><span>Envía
+                                la cadena <code>perfil</code> al parámetro
+                                <code>$rol</code> de
+                                MiddlewareRol.</span></div><div><b><code>rol:admin</code></b><span>Envía
+                                <code>admin</code> y bloquea el acceso a
+                                perfiles
+                                comunes.</span></div><div><b><code>prefix('admin')</code></b><span>Añade
+                                <code>/admin</code> a las URL de ese
+                                grupo.</span></div><div><b><code>name('admin.')</code></b><span>Añade
+                                el prefijo <code>admin.</code> a los nombres de
+                                las
+                                rutas.</span></div><div><b><code>only(['index','destroy'])</code></b><span>Evita
+                                crear rutas de edición y registro que no
+                                necesita la
+                                administración.</span></div></div><div
+                        class="tablebox"><table><thead><tr><th>Ruta</th><th>Perfil</th><th>Admin</th></tr></thead><tbody><tr><td><code>GET
+                                            /</code></td><td>✓</td><td>✓</td></tr><tr><td><code>/comentarios</code></td><td>✓</td><td>403</td></tr><tr><td><code>GET
+                                            /admin/usuarios</code></td><td>403</td><td>✓</td></tr><tr><td><code>DELETE
+                                            /admin/usuarios/{usuario}</code></td><td>403</td><td>✓</td></tr><tr><td><code>POST
+                                            /logout</code></td><td>✓</td><td>✓</td></tr></tbody></table></div><article
+                        class="step"><div class="step-title"><span
+                                class="num">2</span><h3>Comprobar las rutas
+                                generadas</h3></div><p>Laravel permite
+                            inspeccionar el método HTTP, la URL, el nombre y los
+                            middleware asignados.</p><div class="codewrap"><div
+                                class="codehead"><span>Terminal</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code>php<span class="w"> </span>artisan<span class="w"> </span>route:list
+</code></pre><textarea class="raw"
+                                aria-hidden="true">php artisan route:list</textarea></div></article><div
+                        class="note tip"><strong>Comprueba /
+                            comprende</strong><p>El middleware protege las rutas
+                            incluso si alguien escribe manualmente la URL.
+                            Ocultar enlaces en Blade mejora la navegación, pero
+                            por sí solo no constituye una medida de
+                            seguridad.</p></div></section><section
+                    id="controlador" class="section"><div class="eyebrow">06 ·
+                        Backend</div><h2>Administrar usuarios desde un
+                        controlador</h2><p class="lead">El administrador
+                        necesita solamente dos operaciones: mostrar usuarios con
+                        sus cantidades de comentarios y eliminar un usuario con
+                        sus comentarios.</p><article class="step"><div
+                            class="step-title"><span
+                                class="num">1</span><h3>Crear
+                                ControllerUsuarios</h3></div><p>Utiliza Artisan
+                            para generar el controlador; después implementa los
+                            métodos necesarios.</p><div class="codewrap"><div
+                                class="codehead"><span>Terminal</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code>php<span class="w"> </span>artisan<span class="w"> </span>make:controller<span class="w"> </span>ControllerUsuarios
+</code></pre><textarea class="raw"
+                                aria-hidden="true">php artisan make:controller ControllerUsuarios</textarea></div></article><article
+                        class="step"><div class="step-title"><span
+                                class="num">2</span><h3>Implementar index() y
+                                destroy()</h3></div><p>Este es el código
+                            utilizado en la versión actualizada del proyecto.
+                            Los métodos vacíos generados por Artisan pueden
+                            omitirse.</p><div class="codewrap"><div
+                                class="codehead"><span>app/Http/Controllers/ControllerUsuarios.php</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">App\Models\User</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\DB</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ControllerUsuarios</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">index</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$data</span> <span class="o">=</span> <span class="nx">User</span><span class="o">::</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id_usuario&#39;</span><span class="p">,</span> <span class="s1">&#39;!=&#39;</span><span class="p">,</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">id</span><span class="p">())</span>
+            <span class="o">-&gt;</span><span class="na">withCount</span><span class="p">(</span><span class="s1">&#39;comentarios&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;nombre&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;modules.admin.usuarios.index&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">destroy</span><span class="p">(</span><span class="nx">User</span> <span class="nv">$usuario</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$usuario</span><span class="o">-&gt;</span><span class="na">id_usuario</span> <span class="o">===</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">id</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">DB</span><span class="o">::</span><span class="na">transaction</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$usuario</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$usuario</span><span class="o">-&gt;</span><span class="na">comentarios</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+            <span class="nv">$usuario</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+        <span class="p">});</span>
+
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;admin.usuarios.index&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><textarea class="raw" aria-hidden="true">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class ControllerUsuarios extends Controller
+{
+    public function index()
+    {
+        $data = User::where(&#x27;id_usuario&#x27;, &#x27;!=&#x27;, Auth::id())
+            -&gt;withCount(&#x27;comentarios&#x27;)
+            -&gt;orderBy(&#x27;nombre&#x27;)
+            -&gt;get();
+
+        return view(&#x27;modules.admin.usuarios.index&#x27;, compact(&#x27;data&#x27;));
+    }
+
+    public function destroy(User $usuario)
+    {
+        if ($usuario-&gt;id_usuario === Auth::id()) {
+            abort(403);
+        }
+
+        DB::transaction(function () use ($usuario) {
+            $usuario-&gt;comentarios()-&gt;delete();
+            $usuario-&gt;delete();
+        });
+
+        return redirect()-&gt;route(&#x27;admin.usuarios.index&#x27;);
+    }
+}</textarea></div></article><div class="explain"><h4>Claves del
+                            controlador</h4><div><b><code>Auth::id()</code></b><span>Devuelve
+                                la llave primaria del usuario autenticado; en
+                                este proyecto es
+                                <code>id_usuario</code>.</span></div><div><b><code>where('!=',
+                                    ...)</code></b><span>Excluye del listado al
+                                administrador que está utilizando el
+                                sistema.</span></div><div><b><code>withCount()</code></b><span>Agrega
+                                <code>comentarios_count</code> a cada usuario
+                                sin recuperar todos sus
+                                comentarios.</span></div><div><b><code>User
+                                    $usuario</code></b><span>Laravel busca el
+                                registro automáticamente mediante Route Model
+                                Binding.</span></div><div><b><code>DB::transaction()</code></b><span>Ejecuta
+                                ambas eliminaciones como una sola operación: si
+                                falla una, se revierte la
+                                transacción.</span></div></div><div
+                        class="note warn"><strong>Importante</strong><p>La ruta
+                            generada usa <code>{usuario}</code>, por eso el
+                            argumento debe llamarse <code>$usuario</code>, no
+                            <code>$user</code>. El modelo debe conservar
+                            <code>protected $primaryKey =
+                                "id_usuario";</code>.</p></div><div
+                        class="note tip"><strong>Comprueba /
+                            comprende</strong><p>La versión mostrada excluye al
+                            administrador actual, no a todos los
+                            administradores. Si deseas que solamente se puedan
+                            eliminar usuarios con rol <code>perfil</code>, añade
+                            una comprobación <code>$usuario->rol !==
+                                "perfil"</code> en destroy() y filtra index()
+                            por ese rol.</p></div></section><section id="vista"
+                    class="section"><div class="eyebrow">07 ·
+                        Interfaz</div><h2>Crear la vista y adaptar el
+                        menú</h2><p class="lead">La interfaz administrativa
+                        muestra el resultado de la consulta y envía una
+                        solicitud DELETE al seleccionar un usuario.</p><article
+                        class="step"><div class="step-title"><span
+                                class="num">1</span><h3>Crear el index
+                                administrativo</h3></div><p>Crea la carpeta
+                            <code>resources/views/modules/admin/usuarios</code>
+                            y dentro el archivo
+                            <code>index.blade.php</code>.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>resources/views/modules/admin/usuarios/index.blade.php</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="o">@</span><span class="k">extends</span><span class="p">(</span><span class="s1">&#39;app&#39;</span><span class="p">)</span>
+<span class="o">@</span><span class="nx">section</span><span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;Administración de perfiles&#39;</span><span class="p">)</span>
+<span class="o">@</span><span class="nx">section</span><span class="p">(</span><span class="s1">&#39;contenido&#39;</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="nx">table</span> <span class="nx">class</span><span class="o">=</span><span class="s2">&quot;table table-bordered table-striped&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">thead</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Nombre</span><span class="o">&lt;/</span><span class="nx">th</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Usuario</span><span class="o">&lt;/</span><span class="nx">th</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Correo</span><span class="o">&lt;/</span><span class="nx">th</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Comentarios</span><span class="o">&lt;/</span><span class="nx">th</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Acciones</span><span class="o">&lt;/</span><span class="nx">th</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="nx">tr</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="nx">thead</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
+        <span class="o">@</span><span class="k">foreach</span><span class="p">(</span><span class="nv">$data</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span>
+            <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{{</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">nombre</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="nx">td</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{{</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">user</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="nx">td</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{{</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">correo</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="nx">td</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{{</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">comentarios_count</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="nx">td</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span>
+                          <span class="nx">action</span><span class="o">=</span><span class="s2">&quot;{{ route(&#39;admin.usuarios.destroy&#39;, </span><span class="si">$item</span><span class="s2">) }}&quot;</span>
+                          <span class="nx">onsubmit</span><span class="o">=</span><span class="s2">&quot;return confirm(&#39;¿Eliminar este usuario y todos sus comentarios?&#39;)&quot;</span><span class="o">&gt;</span>
+
+                        <span class="o">@</span><span class="nx">csrf</span>
+                        <span class="o">@</span><span class="nx">method</span><span class="p">(</span><span class="s1">&#39;DELETE&#39;</span><span class="p">)</span>
+
+                        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">class</span><span class="o">=</span><span class="s2">&quot;btn btn-danger btn-sm&quot;</span><span class="o">&gt;</span>
+                            <span class="nx">Eliminar</span>
+                        <span class="o">&lt;/</span><span class="nx">button</span><span class="o">&gt;</span>
+                    <span class="o">&lt;/</span><span class="nx">form</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="nx">td</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="nx">tr</span><span class="o">&gt;</span>
+        <span class="o">@</span><span class="k">endforeach</span>
+    <span class="o">&lt;/</span><span class="nx">tbody</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nx">table</span><span class="o">&gt;</span>
+
+<span class="o">@</span><span class="nx">endsection</span>
+</code></pre><textarea class="raw" aria-hidden="true">@extends(&#x27;app&#x27;)
+@section(&#x27;titulo&#x27;, &#x27;Administración de perfiles&#x27;)
+@section(&#x27;contenido&#x27;)
+
+&lt;table class=&quot;table table-bordered table-striped&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Nombre&lt;/th&gt;
+            &lt;th&gt;Usuario&lt;/th&gt;
+            &lt;th&gt;Correo&lt;/th&gt;
+            &lt;th&gt;Comentarios&lt;/th&gt;
+            &lt;th&gt;Acciones&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+
+    &lt;tbody&gt;
+        @foreach($data as $item)
+            &lt;tr&gt;
+                &lt;td&gt;{{ $item-&gt;nombre }}&lt;/td&gt;
+                &lt;td&gt;{{ $item-&gt;user }}&lt;/td&gt;
+                &lt;td&gt;{{ $item-&gt;correo }}&lt;/td&gt;
+                &lt;td&gt;{{ $item-&gt;comentarios_count }}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;form method=&quot;POST&quot;
+                          action=&quot;{{ route(&#x27;admin.usuarios.destroy&#x27;, $item) }}&quot;
+                          onsubmit=&quot;return confirm(&#x27;¿Eliminar este usuario y todos sus comentarios?&#x27;)&quot;&gt;
+
+                        @csrf
+                        @method(&#x27;DELETE&#x27;)
+
+                        &lt;button class=&quot;btn btn-danger btn-sm&quot;&gt;
+                            Eliminar
+                        &lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        @endforeach
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+@endsection</textarea></div></article><div class="explain"><h4>Elementos que
+                            debes
+                            reconocer</h4><div><b><code>comentarios_count</code></b><span>Es
+                                el campo calculado por
+                                <code>withCount('comentarios')</code>.</span></div><div><b><code>@csrf</code></b><span>Agrega
+                                la protección CSRF al
+                                formulario.</span></div><div><b><code>@method('DELETE')</code></b><span>Permite
+                                enviar una solicitud DELETE desde un formulario
+                                HTML que usa
+                                POST.</span></div><div><b><code>route(...,
+                                    $item)</code></b><span>Genera la URL del
+                                usuario que se desea
+                                eliminar.</span></div></div><article
+                        class="step"><div class="step-title"><span
+                                class="num">2</span><h3>Mostrar opciones según
+                                el rol</h3></div><p>En el menú principal de
+                            <code>resources/views/app.blade.php</code>, conserva
+                            Dashboard y añade enlaces condicionales.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>resources/views/app.blade.php
+                                    · fragmento</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-link&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;dashboard&#39;) }}&quot;</span><span class="p">&gt;</span>Dashboard<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+@if (Auth::user()-&gt;rol === &#39;perfil&#39;)
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-link&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;comentarios.index&#39;) }}&quot;</span><span class="p">&gt;</span>
+        Comentarios
+    <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+@endif
+
+@if (Auth::user()-&gt;rol === &#39;admin&#39;)
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-link&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;admin.usuarios.index&#39;) }}&quot;</span><span class="p">&gt;</span>
+        Administrar perfiles
+    <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+@endif
+</code></pre><textarea class="raw"
+                                aria-hidden="true">&lt;a class=&quot;nav-link&quot; href=&quot;{{ route(&#x27;dashboard&#x27;) }}&quot;&gt;Dashboard&lt;/a&gt;
+
+@if (Auth::user()-&gt;rol === &#x27;perfil&#x27;)
+    &lt;a class=&quot;nav-link&quot; href=&quot;{{ route(&#x27;comentarios.index&#x27;) }}&quot;&gt;
+        Comentarios
+    &lt;/a&gt;
+@endif
+
+@if (Auth::user()-&gt;rol === &#x27;admin&#x27;)
+    &lt;a class=&quot;nav-link&quot; href=&quot;{{ route(&#x27;admin.usuarios.index&#x27;) }}&quot;&gt;
+        Administrar perfiles
+    &lt;/a&gt;
+@endif</textarea></div></article><div class="note tip"><strong>Comprueba /
+                            comprende</strong><p>La confirmación con
+                            <code>confirm()</code> evita clics accidentales,
+                            pero no sustituye la validación del servidor. El
+                            método destroy() vuelve a comprobar que el
+                            administrador no se elimine a sí
+                            mismo.</p></div></section><section id="comentarios"
+                    class="section"><div class="eyebrow">08 · Protección de
+                        registros</div><h2>Proteger los comentarios
+                        propios</h2><p class="lead">El middleware comprueba el
+                        rol del usuario; además, el controlador debe comprobar
+                        que el comentario solicitado realmente le
+                        pertenezca.</p><article class="step"><div
+                            class="step-title"><span
+                                class="num">1</span><h3>Crear una validación
+                                privada</h3></div><p>Añade este método al final
+                            de <code>ControllerComentarios</code>, dentro de la
+                            clase.</p><div class="codewrap"><div
+                                class="codehead"><span>ControllerComentarios.php
+                                    · método privado</span><button class="copy"
+                                    type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">private</span> <span class="k">function</span> <span class="nf">validar_usuario</span><span class="p">(</span><span class="nx">Comentario</span> <span class="nv">$comentario</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$comentario</span><span class="o">-&gt;</span><span class="na">id_usuario</span> <span class="o">!==</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">id</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><textarea class="raw"
+                                aria-hidden="true">private function validar_usuario(Comentario $comentario)
+{
+    if ($comentario-&gt;id_usuario !== Auth::id()) {
+        abort(403);
+    }
+}</textarea></div></article><article class="step"><div class="step-title"><span
+                                class="num">2</span><h3>Invocar la validación
+                                antes de operar</h3></div><p>Añade la llamada al
+                            inicio de <code>edit()</code>, <code>update()</code>
+                            y <code>destroy()</code>.</p><div
+                            class="codewrap"><div
+                                class="codehead"><span>ControllerComentarios.php
+                                    · métodos modificados</span><button
+                                    class="copy" type="button"
+                                    aria-label="Copiar código">Copiar
+                                    <span>⧉</span></button></div><pre><code><span class="k">public</span> <span class="k">function</span> <span class="nf">edit</span><span class="p">(</span><span class="nx">Comentario</span> <span class="nv">$comentario</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validar_usuario</span><span class="p">(</span><span class="nv">$comentario</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;modules.comentarios.edit&#39;</span><span class="p">,</span> <span class="nb">compact</span><span class="p">(</span><span class="s1">&#39;comentario&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">update</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">Comentario</span> <span class="nv">$comentario</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validar_usuario</span><span class="p">(</span><span class="nv">$comentario</span><span class="p">);</span>
+    <span class="nv">$comentario</span><span class="o">-&gt;</span><span class="na">texto</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">texto</span><span class="p">;</span>
+    <span class="nv">$comentario</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;comentarios.index&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">destroy</span><span class="p">(</span><span class="nx">Comentario</span> <span class="nv">$comentario</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validar_usuario</span><span class="p">(</span><span class="nv">$comentario</span><span class="p">);</span>
+    <span class="nv">$comentario</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;comentarios.index&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre><textarea class="raw"
+                                aria-hidden="true">public function edit(Comentario $comentario)
+{
+    $this-&gt;validar_usuario($comentario);
+    return view(&#x27;modules.comentarios.edit&#x27;, compact(&#x27;comentario&#x27;));
+}
+
+public function update(Request $request, Comentario $comentario)
+{
+    $this-&gt;validar_usuario($comentario);
+    $comentario-&gt;texto = $request-&gt;texto;
+    $comentario-&gt;save();
+    return redirect()-&gt;route(&#x27;comentarios.index&#x27;);
+}
+
+public function destroy(Comentario $comentario)
+{
+    $this-&gt;validar_usuario($comentario);
+    $comentario-&gt;delete();
+    return redirect()-&gt;route(&#x27;comentarios.index&#x27;);
+}</textarea></div></article><div
+                        class="note warn"><strong>Importante</strong><p>Sin esta
+                            comprobación, un usuario de tipo perfil podría
+                            intentar modificar el identificador de un comentario
+                            en la URL. <code>rol:perfil</code> le permite entrar
+                            al módulo, pero no le da permiso para editar
+                            comentarios ajenos.</p></div><div
+                        class="note tip"><strong>Comprueba /
+                            comprende</strong><p>Mejora opcional: validar
+                            <code>texto</code> en store() y update() mediante
+                            <code>$request->validate(["texto" =>
+                                "required|string|max:1000"]);</code>.</p></div></section><section
+                    id="pruebas" class="section"><div class="eyebrow">09 ·
+                        Validación</div><h2>Comprobar que todo funciona</h2><p
+                        class="lead">Antes de dar la práctica por terminada,
+                        inicia sesión con una cuenta de cada rol y verifica
+                        tanto la interfaz como el acceso directo a las
+                        URL.</p><div class="testlist" id="testlist"><label
+                            class="test"><input type="checkbox"><span>El usuario
+                                administrador inicia sesión y ve «Administrar
+                                perfiles».</span></label><label
+                            class="test"><input type="checkbox"><span>El
+                                administrador no ve la opción de
+                                comentarios.</span></label><label
+                            class="test"><input type="checkbox"><span>El perfil
+                                ve «Comentarios» y no ve «Administrar
+                                perfiles».</span></label><label
+                            class="test"><input type="checkbox"><span>Un perfil
+                                que abre /admin/usuarios recibe
+                                403.</span></label><label class="test"><input
+                                type="checkbox"><span>Un administrador que abre
+                                /comentarios recibe 403.</span></label><label
+                            class="test"><input type="checkbox"><span>El listado
+                                administrativo muestra los usuarios y sus
+                                cantidades de comentarios.</span></label><label
+                            class="test"><input type="checkbox"><span>La
+                                eliminación de un usuario también elimina sus
+                                comentarios.</span></label><label
+                            class="test"><input type="checkbox"><span>El
+                                administrador no puede eliminar su propia
+                                cuenta.</span></label><label class="test"><input
+                                type="checkbox"><span>Un perfil no puede editar
+                                ni eliminar un comentario
+                                ajeno.</span></label><label class="test"><input
+                                type="checkbox"><span>Las rutas compartidas
+                                Dashboard y Logout funcionan con ambos
+                                roles.</span></label></div><div
+                        class="progressline"><div class="progressfill"
+                            id="testprogress"></div></div><p class="muted"
+                        id="testcount">0 de 10 comprobaciones
+                        completadas</p><div class="note tip"><strong>Comprueba /
+                            comprende</strong><p>Para probar la protección de
+                            registros, crea comentarios con dos cuentas perfil
+                            diferentes y modifica manualmente el identificador
+                            en una URL de edición. El servidor debe responder
+                            403.</p></div></section><section id="cierre"
+                    class="section"><div
+                        class="eyebrow">Resumen</div><h2>Archivos creados y
+                        modificados</h2><p class="lead">Este es el alcance de la
+                        ampliación: el login local y Google, así como la
+                        estructura original del proyecto, se conservan.</p><div
+                        class="tablebox"><table><thead><tr><th>Archivo /
+                                        recurso</th><th>Acción</th></tr></thead><tbody><tr><td><code>usuarios</code>
+                                        (MySQL)</td><td>Agregar rol y actualizar
+                                        administrador</td></tr><tr><td><code>app/Models/User.php</code></td><td>Revisar
+                                        configuración
+                                        existente</td></tr><tr><td><code>app/Http/Middleware/MiddlewareRol.php</code></td><td>Crear</td></tr><tr><td><code>bootstrap/app.php</code></td><td>Registrar
+                                        alias
+                                        rol</td></tr><tr><td><code>routes/web.php</code></td><td>Organizar
+                                        grupos</td></tr><tr><td><code>app/Http/Controllers/ControllerUsuarios.php</code></td><td>Crear</td></tr><tr><td><code>resources/views/modules/admin/usuarios/index.blade.php</code></td><td>Crear</td></tr><tr><td><code>resources/views/app.blade.php</code></td><td>Modificar
+                                        menú</td></tr><tr><td><code>ControllerComentarios.php</code></td><td>Agregar
+                                        validación de
+                                        propiedad</td></tr></tbody></table></div><div
+                        class="endcard"><span>✓</span><div><strong>Objetivo
+                                alcanzado</strong><p>Ahora sabes diferenciar
+                                autenticación, autorización por rol y
+                                autorización sobre un registro
+                                específico.</p></div></div></section></main><footer
+                class="footer">M.Sc. Olivier Blanco · Material académico ·
+                Laravel</footer></div><script>document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{let t=b.closest('.codewrap').querySelector('.raw').value;try{await navigator.clipboard.writeText(t);b.textContent='✓ Copiado';setTimeout(()=>b.textContent='Copiar ⧉',1600)}catch(e){let x=b.closest('.codewrap').querySelector('pre');let s=window.getSelection(),r=document.createRange();r.selectNodeContents(x);s.removeAllRanges();s.addRange(r);b.textContent='Seleccionado: Ctrl+C';setTimeout(()=>b.textContent='Copiar ⧉',2500)}}));const checks=[...document.querySelectorAll('.test input')];checks.forEach(c=>c.addEventListener('change',()=>{let n=checks.filter(c=>c.checked).length;document.querySelector('#testprogress').style.width=(n/checks.length*100)+'%';document.querySelector('#testcount').textContent=n+' de '+checks.length+' comprobaciones completadas'}));const links=[...document.querySelectorAll('.navlink')];let observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-12% 0px -72% 0px'});document.querySelectorAll('.section').forEach(s=>observer.observe(s));document.querySelector('#menuBtn').addEventListener('click',()=>document.querySelector('.sidebar').classList.toggle('open'));links.forEach(l=>l.addEventListener('click',()=>document.querySelector('.sidebar').classList.remove('open')));</script></body></html>
