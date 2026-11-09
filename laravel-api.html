@@ -1,0 +1,686 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport"
+            content="width=device-width,initial-scale=1"><meta
+            name="description"
+            content="Wiki de práctica guiada: API REST con Laravel 12, Postman y cliente Laravel."><title>Wiki
+            · API REST con Laravel | M.Sc. Olivier Blanco
+            Sandí</title><style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');:root{--bg:#f5f7fb;--surface:#fff;--ink:#18263e;--muted:#62718a;--line:#e1e7f0;--accent:#4259d4;--dark:#111c30}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.7}a{color:#3b54c9}header{background:linear-gradient(115deg,#111b32,#253968 75%,#3d4f9a);color:white;padding:72px max(32px,calc((100vw - 1260px)/2)) 65px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#b9c8ff}.hero h1{font-size:clamp(32px,4vw,57px);max-width:850px;line-height:1.14;margin:18px 0}.hero p{max-width:750px;color:#d4dff6;font-size:18px}.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}.hero-tags span{background:#ffffff19;border:1px solid #ffffff35;border-radius:30px;padding:5px 13px;font-size:12px}.author{font-weight:700;margin-top:30px}.layout{max-width:1360px;margin:auto;display:grid;grid-template-columns:255px minmax(0,1fr);gap:35px;padding:42px 28px}.sidebar{position:sticky;top:20px;align-self:start;background:white;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 25px #152d5610}.sidebar h3{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#71809a;margin:0 0 15px}.sidebar a{display:flex;gap:11px;align-items:center;text-decoration:none;color:#4b5b74;font-size:13px;font-weight:700;padding:11px 7px;border-radius:8px}.sidebar a:hover,.sidebar a.active{background:#eef1ff;color:#3d50c4}.sidebar a span{color:#8190aa;font-family:monospace}.section{background:white;border:1px solid var(--line);border-radius:20px;margin-bottom:28px;box-shadow:0 10px 30px #13234a09;overflow:hidden;scroll-margin-top:24px}.section-top{display:flex;gap:18px;padding:32px 35px 22px;border-bottom:1px solid #edf0f5}.stepnum{background:#eef1ff;color:#4055ca;border-radius:12px;padding:9px 12px;font-weight:800;height:max-content;font-size:15px}.section h2{font-size:clamp(23px,2.5vw,31px);margin:0;line-height:1.3}.lead{color:#70809a;margin:7px 0 0}.section-body{padding:28px 35px 38px}.section-body>p:first-child{margin-top:0}h3{font-size:19px;margin:33px 0 12px}p{margin:13px 0}code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:#eef2f9;border-radius:4px;padding:2px 5px;color:#3449a4}.codebox{background:#101a2d;border-radius:12px;margin:19px 0 23px;overflow:hidden;box-shadow:0 8px 20px #0a142522}.codehead{background:#1a2942;display:flex;justify-content:space-between;align-items:center;color:#dce7ff;padding:11px 15px;font-size:12px;font-weight:700;gap:10px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#66d4b3;margin-right:10px}.copy{cursor:pointer;background:#ffffff15;color:#e3ebff;border:1px solid #ffffff25;border-radius:7px;padding:5px 10px;font-size:11px}.copy:hover{background:#ffffff30}.codebox pre{margin:0;padding:19px;overflow-x:auto;color:#d8e5f9;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.85;tab-size:4}.codebox code{font-size:inherit;color:inherit;background:none;padding:0;white-space:pre}.tok-key{color:#c7a7ff}.tok-str{color:#a9e6a1}.tok-num{color:#f6bc7b}.tok-comment{color:#7f91ad;font-style:italic}.tok-var{color:#80d5ff}.tok-func{color:#ffce85}.tok-tag{color:#e8a4d9}.tablewrap{overflow:auto;margin:18px 0 25px;border:1px solid var(--line);border-radius:11px}table{width:100%;border-collapse:collapse;font-size:13.5px}th{text-align:left;background:#f2f5fa;color:#46566f;font-size:12px;padding:12px 15px}td{padding:12px 15px;border-top:1px solid #e9edf3;vertical-align:top}.verb{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800}.get{background:#e2f4ed;color:#18764c}.post{background:#e4efff;color:#255ec7}.put{background:#fff2d8;color:#946111}.delete{background:#ffebec;color:#ad3944}.callout{padding:16px 20px;margin:21px 0;border-radius:10px;border-left:4px solid #5b74dc;background:#f1f4ff}.callout strong{display:block;margin-bottom:4px}.callout p{margin:0;font-size:13.5px}.callout.warning{background:#fff7e8;border-color:#e8a735}.callout.tip{background:#eaf8f4;border-color:#38a589}.steps{counter-reset:steps;list-style:none;padding:0;margin:20px 0}.steps li{counter-increment:steps;position:relative;padding:0 0 17px 44px;margin-bottom:5px}.steps li:before{content:counter(steps);position:absolute;left:0;top:1px;background:#eef1ff;color:#4256ca;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-weight:800;font-size:12px}.architecture{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:25px 12px;background:#f5f7fc;border-radius:14px;margin:22px 0}.archbox{min-width:150px;border:1px solid #dce4f3;border-radius:12px;background:white;padding:17px;text-align:center;display:grid;gap:4px}.archbox span{font-size:26px}.archbox small{color:#78869e;font-size:11px}.archbox.accent{border-color:#8a99e9}.archarrow{font-weight:800;color:#556bd4;text-align:center}.archarrow small{display:block;color:#7787a2;font-size:10px}.checkpoint{background:#edf7f4;border:1px solid #c3e7db;padding:19px 22px;border-radius:11px;margin:26px 0}.checkpoint p{margin:4px 0 0}.challenge{padding:22px 25px;background:linear-gradient(120deg,#263a72,#475bc2);border-radius:13px;color:white}.challenge h3{margin:7px 0}.challenge p{color:#e5eaff}.challenge-label{font-size:11px;letter-spacing:.15em;font-weight:800;color:#b8c8ff}.checks{display:grid;gap:10px}.checks label{display:flex;align-items:center;gap:11px;padding:12px 15px;border:1px solid var(--line);border-radius:9px;cursor:pointer}.checks input{accent-color:#4c5dd4;width:17px;height:17px}.checks label:has(input:checked) span{text-decoration:line-through;color:#8a97aa}footer{text-align:center;color:#75849c;padding:30px 10px 65px;font-size:13px}@media(max-width:900px){.layout{display:block;padding:20px 13px}.sidebar{position:relative;top:auto;margin-bottom:20px}.sidebar nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.section-body{padding:22px 20px}.section-top{padding:25px 20px}header{padding:45px 25px}}@media(max-width:540px){.sidebar nav{grid-template-columns:1fr}.archarrow{width:100%}.hero h1{font-size:34px}}@media print{.sidebar,.copy{display:none}.layout{display:block}.section{break-inside:avoid;box-shadow:none}.codebox{break-inside:avoid}header{padding:35px;color:white}}</style></head><body><header><div
+                class="hero"><div class="eyebrow">Desarrollo Web</div><h1>Construcción y consumo de
+                    una API REST con Laravel</h1><p>De dos proyectos
+                    independientes a una solución conectada mediante HTTP y
+                    JSON. Una guía práctica, desde MySQL hasta el CRUD completo
+                    y un desafío de seguridad.</p><div
+                    class="hero-tags"><span>Laravel
+                        12</span><span>MySQL</span><span>Postman</span><span>api_server
+                        + api_client</span></div><div class="author">M.Sc. Olivier
+                    Blanco Sandí</div></div></header><div class="layout"><aside
+                class="sidebar"><h3>Contenido de la wiki</h3><nav><a
+                        href="#conceptos"><span>01</span>¿Qué es una API
+                        REST?</a><a href="#base"><span>02</span>Importar la base
+                        de datos</a><a href="#arranque"><span>03</span>Ejecutar
+                        dos proyectos a la vez</a><a
+                        href="#server"><span>04</span>Construir api_server</a><a
+                        href="#postman"><span>05</span>Probar la API con
+                        Postman</a><a href="#client"><span>06</span>Conectar
+                        api_client con api_server</a><a
+                        href="#reto"><span>07</span>Desafío: proteger la API con
+                        un token fijo</a><a
+                        href="#errores"><span>08</span>Errores frecuentes y
+                        verificación final</a></nav></aside><main><section
+                    id="conceptos" class="section"><div
+                        class="section-top"><span
+                            class="stepnum">01</span><div><h2>¿Qué es una API
+                                REST?</h2><p class="lead">Antes de escribir
+                                código, comprendamos qué vamos a
+                                construir.</p></div></div><div
+                        class="section-body"><p>Una <b>API</b> (interfaz de
+                            programación de aplicaciones) permite que un
+                            programa solicite datos u operaciones a otro.
+                            <b>REST</b> es un estilo para diseñar servicios que
+                            utilizan los recursos, direcciones URL y métodos de
+                            HTTP.</p>
+                        <div class="architecture"><div
+                                class="archbox"><span>🌐</span><b>api_client</b><small>Laravel
+                                    · Blade · puerto 8001</small></div><div
+                                class="archarrow">HTTP →<small>JSON
+                                    ←</small></div><div
+                                class="archbox accent"><span>⚙️</span><b>api_server</b><small>Laravel
+                                    · API · puerto 8000</small></div><div
+                                class="archarrow">↔</div><div
+                                class="archbox"><span>🗄️</span><b>MySQL</b><small>db_laravel_api</small></div></div>
+                        <p>En un proyecto Laravel tradicional, el controlador
+                            suele devolver <code>view('ventas.index')</code>. En
+                            una API, devuelve <b>datos JSON</b>; otra aplicación
+                            decide cómo presentarlos.</p><div
+                            class="tablewrap"><table><thead><tr><th>Aplicación
+                                            web tradicional</th><th>API
+                                            REST</th></tr></thead><tbody><tr><td>Devuelve
+                                            HTML generado con
+                                            Blade</td><td>Devuelve datos
+                                            JSON</td></tr><tr><td>El navegador
+                                            muestra las vistas</td><td>Un
+                                            cliente HTTP consume los
+                                            datos</td></tr><tr><td><code>routes/web.php</code></td><td><code>routes/api.php</code></td></tr><tr><td>Ejemplo:
+                                            <code>/ventas</code></td><td>Ejemplo:
+                                            <code>/api/ventas</code></td></tr></tbody></table></div><div
+                            class="tablewrap"><table><thead><tr><th>Método</th><th>Propósito</th><th>Ejemplo</th></tr></thead><tbody><tr><td><span
+                                                class="verb get">GET</span></td><td>Consultar
+                                            ventas</td><td>GET
+                                            /api/ventas</td></tr><tr><td><span
+                                                class="verb post">POST</span></td><td>Crear
+                                            venta</td><td>POST
+                                            /api/ventas</td></tr><tr><td><span
+                                                class="verb put">PUT</span></td><td>Actualizar
+                                            venta</td><td>PUT
+                                            /api/ventas/1</td></tr><tr><td><span
+                                                class="verb delete">DELETE</span></td><td>Eliminar
+                                            venta</td><td>DELETE
+                                            /api/ventas/1</td></tr></tbody></table></div><div
+                            class="callout tip"><strong>Códigos HTTP
+                                útiles</strong><p>200: operación exitosa · 201:
+                                registro creado · 401: no autorizado · 404:
+                                recurso inexistente · 422: datos
+                                inválidos.</p></div></div></section><section
+                    id="base" class="section"><div class="section-top"><span
+                            class="stepnum">02</span><div><h2>Importar la base
+                                de datos</h2><p class="lead">La base de datos
+                                pertenece al servidor; el cliente nunca se
+                                conecta directamente a
+                                MySQL.</p></div></div><div
+                        class="section-body"><ol class="steps"><li>Inicie MySQL
+                                desde su entorno local (por ejemplo,
+                                XAMPP).</li><li>Abra phpMyAdmin o su gestor SQL
+                                preferido.</li><li>Importe
+                                <code>db_laravel_api.sql</code>, incluido en el
+                                ZIP entregado.</li><li>Compruebe que exista la
+                                base de datos <code>db_laravel_api</code> y la
+                                tabla <code>ventas</code>.</li><li>Verifique que
+                                inicialmente existan ocho
+                                registros.</li></ol><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>Consulta SQL de
+                                    verificación</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="sql">USE db_laravel_api;
+SELECT * FROM ventas;</code></pre></div><div
+                            class="tablewrap"><table><thead><tr><th>Campo</th><th>Tipo
+                                            /
+                                            función</th></tr></thead><tbody><tr><td>id_venta</td><td>INT,
+                                            llave primaria
+                                            autoincremental</td></tr><tr><td>fecha</td><td>DATE</td></tr><tr><td>cliente</td><td>VARCHAR(150)</td></tr><tr><td>descripcion</td><td>TEXT</td></tr><tr><td>total</td><td>DECIMAL(10,2)</td></tr></tbody></table></div><div
+                            class="callout warning"><strong>Sin
+                                migraciones</strong><p>La estructura y los datos
+                                de prueba ya vienen definidos en el SQL. No
+                                ejecute <code>php artisan migrate</code> para
+                                esta práctica.</p></div></div></section><section
+                    id="arranque" class="section"><div class="section-top"><span
+                            class="stepnum">03</span><div><h2>Ejecutar dos
+                                proyectos a la vez</h2><p class="lead">Dos
+                                aplicaciones Laravel independientes necesitan
+                                puertos diferentes.</p></div></div><div
+                        class="section-body"><ol class="steps"><li>Descomprima
+                                <code>laravel_api.zip</code> y ubique las
+                                carpetas <code>api_server</code> y
+                                <code>api_client</code>.</li><li>Abra una
+                                terminal dentro de cada carpeta.</li><li>Ejecute
+                                los siguientes comandos y mantenga ambas
+                                terminales abiertas.</li></ol><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>Terminal A · dentro de
+                                    api_server</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan serve --port=8000</code></pre></div><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>Terminal B · dentro de
+                                    api_client</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan serve --port=8001</code></pre></div><div
+                            class="tablewrap"><table><thead><tr><th>Dirección</th><th>Uso</th></tr></thead><tbody><tr><td><code>http://127.0.0.1:8000</code></td><td>Servidor
+                                            API</td></tr><tr><td><code>http://127.0.0.1:8001/ventas</code></td><td>Interfaz
+                                            del
+                                            cliente</td></tr></tbody></table></div><div
+                            class="callout info"><strong>Si faltan
+                                dependencias</strong><p>Ejecute <code>composer
+                                    install</code> dentro del proyecto
+                                correspondiente. Si el archivo <code>.env</code>
+                                no existe, cópielo desde
+                                <code>.env.example</code> y genere la clave con
+                                <code>php artisan key:generate</code>. No
+                                comparta credenciales
+                                reales.</p></div></div></section><section
+                    id="server" class="section"><div class="section-top"><span
+                            class="stepnum">04</span><div><h2>Construir
+                                api_server</h2><p class="lead">Trabajaremos
+                                sobre el modelo Venta existente; agregaremos la
+                                configuración, el controlador y las
+                                rutas.</p></div></div><div
+                        class="section-body"><h3>4.1 Configurar la conexión
+                            MySQL</h3><p>Abra <code>api_server/.env</code> y
+                            ajuste las variables de conexión. Sustituya usuario
+                            y contraseña según su computadora.</p><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>api_server/.env</span><button
+                                    class="copy" type="button">Copiar
+                                    código</button></div><pre><code data-lang="env">DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_laravel_api
+DB_USERNAME=root
+DB_PASSWORD=</code></pre></div><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>Aplicar cambios de
+                                    configuración</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan config:clear</code></pre></div><h3>4.2
+                            Completar el modelo existente</h3><p>El archivo
+                            <code>app/Models/Venta.php</code> ya está creado con
+                            el nombre de tabla, llave primaria y sin marcas de
+                            tiempo. Solo agregaremos <code>$fillable</code> para
+                            permitir la creación y actualización masiva de estos
+                            cuatro campos.</p><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>api_server/app/Models/Venta.php</span><button
+                                    class="copy" type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">&lt;?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Venta extends Model
+{
+    protected $table = 'ventas';
+    protected $primaryKey = 'id_venta';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'fecha', 'cliente', 'descripcion', 'total'
+    ];
+}</code></pre></div><h3>4.3 Habilitar las rutas API</h3><p>En Laravel 12 el
+                            proyecto base no incluye
+                            <code>routes/api.php</code>. El comando siguiente
+                            instala la infraestructura de API y Sanctum. <b>No
+                                utilizaremos autenticación Sanctum</b> en esta
+                            práctica; por ahora las rutas estarán
+                            abiertas.</p><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>Terminal ·
+                                    api_server</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan install:api</code></pre></div><div
+                            class="callout warning"><strong>Atención a las
+                                migraciones</strong><p>Si el instalador pregunta
+                                si desea ejecutar migraciones, responda
+                                <b>no</b>. Ya importamos nuestra base de datos
+                                manualmente. El comando puede instalar Sanctum,
+                                pero no necesitamos crear sus tablas para este
+                                CRUD sin autenticación.</p></div><h3>4.4 Generar
+                            un controlador API Resource</h3><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>Terminal ·
+                                    api_server</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan make:controller ControllerVentas --model=Venta --api</code></pre></div><p>La
+                            opción <code>--api</code> crea <code>index</code>,
+                            <code>store</code>, <code>show</code>,
+                            <code>update</code> y <code>destroy</code>. A
+                            diferencia de un Resource web, no incluye
+                            <code>create</code> ni <code>edit</code>, porque el
+                            servidor no muestra formularios.</p><h3>4.5
+                            Implementar las operaciones CRUD</h3><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>api_server/app/Http/Controllers/ControllerVentas.php</span><button
+                                    class="copy" type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Venta;
+use Illuminate\Http\Request;
+
+class ControllerVentas extends Controller
+{
+    public function index()
+    {
+        return response()-&gt;json(Venta::all());
+    }
+
+    public function store(Request $request)
+    {
+        $datos = $request-&gt;validate([
+            'fecha' =&gt; 'required|date',
+            'cliente' =&gt; 'required|string|max:150',
+            'descripcion' =&gt; 'required|string',
+            'total' =&gt; 'required|numeric|min:0',
+        ]);
+
+        $venta = Venta::create($datos);
+        return response()-&gt;json($venta, 201);
+    }
+
+    public function show($id)
+    {
+        return response()-&gt;json(Venta::findOrFail($id));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $venta = Venta::findOrFail($id);
+        $datos = $request-&gt;validate([
+            'fecha' =&gt; 'required|date',
+            'cliente' =&gt; 'required|string|max:150',
+            'descripcion' =&gt; 'required|string',
+            'total' =&gt; 'required|numeric|min:0',
+        ]);
+
+        $venta-&gt;update($datos);
+        return response()-&gt;json($venta);
+    }
+
+    public function destroy($id)
+    {
+        $venta = Venta::findOrFail($id);
+        $venta-&gt;delete();
+        return response()-&gt;json(['mensaje' =&gt; 'Venta eliminada']);
+    }
+}</code></pre></div><div class="callout tip"><strong>¿Por qué
+                                validar?</strong><p><code>validate()</code>
+                                evita guardar datos incompletos o incorrectos.
+                                Cuando falla, Laravel responde con estado 422 si
+                                la solicitud espera JSON.
+                                <code>findOrFail()</code> produce 404 cuando no
+                                existe el identificador.</p></div><h3>4.6
+                            Registrar los endpoints</h3><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>api_server/routes/api.php</span><button
+                                    class="copy" type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">&lt;?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ControllerVentas;
+
+Route::apiResource('ventas', ControllerVentas::class);</code></pre></div><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>Verificar rutas
+                                    disponibles</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan route:list --path=api</code></pre></div><div
+                            class="callout tip"><strong>Punto de
+                                control</strong><p>Deben aparecer cinco rutas de
+                                ventas. La URL de consulta será
+                                <code>http://127.0.0.1:8000/api/ventas</code>.
+                                Si el servidor ya estaba en ejecución,
+                                normalmente detecta los cambios sin
+                                reiniciarlo.</p></div></div></section><section
+                    id="postman" class="section"><div class="section-top"><span
+                            class="stepnum">05</span><div><h2>Probar la API con
+                                Postman</h2><p class="lead">Antes de conectar
+                                Laravel, comprobemos que cada endpoint funciona
+                                por sí solo.</p></div></div><div
+                        class="section-body"><p>Descargue Postman desde <a
+                                href="https://www.postman.com/downloads/"
+                                target="_blank"
+                                rel="noopener">postman.com/downloads</a>. Cree
+                            una colección llamada <b>API Ventas</b> y agregue
+                            las solicitudes de la tabla.</p><div
+                            class="tablewrap"><table><thead><tr><th>Método</th><th>URL</th><th>Resultado
+                                            esperado</th></tr></thead><tbody><tr><td>GET</td><td><code>http://127.0.0.1:8000/api/ventas</code></td><td>200
+                                            · lista
+                                            JSON</td></tr><tr><td>GET</td><td><code>http://127.0.0.1:8000/api/ventas/1</code></td><td>200
+                                            · una
+                                            venta</td></tr><tr><td>POST</td><td><code>http://127.0.0.1:8000/api/ventas</code></td><td>201
+                                            · venta
+                                            creada</td></tr><tr><td>PUT</td><td><code>http://127.0.0.1:8000/api/ventas/9</code></td><td>200
+                                            · venta actualizada (si 9 fue
+                                            creada)</td></tr><tr><td>DELETE</td><td><code>http://127.0.0.1:8000/api/ventas/9</code></td><td>200
+                                            · venta eliminada (si 9 fue
+                                            creada)</td></tr></tbody></table></div><h3>5.1
+                            Consultar ventas</h3><p>Seleccione <b>GET</b>,
+                            escriba la URL y presione <b>Send</b>. Observe que
+                            la respuesta contiene objetos JSON, no una página
+                            HTML.</p><h3>5.2 Crear una venta</h3><p>Seleccione
+                            <b>POST</b>. En <b>Body → raw → JSON</b>, coloque
+                            los siguientes datos. Postman configurará
+                            <code>Content-Type: application/json</code>.</p><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>POST · Body
+                                    JSON</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="json">{
+  "fecha": "2026-11-10",
+  "cliente": "Ana López",
+  "descripcion": "Venta de accesorios de computadora",
+  "total": 24500
+}</code></pre></div><p>Revise el código <b>201 Created</b> y anote el
+                            <code>id_venta</code> que devuelve la API. No
+                            suponga que siempre será 9: depende del estado de su
+                            base de datos.</p><h3>5.3 Actualizar una
+                            venta</h3><p>Seleccione <b>PUT</b>, use la URL
+                            <code>/api/ventas/{id}</code> reemplazando
+                            <code>{id}</code> por el identificador real de la
+                            venta recién creada. Envíe todos los campos:</p><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>PUT · Body
+                                    JSON</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="json">{
+  "fecha": "2026-11-10",
+  "cliente": "Ana López",
+  "descripcion": "Venta de accesorios actualizada",
+  "total": 27000
+}</code></pre></div><h3>5.4 Eliminar una venta</h3><p>Seleccione <b>DELETE</b>
+                            con el mismo identificador. Luego repita <b>GET
+                                /api/ventas/{id}</b> y compruebe que ahora
+                            responde <b>404</b>.</p><div
+                            class="callout tip"><strong>Prueba de
+                                errores</strong><p>En Postman agregue
+                                <code>Accept: application/json</code>. Pruebe
+                                consultar un ID inexistente y enviar un POST sin
+                                cliente: deberían aparecer 404 y 422,
+                                respectivamente.</p></div><div
+                            class="checkpoint"><b>✓ Comprobación antes de
+                                continuar</b><p>El servidor lista, consulta,
+                                crea, actualiza y elimina ventas desde Postman,
+                                sin depender del proyecto
+                                cliente.</p></div></div></section><section
+                    id="client" class="section"><div class="section-top"><span
+                            class="stepnum">06</span><div><h2>Conectar
+                                api_client con api_server</h2><p class="lead">El
+                                cliente ya tiene vistas Blade y rutas web. No
+                                las recrearemos: reemplazaremos únicamente las
+                                ventas de prueba y completaremos sus
+                                métodos.</p></div></div><div
+                        class="section-body"><h3>6.1 Configurar la dirección del
+                            servidor</h3><p>En el archivo
+                            <code>api_client/.env</code> agregue la URL base del
+                            recurso. El cliente no necesita conectarse a MySQL
+                            para consultar las ventas.</p><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>api_client/.env ·
+                                    agregar al final</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="env">VENTAS_API_URL=http://127.0.0.1:8000/api/ventas</code></pre></div><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>api_client/config/services.php
+                                    · agregar dentro del arreglo
+                                    return</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">'ventas_api_url' =&gt; env('VENTAS_API_URL', 'http://127.0.0.1:8000/api/ventas'),</code></pre></div><div
+                            class="codebox"><div class="codehead"><span><i
+                                        class="dot"></i>Terminal ·
+                                    api_client</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="bash">php artisan config:clear</code></pre></div><h3>6.2
+                            Actualizar ControllerVentas</h3><p>El controlador
+                            existente tiene cuatro ventas simuladas en
+                            <code>index()</code> y una venta fija en
+                            <code>edit()</code>. Sustituiremos ese
+                            comportamiento por llamadas HTTP al servidor.
+                            Conservamos <code>routes/web.php</code> y las vistas
+                            actuales.</p><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>api_client/app/Http/Controllers/ControllerVentas.php
+                                    · reemplazar contenido</span><button
+                                    class="copy" type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class ControllerVentas extends Controller
+{
+    private function urlApi()
+    {
+        return config('services.ventas_api_url');
+    }
+
+    public function index()
+    {
+        $respuesta = Http::acceptJson()-&gt;get($this-&gt;urlApi());
+        $respuesta-&gt;throw();
+        $ventas = $respuesta-&gt;object();
+        return view('ventas.index', compact('ventas'));
+    }
+
+    public function create()
+    {
+        return view('ventas.create');
+    }
+
+    public function store(Request $request)
+    {
+        $respuesta = Http::acceptJson()-&gt;post($this-&gt;urlApi(),
+            $request-&gt;only('fecha', 'cliente', 'descripcion', 'total'));
+        $respuesta-&gt;throw();
+        return redirect()-&gt;route('ventas.index');
+    }
+
+    public function show($id)
+    {
+        return redirect()-&gt;route('ventas.edit', $id);
+    }
+
+    public function edit($id)
+    {
+        $respuesta = Http::acceptJson()-&gt;get($this-&gt;urlApi() . '/' . $id);
+        $respuesta-&gt;throw();
+        $venta = $respuesta-&gt;object();
+        return view('ventas.edit', compact('venta'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $respuesta = Http::acceptJson()-&gt;put($this-&gt;urlApi() . '/' . $id,
+            $request-&gt;only('fecha', 'cliente', 'descripcion', 'total'));
+        $respuesta-&gt;throw();
+        return redirect()-&gt;route('ventas.index');
+    }
+
+    public function destroy($id)
+    {
+        $respuesta = Http::acceptJson()-&gt;delete($this-&gt;urlApi() . '/' . $id);
+        $respuesta-&gt;throw();
+        return redirect()-&gt;route('ventas.index');
+    }
+}</code></pre></div><h3>6.3 Entender las líneas importantes</h3><div
+                            class="tablewrap"><table><thead><tr><th>Código</th><th>Explicación</th></tr></thead><tbody><tr><td><code>Http::get(...)</code></td><td>Solicita
+                                            el listado o una
+                                            venta</td></tr><tr><td><code>Http::post(...)</code></td><td>Envía
+                                            los datos de una nueva
+                                            venta</td></tr><tr><td><code>Http::put(...)</code></td><td>Envía
+                                            cambios de una venta
+                                            existente</td></tr><tr><td><code>Http::delete(...)</code></td><td>Solicita
+                                            eliminar una
+                                            venta</td></tr><tr><td><code>->object()</code></td><td>Convierte
+                                            el JSON en objetos; las vistas
+                                            siguen usando
+                                            <code>$venta->cliente</code></td></tr><tr><td><code>->throw()</code></td><td>Detiene
+                                            el flujo si la API devuelve un error
+                                            HTTP</td></tr><tr><td><code>redirect()->route(...)</code></td><td>Vuelve
+                                            al listado tras guardar, actualizar
+                                            o
+                                            eliminar</td></tr></tbody></table></div><h3>6.4
+                            Las rutas web ya están preparadas</h3><p>El archivo
+                            <code>api_client/routes/web.php</code> ya contiene
+                            estas rutas. <b>No es necesario
+                                cambiarlo.</b></p><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>api_client/routes/web.php
+                                    · existente</span><button class="copy"
+                                    type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">&lt;?php
+
+use App\Http\Controllers\ControllerVentas;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/',  [ControllerVentas::class, 'index']);
+Route::resource('ventas', ControllerVentas::class);</code></pre></div><h3>6.5
+                            Vistas que ya existen</h3><p>Se conservan
+                            <code>ventas/index.blade.php</code>,
+                            <code>ventas/create.blade.php</code> y
+                            <code>ventas/edit.blade.php</code>. Los formularios
+                            ya utilizan <code>@csrf</code> y, para actualizar,
+                            <code>@method('PUT')</code>. El formulario de
+                            eliminación ya envía <code>DELETE</code>.</p><div
+                            class="callout info"><strong>Dos detalles visuales
+                                opcionales</strong><p>En
+                                <code>edit.blade.php</code>, cambie el texto del
+                                botón <b>Registrar</b> por <b>Guardar
+                                    cambios</b>. En
+                                <code>index.blade.php</code>, el mensaje de
+                                tabla vacía utiliza <code>colspan="5"</code>
+                                aunque hay seis columnas; puede corregirse a
+                                <code>6</code>. No afectan la comunicación
+                                API.</p></div><h3>6.6 Prueba de integración
+                            completa</h3><ol class="steps"><li>Abra
+                                <code>http://127.0.0.1:8001/ventas</code> y
+                                verifique que aparecen las ocho ventas de la
+                                base de datos (salvo cambios hechos en
+                                Postman).</li><li>Registre una venta desde la
+                                vista Create y compruebe que aparece en el
+                                listado.</li><li>Abra Editar en una venta
+                                distinta de la primera y compruebe que se cargan
+                                sus datos correctos.</li><li>Actualice sus datos
+                                y confirme el cambio.</li><li>Elimine la venta
+                                creada y compruebe que desaparece.</li></ol><div
+                            class="callout warning"><strong>¿Qué ocurre si se
+                                detiene api_server?</strong><p>El cliente no
+                                podrá consultar los datos. Esto demuestra que
+                                ahora depende del servicio HTTP. En esta primera
+                                práctica <code>throw()</code> muestra el error
+                                de Laravel; en una aplicación real conviene
+                                manejarlo y presentar mensajes
+                                amigables.</p></div><div class="checkpoint"><b>✓
+                                Resultado de la práctica guiada</b><p>Dos
+                                proyectos Laravel independientes, comunicados
+                                mediante HTTP/JSON, con un CRUD completo y una
+                                única base de datos en el
+                                servidor.</p></div></div></section><section
+                    id="reto" class="section"><div class="section-top"><span
+                            class="stepnum">07</span><div><h2>Desafío: proteger
+                                la API con un token fijo</h2><p
+                                class="lead">Esta parte se resuelve de manera
+                                independiente. No se proporciona la
+                                implementación completa.</p></div></div><div
+                        class="section-body"><div class="challenge"><span
+                                class="challenge-label">DESAFÍO
+                                PRÁCTICO</span><h3>¿Puede impedir que una
+                                aplicación no autorizada consulte o modifique
+                                las ventas?</h3><p>Actualmente cualquier cliente
+                                HTTP que conozca las URLs puede consumir la API.
+                                Agregue una credencial compartida que el
+                                servidor verifique en cada
+                                solicitud.</p></div><ol class="steps"><li>Defina
+                                un token secreto en el <code>.env</code> de
+                                <code>api_server</code>. No lo escriba
+                                directamente en el controlador ni lo publique en
+                                Git.</li><li>Cree un middleware que lea el
+                                encabezado <code>Authorization: Bearer
+                                    TOKEN</code>.</li><li>Si el token falta o es
+                                incorrecto, devuelva JSON con código HTTP
+                                <code>401</code>.</li><li>Aplique el middleware
+                                a todas las rutas del recurso
+                                <code>ventas</code>.</li><li>Configure
+                                <code>api_client</code> para enviar el token en
+                                todas las solicitudes.</li><li>Demuestre el
+                                funcionamiento en Postman con token válido,
+                                token incorrecto y sin
+                                token.</li></ol><h3>Pistas para
+                            investigar</h3><div class="codebox"><div
+                                class="codehead"><span><i
+                                        class="dot"></i>Fragmentos de referencia
+                                    · no son una solución completa</span><button
+                                    class="copy" type="button">Copiar
+                                    código</button></div><pre><code data-lang="php">// Leer token del encabezado HTTP:
+$request-&gt;bearerToken();
+
+// Enviar un token desde el cliente Laravel:
+Http::withToken($token)-&gt;get($url);
+
+// Responder cuando no se autoriza:
+return response()-&gt;json(['mensaje' =&gt; 'No autorizado'], 401);</code></pre></div><p>Investigue
+                            también <code>php artisan make:middleware</code>,
+                            <code>config/services.php</code> y cómo asociar un
+                            middleware a las rutas de
+                            <code>routes/api.php</code>.</p><div
+                            class="tablewrap"><table><thead><tr><th>Prueba</th><th>Resultado
+                                            requerido</th></tr></thead><tbody><tr><td>Sin
+                                            token</td><td>401 · JSON de no
+                                            autorizado</td></tr><tr><td>Token
+                                            incorrecto</td><td>401 · JSON de no
+                                            autorizado</td></tr><tr><td>Token
+                                            válido</td><td>CRUD funciona desde
+                                            Postman</td></tr><tr><td>Cliente
+                                            Laravel con token</td><td>CRUD
+                                            funciona desde las vistas
+                                            Blade</td></tr></tbody></table></div><div
+                            class="callout warning"><strong>Límite de esta
+                                estrategia</strong><p>El token fijo es un
+                                ejercicio introductorio de protección entre
+                                aplicaciones. En producción se requieren HTTPS,
+                                gestión segura de credenciales y, según el caso,
+                                autenticación individual y revocación de tokens
+                                (por ejemplo,
+                                Sanctum).</p></div></div></section><section
+                    id="errores" class="section"><div class="section-top"><span
+                            class="stepnum">08</span><div><h2>Errores frecuentes
+                                y verificación final</h2><p class="lead">Una
+                                lista corta para identificar problemas sin
+                                perder tiempo en clase.</p></div></div><div
+                        class="section-body"><div
+                            class="tablewrap"><table><thead><tr><th>Síntoma</th><th>Qué
+                                            revisar</th></tr></thead><tbody><tr><td>404
+                                            en
+                                            <code>/api/ventas</code></td><td>¿Se
+                                            ejecutó <code>install:api</code>?
+                                            ¿Existe <code>routes/api.php</code>?
+                                            ¿Qué muestra <code>route:list
+                                                --path=api</code>?</td></tr><tr><td>Error
+                                            de conexión MySQL</td><td>MySQL
+                                            iniciado, credenciales y nombre
+                                            <code>db_laravel_api</code> en
+                                            <code>api_server/.env</code></td></tr><tr><td>Error
+                                            419 al guardar desde
+                                            Blade</td><td>Conservar
+                                            <code>@csrf</code> en formularios
+                                            del cliente</td></tr><tr><td>422 al
+                                            registrar o
+                                            actualizar</td><td>Campos
+                                            requeridos, fecha válida, total
+                                            numérico y encabezado
+                                            JSON</td></tr><tr><td>Error de
+                                            conexión al consumir</td><td>¿Está
+                                            ejecutándose <code>api_server</code>
+                                            en el puerto
+                                            8000?</td></tr><tr><td>Editar
+                                            siempre muestra la misma
+                                            venta</td><td>Eliminar objeto fijo y
+                                            utilizar <code>GET
+                                                /api/ventas/{id}</code></td></tr><tr><td>Cambio
+                                            en .env sin efecto</td><td>Ejecutar
+                                            <code>php artisan
+                                                config:clear</code> en el
+                                            proyecto
+                                            correcto</td></tr></tbody></table></div><h3>Lista
+                            de comprobación</h3><div
+                            class="checks"><label><input type="checkbox">
+                                <span>Base de datos importada con ocho ventas
+                                    iniciales</span></label><label><input
+                                    type="checkbox"> <span>Servidor y cliente
+                                    ejecutándose en 8000 y
+                                    8001</span></label><label><input
+                                    type="checkbox"> <span>Cinco endpoints API
+                                    disponibles</span></label><label><input
+                                    type="checkbox"> <span>CRUD probado en
+                                    Postman</span></label><label><input
+                                    type="checkbox"> <span>Cliente Laravel
+                                    consulta datos
+                                    reales</span></label><label><input
+                                    type="checkbox"> <span>Crear, editar y
+                                    eliminar funcionan desde
+                                    Blade</span></label><label><input
+                                    type="checkbox"> <span>Desafío de token
+                                    probado con y sin
+                                    autorización</span></label></div></div></section></main></div><footer>Material
+            didáctico · M.Sc. Olivier Blanco Sandí ·
+            2026</footer><script>function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}function colorize(raw,lang){const re=/(\/\/[^\n]*|#[^\n]*|--[^\n]*|\"(?:\\.|[^\"\\])*\"|'(?:\\.|[^'\\])*'|\$[a-zA-Z_]\w*|\b(?:class|public|private|protected|function|return|use|namespace|new|false|true|null|if|else|extends|as|const|from|CREATE|DATABASE|TABLE|SELECT|INSERT|INTO|VALUES|USE|NOT|EXISTS|PRIMARY|KEY|AUTO_INCREMENT|INT|DATE|TEXT|VARCHAR|DECIMAL)\b|\b\d+(?:\.\d+)?\b)/gm;let out='',last=0,m;while((m=re.exec(raw))){out+=escapeHtml(raw.slice(last,m.index));let t=m[0],cl=t.startsWith('//')||t.startsWith('#')||t.startsWith('--')?'tok-comment':t.startsWith('"')||t.startsWith("'")?'tok-str':t.startsWith('$')?'tok-var':/^\d/.test(t)?'tok-num':'tok-key';out+='<span class="'+cl+'">'+escapeHtml(t)+'</span>';last=re.lastIndex}return out+escapeHtml(raw.slice(last))}document.querySelectorAll('pre code').forEach(el=>{const raw=el.textContent;el.dataset.raw=raw;el.innerHTML=colorize(raw,el.dataset.lang)});document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.codebox').querySelector('code');try{await navigator.clipboard.writeText(code.dataset.raw);btn.textContent='✓ Copiado';setTimeout(()=>btn.textContent='Copiar código',1600)}catch(e){btn.textContent='Seleccione y copie';setTimeout(()=>btn.textContent='Copiar código',2000)}}));const navlinks=[...document.querySelectorAll('.sidebar a')];const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navlinks.forEach(a=>a.classList.toggle('active',a.hash==='#'+e.target.id))}})},{rootMargin:'-12% 0px -75% 0px'});document.querySelectorAll('.section').forEach(s=>obs.observe(s));</script></body></html>
